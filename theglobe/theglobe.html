@@ -10,7 +10,7 @@
     crossorigin="anonymous"></script>
   </head>
   <body>
-    <div id="viewDiv"/>
+    <div id="viewDiv" />
     
     <div class="overlay">
       <div>
@@ -42,9 +42,11 @@ body,
   font-family: "Avenir Next","Helvetica Neue",Helvetica,Arial,sans-serif;
 }
 body {
-  background: rgba(0, 0, 0, 0)
+  background: rgb(0, 0, 0)
 }
-
+#viewDiv canvas {
+  filter: saturate(1.2) drop-shadow(0 0 20px rgba(255, 255, 255, 0));
+}
 .button {
   cursor: pointer;
   font-size: 40pt !important;
