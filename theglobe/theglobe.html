@@ -60,33 +60,82 @@ body {
   margin: 15px;
 }
 .esri-widget{
-  background-color: #9f9f9f;
   font-size: 12.4px;}
-.esri-widget--button {
-  background-color: #9f9f9f;}
+.esri-popup__button {
+  border-radius: 1px;
+  padding: 4px 5px;
+  margin: 1px 0;}
 .esri-layer-list__item{
-  background-color: #cbcbcb;}
+  background-color: #ffffff;}
 .esri-layer-list__item-container{
   padding: 8px 4px 8px 8px;}
 .esri-view-height-small .esri-ui-corner .esri-component.esri-widget--panel{
   max-height: 300px;}
 .esri-ui-corner .esri-component.esri-widget--panel {
-    width: 180px;}
+  width: 180px;}
 .esri-layer-list__item-toggle{
   color: #000000;}
 .esri-widget--button{
-  color: #1867c2;}
+  color: #000000;}
 .esri-feature__content-element {
-    padding: 0 1px 20px;}
+  padding: 0 1px 2px;}
 .esri-legend__service{
-  padding: 5px 10px;}
+  padding: 6px 6px;}
+h3.esri-widget__heading, h4.esri-widget__heading, h5.esri-widget__heading, h6.esri-widget__heading {
+  font-size: 12px;
+}
+.esri-legend__layer {
+  margin-left: 1px;
+}
+.esri-legend__layer-cell--symbols {
+  min-width: 8px;
+}
+.esri-legend__layer-cell {
+  padding: 0px 0;
+}
+.esri-widget__heading {
+  margin: 0 0 0.1rem 0;
+}
+h2.esri-widget__heading {
+  font-weight: 500;
+  font-size: 14px;
+}
+.esri-legend__layer-table {
+  width: 80%;
+  margin-bottom: 5px;
+}
 .esri-popup__main-container{
   width: 30%;
   max-height: 40%;}
 .esri-view-surface--inset-outline:focus::after {
-    outline: none !important;}
+  outline: none !important;}
 .esri-layer-list__item-title {
-    line-height: 0.9em;}
+  line-height: 0.9em;}
+.esri-widget__table {
+  line-height: 0.8em;
+}
+.esri-view-width-large .esri-popup__main-container {
+  width: 300px;
+}
+.esri-widget__table tr td {
+  width: 30%;
+}
+.esri-widget__table tr th {
+  width: 30%;}
+.esri-widget__table tr td, .esri-widget__table tr th {
+  padding: 0.2em 0.3em;
+  font-size: 12px;
+  font-weight: 300;
+}
+.esri-feature__content-element:last-child {
+  margin-bottom: 0;
+}
+.esri-view-height-less-than-medium .esri-popup__main-container {
+  max-height: 300px;
+}
+.esri-view-width-xlarge .esri-popup__main-container {
+  width: 320px;
+}
 </style>
 <script>
 $(document).ready(function(){
