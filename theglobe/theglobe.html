@@ -373,18 +373,25 @@ $(document).ready(function(){
     camera.position.longitude += deg;
     return camera;
   };
-  var listaCapas = new LayerList({
-    view:view,
-  });
-  view.ui.add(listaCapas,"top-right");
+  view.ui.add([
+          new Expand({
+            view: view,
+            content: new LayerList ({view:view}),
+            group: "top-left",
+            expanded: true
+          }),
+          new Expand({
+            view: view,
+            content: new Legend ({view:view}),
+            group: "top-left",
+          }),
+          ],
+          "top-left"
+          );
   var homebtn = new Home({
     view:view
   });
   view.ui.add(homebtn, "top-left");
-  var leyend = new Legend({
-    view:view
-  });
-  view.ui.add(leyend, "bottom-right")
 });
 });
 </script>
