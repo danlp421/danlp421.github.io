@@ -393,7 +393,15 @@ $(document).ready(function(){
             }
           }
         });
-        view.ui.add(layerList, "top-right");
+        view.ui.add([
+          new Expand ({
+            view:view,
+            content: LayerList,
+            group: "top-right",
+          })
+        ],
+        "top-right"
+        );
   var homebtn = new Home({
     view:view
   });
