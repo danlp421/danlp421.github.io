@@ -150,6 +150,7 @@ $(document).ready(function(){
   "esri/widgets/Home",
   "esri/widgets/Legend",
   "esri/widgets/Search"],
+  "esri/widgets/LayerList/ListItem",
   function(
   esriConfig,
   SceneView,
@@ -160,7 +161,8 @@ $(document).ready(function(){
   LayerList,
   Home,
   Legend,
-  Search){
+  Search,
+  ListItem){
   esriConfig.apiKey = "AAPK853e389eacab4000b8168009a957884eAeNxkMsT5xLndSZFhHgao-ynp074HaJnWU6CfSjbF8QQuZc5bL4FoHut1NkoYGYU";
   var scene = new Map({
     basemap: "hybrid",
