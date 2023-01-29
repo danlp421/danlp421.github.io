@@ -298,18 +298,22 @@ $(document).ready(function(){
     camera.position.longitude += deg;
     return camera;
   };
-  view.ui.add([
-          new Expand({
-            view: view,
-            content: new LayerList ({view:view,
-            url: "G:\Mi unidad\Trabajos_Frelancer\unhcr\En uso\UNHCR Offices Icon.png"}),
-            content: new Legend ({view: view}),
-            group: "top-right",
-            expanded: true
-          }),
-          ],
-          "top-right"
-          );
+  // Add a legend instance to the panel of a
+        // ListItem in a LayerList instance
+        const layerList = new LayerList({
+          view: view,
+          listItemCreatedFunction: (event) => {
+            const item = event.item;
+            if (item.layer.type != "group") {
+              // don't show legend twice
+              item.panel = {
+                content: "legend",
+                open: true
+              };
+            }
+          }
+        });
+        view.ui.add(layerList, "top-right");
   var homebtn = new Home({
     view:view
   });
