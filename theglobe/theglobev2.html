@@ -1,0 +1,397 @@
+<html>
+  <head>
+    <meta name="author" content="Daniel Leon">
+    <meta name="viewport"content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://js.arcgis.com/4.25/esri/themes/light/main.css" />
+    <script src="https://js.arcgis.com/4.25/"></script>
+    <script
+    src="https://code.jquery.com/jquery-3.6.1.min.js"
+    integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ="
+    crossorigin="anonymous"></script>
+  </head>
+  <body>
+    <div id="viewDiv" />
+    
+    <div class="overlay">
+      <div>
+        <span id="play" class="button esri-icon-play" style="display: block;" />
+      </div>
+      <div>
+        <span id="pause" class="button esri-icon-pause" style="display: none;" />
+      </div>
+      <div id="label">Heading: 0&deg;</div>
+    </div>
+  </body>
+</html>
+<style>
+html,
+body,
+#viewDiv {
+  padding: 0;
+  margin: 0;
+  height: 100%;
+  width: 100%;
+}
+.overlay {
+  position: absolute;
+  width: 100%;
+  bottom: 50px;
+  left: 0px;
+  background-color: rgba(80, 80, 80, 0);
+  text-align: center;
+  font-family: "Avenir Next","Helvetica Neue",Helvetica,Arial,sans-serif;
+}
+body {
+  background: rgb(0, 0, 0)
+}
+#viewDiv canvas {
+  filter: saturate(1.2) drop-shadow(0 0 20px rgba(255, 255, 255, 0));
+}
+.button {
+  cursor: pointer;
+  font-size: 40pt !important;
+  font-weight: bold !important;
+  color: rgb(255, 253, 253);
+}
+.button:hover, #label {
+  color: white;
+}
+.button, #label {
+  margin: 15px;
+}
+.esri-widget{
+  font-size: 12.4px;}
+.esri-popup__button {
+  border-radius: 1px;
+  padding: 4px 5px;
+  margin: 1px 0;}
+.esri-layer-list__item{
+  background-color: #ffffff;}
+.esri-layer-list__item-container{
+  padding: 8px 4px 8px 8px;}
+.esri-view-height-small .esri-ui-corner .esri-component.esri-widget--panel{
+  max-height: 300px;}
+.esri-ui-corner .esri-component.esri-widget--panel {
+  width: 180px;}
+.esri-layer-list__item-toggle{
+  color: #000000;}
+.esri-widget--button{
+  color: #000000;}
+.esri-feature__content-element {
+  padding: 0 1px 2px;}
+.esri-legend__service{
+  padding: 6px 6px;}
+h3.esri-widget__heading, h4.esri-widget__heading, h5.esri-widget__heading, h6.esri-widget__heading {
+  font-size: 12px;
+}
+.esri-legend__layer {
+  margin-left: 1px;
+}
+.esri-legend__layer-cell--symbols {
+  min-width: 8px;
+}
+.esri-legend__layer-cell {
+  padding: 0px 0;
+}
+.esri-widget__heading {
+  margin: 0 0 0.1rem 0;
+}
+h2.esri-widget__heading {
+  font-weight: 500;
+  font-size: 14px;
+}
+.esri-legend__layer-table {
+  width: 80%;
+  margin-bottom: 5px;
+}
+.esri-popup__main-container{
+  width: 30%;
+  max-height: 40%;}
+.esri-view-surface--inset-outline:focus::after {
+  outline: none !important;}
+.esri-layer-list__item-title {
+  line-height: 0.9em;}
+.esri-widget__table {
+  line-height: 0.8em;
+}
+.esri-view-width-large .esri-popup__main-container {
+  width: 300px;
+}
+.esri-widget__table tr td {
+  width: 30%;
+}
+.esri-widget__table tr th {
+  width: 30%;}
+.esri-widget__table tr td, .esri-widget__table tr th {
+  padding: 0.2em 0.3em;
+  font-size: 12px;
+  font-weight: 300;
+}
+.esri-feature__content-element:last-child {
+  margin-bottom: 0;
+}
+.esri-view-height-less-than-medium .esri-popup__main-container {
+  max-height: 300px;
+}
+.esri-view-width-xlarge .esri-popup__main-container {
+  width: 320px;
+}
+</style>
+<script>
+$(document).ready(function(){
+  require([
+  "esri/config",
+  "esri/views/SceneView",
+  "esri/Map",
+  "esri/widgets/Expand",
+  "esri/widgets/BasemapGallery",
+  "esri/layers/FeatureLayer",
+  "esri/widgets/LayerList",
+  "esri/widgets/Home",
+  "esri/widgets/Legend",
+  "esri/widgets/Search"],
+  function(
+  esriConfig,
+  SceneView,
+  Map,
+  Expand,
+  BasemapGallery,
+  FeatureLayer,
+  LayerList,
+  Home,
+  Legend,
+  Search){
+  esriConfig.apiKey = "AAPK853e389eacab4000b8168009a957884eAeNxkMsT5xLndSZFhHgao-ynp074HaJnWU6CfSjbF8QQuZc5bL4FoHut1NkoYGYU";
+  var scene = new Map({
+    basemap: "hybrid",
+    ground: "world-elevation"
+  });
+  var view = new SceneView({
+    container: "viewDiv",
+    map: scene,
+    alphaCompositingEnabled: true,
+    qualityProfile: "high",
+    camera: {
+      position: [
+        0.0,
+        14.39845900,
+        25000000.0000,
+      ],
+      heading: 0.00,
+      tilt: 0.16,}
+  });
+  var basemapGallery = new BasemapGallery({
+    view: view,
+    container: document.createElement("div")
+  });
+  var bgExpand = new Expand({
+    view: view,
+    content: basemapGallery
+  });
+  view.ui.add(bgExpand, "top-left");
+  view.watch("camera.position.longitude", (longitude) => {
+    label.innerHTML = `Longitude: ${longitude.toFixed(1)}&deg;`;
+  });
+  let abort = false;
+  function rotate() { 
+    if (!view.interacting && !abort) {
+      play.style.display = "none";
+      pause.style.display = "block";
+      const camera = view.camera.clone();
+      camera.position.longitude -= 0.2;
+      view.goTo(camera, { animate: false });
+      requestAnimationFrame(rotate);
+    } else {
+      abort = false;
+      play.style.display = "block";
+      pause.style.display = "none";}
+  }
+  play.onclick = rotate;
+  pause.onclick = function() {
+    abort = true;
+  };
+  const offices = new FeatureLayer({
+    url: "https://services.arcgis.com/qovwaCdMoEzUUFzS/ArcGIS/rest/services/Offices/FeatureServer/0",
+    popupTemplate: {
+      title:"UNHCR Offices",
+      content:[{
+        type:"fields",
+        fieldInfos:[
+        {
+          fieldName:"INS_Code",
+          label:"INS Code"
+        },{
+          fieldName:"Country__UNHCR_",
+          label:"Country"
+        },{
+          fieldName:"Location",
+          label:"Location"
+        }
+        ]
+      }
+      ],
+      overwriteActions: false,
+    }
+  });
+  scene.add(offices);
+  const greenboxes = new FeatureLayer({
+    url: "https://services.arcgis.com/qovwaCdMoEzUUFzS/ArcGIS/rest/services/Green_Boxes/FeatureServer/0",
+    popupTemplate: {
+      title:"Green Boxes installed",
+      content:[{
+        type:"fields",
+        fieldInfos:[
+        {
+          fieldName:"INS_Code",
+          label:"INS Code"
+        },{
+          fieldName:"Country__UNHCR_",
+          label:"Country"
+        },{
+          fieldName:"Location",
+          label:"Location"
+        },{
+          fieldName:"Total_KWh_Measured__Oct_Dec2022",
+          label:"Total KWh Measured in 2022"
+        }
+        ]
+      }
+      ],
+      overwriteActions: false,
+    }
+  });
+  scene.add(greenboxes);
+  const greentheblue = new FeatureLayer({
+    url: "https://services.arcgis.com/qovwaCdMoEzUUFzS/ArcGIS/rest/services/Greening_The_Blue_2022/FeatureServer/0",
+    popupTemplate: {
+      title:"Greening The Blue 2022",
+      content:[{
+        type:"fields",
+        fieldInfos:[
+        {
+          fieldName:"Country__UNHCR_",
+          label:"Country"
+        },{
+          fieldName:"Location",
+          label:"Location"
+        },{
+
+          fieldName:"Total_GHG_Emissions__Co2_",
+          label:"Total CO2 (Ton)"
+        },{
+          fieldName:"Total_Waste__Kg_",
+          label:"Total Waste (Kg)"
+        },{
+          fieldName:"Water_Use__m3_",
+          label:"Water use (m³)"
+        }
+        ]
+      }
+      ],
+      overwriteActions: false,
+    }
+  });
+  scene.add(greentheblue);
+  const Countries = new FeatureLayer({
+    url: "https://services.arcgis.com/P3ePLMYs2RVChkJx/ArcGIS/rest/services/World_Countries_(Generalized)/FeatureServer/0",
+    popupTemplate: {
+      title:"UNHCR Countries",
+      content:[{
+        type:"fields",
+        fieldInfos:[
+        {
+          fieldName:"COUNTRYAFF",
+          label:"COUNTRY"
+        }
+        ]
+      }
+      ],
+      overwriteActions: false,
+    }
+  });
+  const searchWidget = new Search({
+    view: view,
+    allPlaceholder: "UNHCR",
+    includeDefaultSources: false,
+    sources: [
+      {layer: offices,
+        searchFields: ["InS_ID"],
+        displayField: "InS_ID",
+        exactMatch: false,
+        outFields: ["*"],
+        name: "UNHCR Offices",
+        placeholder: "example: INS#739",
+        zoomScale: 500000
+      },
+      {layer: greenboxes,
+        searchFields: ["InS_ID"],
+        displayField: "InS_ID",
+        exactMatch: false,
+        outFields: ["*"],
+        name: "Green Boxes installed",
+        placeholder: "example: INS#277",
+        zoomScale: 500000
+      },
+      {layer: greentheblue,
+        searchFields: ["Location"],
+        displayField: "Location",
+        exactMatch: false,
+        outFields: ["*"],
+        name: "Greening The Blue 2022",
+        placeholder: "Paris",
+        zoomScale: 500000
+      },      
+      {layer: Countries,
+        searchFields: ["COUNTRYAFF"],
+        displayField: "COUNTRYAFF",
+        exactMatch: true,
+        outFields: ["*"],
+        name: "UNHCR Countries",
+        placeholder: "example: Colombia"
+      },
+      {name: "ArcGIS World Geocoding Service",
+        placeholder: "example: Nuuk, GRL",
+        apiKey: "AAPK853e389eacab4000b8168009a957884eAeNxkMsT5xLndSZFhHgao-ynp074HaJnWU6CfSjbF8QQuZc5bL4FoHut1NkoYGYU",
+        singleLineFieldName: "SingleLine",
+        url: "https://geocode-api.arcgis.com/arcgis/rest/services/World/GeocodeServer"
+      }
+    ]
+  });
+  searchWidget.on("select-result",
+  function(event){
+    console.log("The selected search result: ", event);
+    if(event.source.name !="UNHCR Countries")
+      view.goTo({
+        scale: 500000
+      });
+  });
+  view.ui.add(searchWidget, {
+    position: "top-right"
+  });
+  function shiftCamera(deg) {
+    var camera = view.camera.clone();
+    camera.position.longitude += deg;
+    return camera;
+  };
+  view.ui.add([
+          new Expand({
+            view: view,
+            content: new LayerList ({view:view}),
+            group: "top-right",
+            expanded: true
+          }),
+          new Expand({
+            view: view,
+            content: new Legend ({view:view}),
+            group: "top-right",
+          }),
+          ],
+          "top-right"
+          );
+  var homebtn = new Home({
+    view:view
+  });
+  view.ui.add(homebtn, "top-left");
+});
+});
+</script>
