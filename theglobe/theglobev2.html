@@ -302,13 +302,9 @@ $(document).ready(function(){
           new Expand({
             view: view,
             content: new LayerList ({view:view}),
+            content: new Legend ({view: view}),
             group: "top-right",
             expanded: true
-          }),
-          new Expand({
-            view: view,
-            content: new Legend ({view:view}),
-            group: "top-right",
           }),
           ],
           "top-right"
