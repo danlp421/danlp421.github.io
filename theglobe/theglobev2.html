@@ -2,7 +2,6 @@
   <head>
     <meta name="author" content="Daniel Leon">
     <meta name="viewport"content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="Permissions-Policy" content="interest-cohort=()">
     <link rel="stylesheet" href="https://js.arcgis.com/4.25/esri/themes/light/main.css" />
     <script src="https://js.arcgis.com/4.25/"></script>
     <script
@@ -138,7 +137,7 @@ h2.esri-widget__heading {
   width: 320px;
 }
 .esri-ui-corner .esri-component.esri-widget--panel {
-    width: 300px;
+    width: 280px;
 }
 </style>
 <script>
@@ -166,7 +165,7 @@ $(document).ready(function(){
   Home,
   Legend,
   Search,
-  ListItem,){
+  ListItem){
   esriConfig.apiKey = "AAPK853e389eacab4000b8168009a957884eAeNxkMsT5xLndSZFhHgao-ynp074HaJnWU6CfSjbF8QQuZc5bL4FoHut1NkoYGYU";
   var scene = new Map({
     basemap: "hybrid",
@@ -217,7 +216,7 @@ $(document).ready(function(){
     abort = true;
   };
   const offices = new FeatureLayer({
-    url: "https://services.arcgis.com/qovwaCdMoEzUUFzS/ArcGIS/rest/services/Office/FeatureServer/0",
+    url: "https://services.arcgis.com/qovwaCdMoEzUUFzS/ArcGIS/rest/services/Offices/FeatureServer/0",
     popupTemplate: {
       title:"UNHCR Offices",
       content:[{
@@ -232,7 +231,7 @@ $(document).ready(function(){
         },{
           fieldName:"Location",
           label:"Location"
-        },
+        }
         ]
       }
       ],
@@ -240,7 +239,65 @@ $(document).ready(function(){
     }
   });
   scene.add(offices);
-    const Countries = new FeatureLayer({
+  const greenboxes = new FeatureLayer({
+    url: "https://services.arcgis.com/qovwaCdMoEzUUFzS/ArcGIS/rest/services/Green_Boxes/FeatureServer/0",
+    popupTemplate: {
+      title:"Green Boxes installed",
+      content:[{
+        type:"fields",
+        fieldInfos:[
+        {
+          fieldName:"INS_Code",
+          label:"INS Code"
+        },{
+          fieldName:"Country__UNHCR_",
+          label:"Country"
+        },{
+          fieldName:"Location",
+          label:"Location"
+        },{
+          fieldName:"Total_KWh_Measured__Oct_Dec2022",
+          label:"Total KWh Measured in 2022"
+        }
+        ]
+      }
+      ],
+      overwriteActions: false,
+    }
+  });
+  scene.add(greenboxes);
+  const greentheblue = new FeatureLayer({
+    url: "https://services.arcgis.com/qovwaCdMoEzUUFzS/ArcGIS/rest/services/Greening_The_Blue_2022/FeatureServer/0",
+    popupTemplate: {
+      title:"Greening The Blue 2022",
+      content:[{
+        type:"fields",
+        fieldInfos:[
+        {
+          fieldName:"Country__UNHCR_",
+          label:"Country"
+        },{
+          fieldName:"Location",
+          label:"Location"
+        },{
+
+          fieldName:"Total_GHG_Emissions__Co2_",
+          label:"Total CO2 (Ton)"
+        },{
+          fieldName:"Total_Waste__Kg_",
+          label:"Total Waste (Kg)"
+        },{
+          fieldName:"Water_Use__m3_",
+          label:"Water use (m³)"
+        }
+        ]
+      }
+      ],
+      overwriteActions: false,
+    }
+  });
+  scene.add(greentheblue);
+  const Countries = new FeatureLayer({
     url: "https://services.arcgis.com/P3ePLMYs2RVChkJx/ArcGIS/rest/services/World_Countries_(Generalized)/FeatureServer/0",
     popupTemplate: {
       title:"UNHCR Countries",
@@ -257,7 +314,6 @@ $(document).ready(function(){
       overwriteActions: false,
     }
   });
-  scene.add(Countries);
   const searchWidget = new Search({
     view: view,
     allPlaceholder: "UNHCR",
@@ -271,7 +327,25 @@ $(document).ready(function(){
         name: "UNHCR Offices",
         placeholder: "example: INS#739",
         zoomScale: 500000
-      },    
+      },
+      {layer: greenboxes,
+        searchFields: ["InS_ID"],
+        displayField: "InS_ID",
+        exactMatch: false,
+        outFields: ["*"],
+        name: "Green Boxes installed",
+        placeholder: "example: INS#277",
+        zoomScale: 500000
+      },
+      {layer: greentheblue,
+        searchFields: ["Location"],
+        displayField: "Location",
+        exactMatch: false,
+        outFields: ["*"],
+        name: "Greening The Blue 2022",
+        placeholder: "Paris",
+        zoomScale: 500000
+      },      
       {layer: Countries,
         searchFields: ["COUNTRYAFF"],
         displayField: "COUNTRYAFF",
@@ -323,10 +397,10 @@ $(document).ready(function(){
           new Expand ({
             view:view,
             content: layerList,
-            group: "top-right",
+            group: "bottom-right",
           })
         ],
-        "top-right"
+        "bottom-right"
         );
   var homebtn = new Home({
     view:view
