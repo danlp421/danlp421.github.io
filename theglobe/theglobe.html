@@ -149,7 +149,8 @@ $(document).ready(function(){
   "esri/widgets/LayerList",
   "esri/widgets/Home",
   "esri/widgets/Legend",
-  "esri/widgets/Search"],
+  "esri/widgets/Search",
+  "esri/widgets/LayerList/ListItem"],
   function(
   esriConfig,
   SceneView,
@@ -160,7 +161,8 @@ $(document).ready(function(){
   LayerList,
   Home,
   Legend,
-  Search){
+  Search,
+  ListItem){
   esriConfig.apiKey = "AAPK853e389eacab4000b8168009a957884eAeNxkMsT5xLndSZFhHgao-ynp074HaJnWU6CfSjbF8QQuZc5bL4FoHut1NkoYGYU";
   var scene = new Map({
     basemap: "hybrid",
@@ -373,21 +375,22 @@ $(document).ready(function(){
     camera.position.longitude += deg;
     return camera;
   };
-  view.ui.add([
-          new Expand({
-            view: view,
-            content: new LayerList ({view:view}),
-            group: "top-right",
-            expanded: true
-          }),
-          new Expand({
-            view: view,
-            content: new Legend ({view:view}),
-            group: "top-right",
-          }),
-          ],
-          "top-right"
-          );
+  // Add a legend instance to the panel of a
+        // ListItem in a LayerList instance
+        const layerList = new LayerList({
+          view: view,
+          listItemCreatedFunction: (event) => {
+            const item = event.item;
+            if (item.layer.type != "group") {
+              // don't show legend twice
+              item.panel = {
+                content: "legend",
+                open: true
+              };
+            }
+          }
+        });
+        view.ui.add(layerList, "top-right");
   var homebtn = new Home({
     view:view
   });
