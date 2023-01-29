@@ -226,7 +226,7 @@ $(document).ready(function(){
         },{
           fieldName:"Location",
           label:"Location"
-        }
+        },
         ]
       }
       ],
@@ -251,6 +251,7 @@ $(document).ready(function(){
       overwriteActions: false,
     }
   });
+  scene.add(Countries);
   const searchWidget = new Search({
     view: view,
     allPlaceholder: "UNHCR",
