@@ -346,7 +346,7 @@ $(document).ready(function(){
     allPlaceholder: "UNHCR",
     includeDefaultSources: false,
     sources: [
-      {layer: offices,
+      {layer: officesGrey,
         searchFields: ["InS_ID"],
         displayField: "InS_ID",
         exactMatch: false,
@@ -355,7 +355,7 @@ $(document).ready(function(){
         placeholder: "example: INS#739",
         zoomScale: 500000
       },
-      {layer: greenboxes,
+      {layer: officesBlue,
         searchFields: ["InS_ID"],
         displayField: "InS_ID",
         exactMatch: false,
@@ -364,7 +364,7 @@ $(document).ready(function(){
         placeholder: "example: INS#277",
         zoomScale: 500000
       },
-      {layer: greentheblue,
+      {layer: officesGreen,
         searchFields: ["Location"],
         displayField: "Location",
         exactMatch: false,
@@ -397,8 +397,8 @@ $(document).ready(function(){
         scale: 500000
       });
   });
-  view.ui.add(searchWidget, {
-    position: "top-right"
+  view.ui.add(searchWidget,"bottom-left", {
+    position: "bottom-left"
   });
   function shiftCamera(deg) {
     var camera = view.camera.clone();
