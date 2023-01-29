@@ -215,8 +215,8 @@ $(document).ready(function(){
   pause.onclick = function() {
     abort = true;
   };
-  const offices = new FeatureLayer({
-    url: "https://services.arcgis.com/qovwaCdMoEzUUFzS/ArcGIS/rest/services/Offices/FeatureServer/0",
+  const officesGrey = new FeatureLayer({
+    url: "https://services.arcgis.com/qovwaCdMoEzUUFzS/ArcGIS/rest/services/Offices_Grey/FeatureServer/0",
     popupTemplate: {
       title:"UNHCR Offices",
       content:[{
@@ -238,11 +238,11 @@ $(document).ready(function(){
       overwriteActions: false,
     }
   });
-  scene.add(offices);
-  const greenboxes = new FeatureLayer({
-    url: "https://services.arcgis.com/qovwaCdMoEzUUFzS/ArcGIS/rest/services/Green_Boxes/FeatureServer/0",
+  scene.add(officesGrey);
+  const officesGreen = new FeatureLayer({
+    url: "https://services.arcgis.com/qovwaCdMoEzUUFzS/ArcGIS/rest/services/Offices_Green/FeatureServer/0",
     popupTemplate: {
-      title:"Green Boxes installed",
+      title:"UNHCR Offices",
       content:[{
         type:"fields",
         fieldInfos:[
@@ -265,9 +265,36 @@ $(document).ready(function(){
       overwriteActions: false,
     }
   });
-  scene.add(greenboxes);
-  const greentheblue = new FeatureLayer({
-    url: "https://services.arcgis.com/qovwaCdMoEzUUFzS/ArcGIS/rest/services/Greening_The_Blue_2022/FeatureServer/0",
+  scene.add(officesGreen );
+  const officesBlue = new FeatureLayer({
+    url: "https://services.arcgis.com/qovwaCdMoEzUUFzS/ArcGIS/rest/services/Offices_Blue/FeatureServer/0",
+    popupTemplate: {
+      title:"UNHCR Offices",
+      content:[{
+        type:"fields",
+        fieldInfos:[
+        {
+          fieldName:"INS_Code",
+          label:"INS Code"
+        },{
+          fieldName:"Country__UNHCR_",
+          label:"Country"
+        },{
+          fieldName:"Location",
+          label:"Location"
+        },{
+          fieldName:"Total_KWh_Measured__Oct_Dec2022",
+          label:"Total KWh Measured in 2022"
+        }
+        ]
+      }
+      ],
+      overwriteActions: false,
+    }
+  });
+  scene.add(officesBlue);
+  const officesYellow = new FeatureLayer({
+    url: "https://services.arcgis.com/qovwaCdMoEzUUFzS/ArcGIS/rest/services/Offices_Yellow/FeatureServer/0",
     popupTemplate: {
       title:"Greening The Blue 2022",
       content:[{
@@ -296,7 +323,7 @@ $(document).ready(function(){
       overwriteActions: false,
     }
   });
-  scene.add(greentheblue);
+  scene.add(officesYellow);
   const Countries = new FeatureLayer({
     url: "https://services.arcgis.com/P3ePLMYs2RVChkJx/ArcGIS/rest/services/World_Countries_(Generalized)/FeatureServer/0",
     popupTemplate: {
