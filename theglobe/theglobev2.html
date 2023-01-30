@@ -239,8 +239,8 @@ $(document).ready(function(){
     }
   });
   scene.add(officesGrey);
-  const officesGreen = new FeatureLayer({
-    url: "https://services.arcgis.com/qovwaCdMoEzUUFzS/ArcGIS/rest/services/Offices_Green/FeatureServer/0",
+  const officesGB = new FeatureLayer({
+    url: "https://services.arcgis.com/qovwaCdMoEzUUFzS/ArcGIS/rest/services/Offices_Green_Boxes/FeatureServer/0",
     popupTemplate: {
       title:"UNHCR Offices",
       content:[{
@@ -256,7 +256,7 @@ $(document).ready(function(){
           fieldName:"Location",
           label:"Location"
         },{
-          fieldName:"Total_KWh_Measured__Oct_Dec2022",
+          fieldName:"Total_KWh_Measured",
           label:"Total KWh Measured in 2022"
         }
         ]
@@ -265,36 +265,9 @@ $(document).ready(function(){
       overwriteActions: false,
     }
   });
-  scene.add(officesGreen );
-  const officesBlue = new FeatureLayer({
-    url: "https://services.arcgis.com/qovwaCdMoEzUUFzS/ArcGIS/rest/services/Offices_Blue/FeatureServer/0",
-    popupTemplate: {
-      title:"UNHCR Offices",
-      content:[{
-        type:"fields",
-        fieldInfos:[
-        {
-          fieldName:"INS_Code",
-          label:"INS Code"
-        },{
-          fieldName:"Country__UNHCR_",
-          label:"Country"
-        },{
-          fieldName:"Location",
-          label:"Location"
-        },{
-          fieldName:"Total_KWh_Measured__Oct_Dec2022",
-          label:"Total KWh Measured in 2022"
-        }
-        ]
-      }
-      ],
-      overwriteActions: false,
-    }
-  });
-  scene.add(officesBlue);
-  const officesYellow = new FeatureLayer({
-    url: "https://services.arcgis.com/qovwaCdMoEzUUFzS/ArcGIS/rest/services/Offices_Yellow/FeatureServer/0",
+  scene.add(officesGB);
+  const officesGTB = new FeatureLayer({
+    url: "https://services.arcgis.com/qovwaCdMoEzUUFzS/ArcGIS/rest/services/Offices_Greening_The_Blue_2022/FeatureServer/0",
     popupTemplate: {
       title:"Greening The Blue 2022",
       content:[{
@@ -308,7 +281,7 @@ $(document).ready(function(){
           label:"Location"
         },{
 
-          fieldName:"Total_GHG_Emissions__Co2_",
+          fieldName:"Total_Co2__tons__emitted",
           label:"Total CO2 (Ton)"
         },{
           fieldName:"Total_Waste__Kg_",
@@ -323,7 +296,41 @@ $(document).ready(function(){
       overwriteActions: false,
     }
   });
-  scene.add(officesYellow);
+  scene.add(officesGTB);
+  const officesGTBandGB = new FeatureLayer({
+    url: "https://services.arcgis.com/qovwaCdMoEzUUFzS/ArcGIS/rest/services/Offices_GTB_and_GB/FeatureServer/0",
+    popupTemplate: {
+      title:"Greening The Blue 2022",
+      content:[{
+        type:"fields",
+        fieldInfos:[
+        {
+          fieldName:"Country__UNHCR_",
+          label:"Country"
+        },{
+          fieldName:"Location",
+          label:"Location"
+        },{
+          fieldName: "Total_KWh_Measured",
+          label: "Total KWh Measured in 2022"
+        },{
+
+          fieldName:"Total_Co2__tons__emitted",
+          label:"Total CO2 (Ton)"
+        },{
+          fieldName:"Total_Waste__Kg_",
+          label:"Total Waste (Kg)"
+        },{
+          fieldName:"Water_Use__m3_",
+          label:"Water use (m³)"
+        }
+        ]
+      }
+      ],
+      overwriteActions: false,
+    }
+  });
+  scene.add(officesGTBandGB);
   const Countries = new FeatureLayer({
     url: "https://services.arcgis.com/P3ePLMYs2RVChkJx/ArcGIS/rest/services/World_Countries_(Generalized)/FeatureServer/0",
     popupTemplate: {
