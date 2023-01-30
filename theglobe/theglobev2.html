@@ -362,7 +362,7 @@ $(document).ready(function(){
         placeholder: "example: INS#739",
         zoomScale: 500000
       },
-      {layer: officesBlue,
+      {layer: officesGB,
         searchFields: ["InS_ID"],
         displayField: "InS_ID",
         exactMatch: false,
@@ -371,7 +371,7 @@ $(document).ready(function(){
         placeholder: "example: INS#277",
         zoomScale: 500000
       },
-      {layer: officesGreen,
+      {layer: officesGTB,
         searchFields: ["Location"],
         displayField: "Location",
         exactMatch: false,
@@ -379,7 +379,16 @@ $(document).ready(function(){
         name: "Greening The Blue 2022",
         placeholder: "Paris",
         zoomScale: 500000
-      },      
+      },
+      {layer: officesGTBandGB,
+        searchFields: ["Location"],
+        displayField: "Location",
+        exactMatch: false,
+        outFields: ["*"],
+        name: "Greening The Blue 2022",
+        placeholder: "Paris",
+        zoomScale: 500000
+      },       
       {layer: Countries,
         searchFields: ["COUNTRYAFF"],
         displayField: "COUNTRYAFF",
