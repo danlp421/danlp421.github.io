@@ -12,52 +12,56 @@
         margin: 0;
         height: 100%;
         width: 100%;
-      }
+      };
+      #infoPanel {
+        background-color: white;
+        padding: 10px;
+        box-shadow: 2px 2px 5px gray;
+}
     </style>
     <link rel="stylesheet" href="https://js.arcgis.com/4.17/esri/css/main.css">
     <script src="https://js.arcgis.com/4.17/"></script>
     <script>
       require([
-        "esri/Map",
-        "esri/views/SceneView",
-        "esri/layers/FeatureLayer"
-      ], function(Map, SceneView, FeatureLayer) {
-        
-        // Crear un nuevo mapa con un layer basemap
-        var map = new Map({
-          basemap: "satellite"
-        });
-        
-        // Crear una nueva instancia de FeatureLayer y agregarla al mapa
-        var featureLayer = new FeatureLayer({
-          url: "https://services.arcgis.com/qovwaCdMoEzUUFzS/ArcGIS/rest/services/Offices_Grey/FeatureServer/0",
-        });
-        map.add(featureLayer);
-        
-        // Crear una nueva vista de escena y asignarle el mapa
-        var view = new SceneView({
-          container: "viewDiv",
-          map: map,
-          center: [-85, 35],
-          zoom: 4
-        });
-        
-        // Configurar la ventana emergente para mostrar los atributos de cada feature
-        view.popup.autoOpenEnabled = true;
-        view.popup.actions.push({
-          title: "Ver detalles",
-          id: "view-details",
-          className: "esri-icon-description"
-        });
-        view.popup.dockEnabled = true;
-        view.popup.dockOptions = {
-          buttonEnabled: true,
-          breakpoint: true
-        };
+  "esri/Map",
+  "esri/views/SceneView",
+  "esri/layers/FeatureLayer"
+], function(Map, SceneView, FeatureLayer) {
+  var map = new Map({
+    basemap: "gray-vector"
+  });
+
+  var view = new SceneView({
+    container: "map",
+    map: map,
+    center: [0, 0],
+    zoom: 2
+  });
+
+  var featureLayer = new FeatureLayer({
+    url: "https://services.arcgis.com/qovwaCdMoEzUUFzS/ArcGIS/rest/services/Offices_Grey/FeatureServer/0"
+  });
+
+  map.add(featureLayer);
+
+  featureLayer.when(function() {
+    featureLayer.queryFeatures().then(function(results) {
+      var totalCo2 = 0;
+      results.features.forEach(function(feature) {
+        totalCo2 += feature.attributes.Total_Co2;
       });
+      document.getElementById("totalCo2").innerHTML = totalCo2;
+    });
+  });
+});
     </script>
   </head>
   <body>
     <div id="viewDiv"></div>
+    <div id="map" style="width: 60%; height: 100%; float: left;"></div>
+<div id="infoPanel" style="width: 40%; height: 100%; float: right;">
+  <h2>Información</h2>
+  <p>Total Co2 (tons) emitted: <span id="totalCo2"></span></p>
+</div>
   </body>
 </html>
