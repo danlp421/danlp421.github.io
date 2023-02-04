@@ -454,12 +454,12 @@ $(document).ready(function(){
   });
   view.ui.add(homebtn, "top-left");
 });
-function updateInfoPanel(layer) {
-  document.getElementById("officesGTBandGB").innerHTML = layer.name;
+function updateInfoPanel(officesGTBandGB) {
+  document.getElementById("officesGTBandGB").innerHTML = officesGTBandGB.name;
   // Actualiza otros datos de la capa
 }
-layer.on("click", function() {
-  updateInfoPanel(layer);
+officesGTBandGB.on("click", function() {
+  updateInfoPanel(officesGTBandGB);
 });
 
 });
