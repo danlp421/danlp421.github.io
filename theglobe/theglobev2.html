@@ -11,6 +11,10 @@
   </head>
   <body>
     <div id="viewDiv" />
+    <div id="infoPanel">
+      <h2>Información de Capa</h2>
+      <div id="officesGTBandGB"></div>
+      <!-- Otros datos de la capa -->
     
     <div class="overlay">
       <div>
@@ -450,5 +454,13 @@ $(document).ready(function(){
   });
   view.ui.add(homebtn, "top-left");
 });
+function updateInfoPanel(layer) {
+  document.getElementById("officesGTBandGB").innerHTML = layer.name;
+  // Actualiza otros datos de la capa
+}
+layer.on("click", function() {
+  updateInfoPanel(layer);
+});
+
 });
 </script>
