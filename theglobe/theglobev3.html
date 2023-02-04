@@ -1,0 +1,29 @@
+<html>
+  <head>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+    integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+    crossorigin=""/>
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
+    integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
+    crossorigin=""></script>
+  </head>
+  <body>
+    <div id="map" style="height: 400px; width: 100%;"></div>
+    <script>
+      var map = L.map('map').setView([0, 0], 2);
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors',
+        maxZoom: 18
+      }).addTo(map);
+      var layer = L.esri.featureLayer({
+        url: 'https://services.arcgis.com/qovwaCdMoEzUUFzS/ArcGIS/rest/services/Offices_Grey/FeatureServer/0'
+      }).addTo(map);
+      layer.bindPopup(function (feature) {
+        return '<h3>' + feature.properties.Name + '</h3>' +
+               '<p>Total Co2 (tons) emitted: ' + feature.properties.Total_Co2_tons_emitted + '</p>' +
+               '<p>Total Waste (Kg): ' + feature.properties.Total_Waste_Kg + '</p>' +
+               '<p>Water Use (m3): ' + feature.properties.Water_Use_m3 + '</p>';
+      });
+    </script>
+  </body>
+</html>
