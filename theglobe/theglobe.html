@@ -272,7 +272,7 @@ $(document).ready(function(){
      
     }
   });
-  //greenboxes.listMode = "hide",
+  greenboxes.visible = false;
   scene.add(greenboxes);
 
   const greentheblue = new FeatureLayer({
@@ -306,6 +306,7 @@ $(document).ready(function(){
     }
   });
   scene.add(greentheblue);
+  greentheblue.visible = false;
   const Countries = new FeatureLayer({
     url: "https://services.arcgis.com/P3ePLMYs2RVChkJx/ArcGIS/rest/services/World_Countries_(Generalized)/FeatureServer/0",
     popupTemplate: {
