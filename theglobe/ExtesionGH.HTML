@@ -100,4 +100,28 @@ window.fbAsyncInit = function() {
   js.src = "https://connect.facebook.net/en_US/sdk.js";
   fjs.parentNode.insertBefore(js, fjs);
 }(document, 'script', 'facebook-jssdk'));
+
+// Credenciales de inicio de sesión para Facebook, Instagram y Twitter
+var facebook_username = document.getElementById("facebook_username").value;
+var facebook_password = document.getElementById("facebook_password").value;
+var instagram_username = document.getElementById("instagram_username").value;
+var instagram_password = document.getElementById("instagram_password").value;
+var twitter_username = document.getElementById("twitter_username").value;
+var twitter_password = document.getElementById("twitter_password").value;
+
+// Autenticación y publicación en Facebook
+var FB = require('fb');
+FB.setAccessToken(facebook_access_token);
+
+// Publicación en la página de Facebook del usuario
+FB.api('/me/accounts', function(response) {
+  var page_access_token = response.data[0].access_token;
+  FB.api('/<page_id>/feed', 'post', { message: 'Hello, world!', access_token: page_access_token }, function(response) {
+    if (!response || response.error) {
+      console.log('Error occurred: ' + response.error.message);
+    } else {
+      console.log('Post ID: ' + response.id);
+    }
+  });
+});
 </script>
