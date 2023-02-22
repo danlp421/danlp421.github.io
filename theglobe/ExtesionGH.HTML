@@ -35,10 +35,52 @@
   </body>
 </body>
 </html>
+<style>
+    html,
+    body,
+    body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+}
 
+h1 {
+  text-align: center;
+}
 
+form {
+  margin: 0 auto;
+  width: 80%;
+  max-width: 500px;
+  border: 1px solid #ccc;
+  padding: 20px;
+}
 
+label {
+  display: block;
+  margin-bottom: 10px;
+}
 
+select, textarea, input {
+  display: block;
+  width: 100%;
+  margin-bottom: 10px;
+}
 
+button {
+  display: block;
+  margin: 10px auto 0;
+}
+</style>
+<script>
+    // Here, you could add the necessary code to connect to the APIs of the social media platforms you want to integrate, and define the functions to create and schedule posts.
 
+function schedulePost() {
+  // This function would handle the submission of the form and schedule the post.
+}
 
+document.querySelector('form').addEventListener('submit', function(event) {
+  event.preventDefault();
+  schedulePost();
+});
+</script>
