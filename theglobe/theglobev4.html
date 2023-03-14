@@ -4368,7 +4368,7 @@
       let total_KWh = 0;
       let kWhPerSecond = 0;
       let counterStartingPoint = 0; //kwhPerSecond*secondsUpTONow;
-      const KWhPer5seconds = 1;
+      const KWhPer5seconds = 5.39;
       const counterElement = document.getElementById("totalPowerConsumption");
       const updateCounter = () => {
         counterStartingPoint += KWhPer5seconds;
@@ -4580,7 +4580,7 @@
         //   event.result.feature.attributes.Location;
         if (counterStartingPoint) {
           counterElement.innerText = counterStartingPoint.toFixed(2) + " KWh";
-          intervalID = setInterval(updateCounter, 5000);
+          intervalID = setInterval(updateCounter, 1000);
         } else {
           counterElement.innerText = "No KWh found";
         }
