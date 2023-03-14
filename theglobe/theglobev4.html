@@ -4369,7 +4369,7 @@
       let total_KWh = 0;
       let kWhPerSecond = 0;
       let counterStartingPoint = 0; //kwhPerSecond*secondsUpTONow;
-      const KWhPer5seconds = 5.39;
+      const KWhPer5seconds = 1;
       const counterElement = document.getElementById("totalPowerConsumption");
       const updateCounter = () => {
         counterStartingPoint += KWhPer5seconds;
@@ -4379,17 +4379,13 @@
       let intervalID = undefined;
 
       const offices = new FeatureLayer({
-        url: "https://services3.arcgis.com/80SCmgj6pZGiNLhd/ArcGIS/rest/services/Offices/FeatureServer/0",
+        url: "https://services.arcgis.com/qovwaCdMoEzUUFzS/ArcGIS/rest/services/Offices/FeatureServer/0",
         popupTemplate: {
           title: "UNHCR Offices",
           content: [
             {
               type: "fields",
               fieldInfos: [
-                {
-                  fieldName: "INS_Code",
-                  label: "INS Code",
-                },
                 {
                   fieldName: "Country__UNHCR_",
                   label: "Country",
@@ -4418,18 +4414,14 @@
       });
       scene.add(offices);
       const greenboxes = new FeatureLayer({
-        url: "https://services3.arcgis.com/80SCmgj6pZGiNLhd/ArcGIS/rest/services/Green_Boxes/FeatureServer/0",
+        url: "https://services.arcgis.com/qovwaCdMoEzUUFzS/ArcGIS/rest/services/Green_Boxes/FeatureServer/0",
         popupTemplate: {
           title: "Green Boxes installed",
           content: [
             {
               type: "fields",
               fieldInfos: [
-                {
-                  fieldName: "INS_Code",
-                  label: "INS Code",
-                },
-                {
+              {
                   fieldName: "Country__UNHCR_",
                   label: "Country",
                 },
@@ -4451,7 +4443,7 @@
       scene.add(greenboxes);
 
       const greentheblue = new FeatureLayer({
-        url: "https://services3.arcgis.com/80SCmgj6pZGiNLhd/ArcGIS/rest/services/Greening_The_Blue_2022/FeatureServer/0",
+        url: "https://services.arcgis.com/qovwaCdMoEzUUFzS/ArcGIS/rest/services/Greening_The_Blue_2022/FeatureServer/0",
         popupTemplate: {
           title: "Greening The Blue 2022",
           content: [
