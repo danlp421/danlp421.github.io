@@ -4424,71 +4424,71 @@
         },
       });
       scene.add(offices);
-      const greenboxes = new FeatureLayer({
-        url: "https://services.arcgis.com/qovwaCdMoEzUUFzS/ArcGIS/rest/services/GreenBoxes/FeatureServer/0",
-        popupTemplate: {
-          title: "Green Boxes installed",
-          content: [
-            {
-              type: "fields",
-              fieldInfos: [
-                {
-                  fieldName: "Country__UNHCR_",
-                  label: "Country",
-                },
-                {
-                  fieldName: "Location",
-                  label: "Location",
-                },
-                {
-                  fieldName: "Total_KWh_Measured__Oct_Dec2022",
-                  label: "Total KWh Measured in 2022",
-                },
-              ],
-            },
-          ],
-          overwriteActions: false,
-        },
-      });
-      greenboxes.visible = false;
-      scene.add(greenboxes);
+      //const greenboxes = new FeatureLayer({
+        //url: "https://services.arcgis.com/qovwaCdMoEzUUFzS/ArcGIS/rest/services/GreenBoxes/FeatureServer/0",
+        //popupTemplate: {
+          //title: "Green Boxes installed",
+          //content: [
+            //{
+              //type: "fields",
+              //fieldInfos: [
+                //{
+                  //fieldName: "Country__UNHCR_",
+                  //label: "Country",
+                //},
+                //{
+                  //fieldName: "Location",
+                  //label: "Location",
+                //},
+                //{
+                 // fieldName: "Total_KWh_Measured__Oct_Dec2022",
+                  //label: "Total KWh Measured in 2022",
+                //},
+              //],
+            //},
+          //],
+          //overwriteActions: false,
+        //},
+      //});
+      //greenboxes.visible = false;
+      //scene.add(greenboxes);
 
-      const greentheblue = new FeatureLayer({
-        url: "https://services.arcgis.com/qovwaCdMoEzUUFzS/ArcGIS/rest/services/Greening_The_Blue_2022/FeatureServer/0",
-        popupTemplate: {
-          title: "Greening The Blue 2022",
-          content: [
-            {
-              type: "fields",
-              fieldInfos: [
-                {
-                  fieldName: "Country__UNHCR_",
-                  label: "Country",
-                },
-                {
-                  fieldName: "Location",
-                  label: "Location",
-                },
-                {
-                  fieldName: "Total_GHG_Emissions__Co2_",
-                  label: "Total CO2 (Ton)",
-                },
-                {
-                  fieldName: "Total_Waste__Kg_",
-                  label: "Total Waste (Kg)",
-                },
-                {
-                  fieldName: "Water_Use__m3_",
-                  label: "Water use (m³)",
-                },
-              ],
-            },
-          ],
-          overwriteActions: false,
-        },
-      });
-      scene.add(greentheblue);
-      greentheblue.visible = false;
+      //const greentheblue = new FeatureLayer({
+        //url: "https://services.arcgis.com/qovwaCdMoEzUUFzS/ArcGIS/rest/services/Greening_The_Blue_2022/FeatureServer/0",
+        //popupTemplate: {
+          //title: "Greening The Blue 2022",
+          //content: [
+            //{
+              //type: "fields",
+              //fieldInfos: [
+                //{
+                  //fieldName: "Country__UNHCR_",
+                  //label: "Country",
+                //},
+                //{
+                  //fieldName: "Location",
+                  //label: "Location",
+                //},
+                //{
+                  //fieldName: "Total_GHG_Emissions__Co2_",
+                  //label: "Total CO2 (Ton)",
+                //},
+                //{
+                  //fieldName: "Total_Waste__Kg_",
+                  //label: "Total Waste (Kg)",
+                //},
+                //{
+                  //fieldName: "Water_Use__m3_",
+                  //label: "Water use (m³)",
+                //},
+              //],
+            //},
+          //],
+         // overwriteActions: false,
+       // },
+      //});
+      //scene.add(greentheblue);
+      //greentheblue.visible = false;
       const Countries = new FeatureLayer({
         url: "https://services.arcgis.com/P3ePLMYs2RVChkJx/ArcGIS/rest/services/World_Countries_(Generalized)/FeatureServer/0",
         popupTemplate: {
