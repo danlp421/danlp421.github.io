@@ -3,7 +3,7 @@
     <meta name="author" content="Daniel Leon" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link
-      rel="stylesheet" 
+      rel="stylesheet"
       href="https://js.arcgis.com/4.25/esri/themes/light/main.css"
     />
     <script src="https://js.arcgis.com/4.25/"></script>
@@ -16,15 +16,13 @@
   <body>
     <div id="viewDiv"></div>
     <div id="panel">
-      <div id="totalPowerDiv" style="font-family: Arial, Helvetica, sans-serif;">
-       <h4>Estimated <span id="office" style="font-family: Arial, Helvetica, sans-serif;">Offices</span> 
-        <br>
-        Power Consumption </h4>
-        <h4 id="totalPowerConsumption">0 KWh</h4>
+      <div id="totalPowerDiv">
+        <h2>Estimated <span id="office">Offices</span> Power Consumption</h2>
+        <h2 id="totalPowerConsumption">200 KWh</h2>
         <p id="consumptionDate">2023 year to date</p>
       </div>
       <div id="blueStats">
-        <h4 style="font-family: Arial, Helvetica, sans-serif;">Greening The Blue</h4>
+        <h2>Greening The Blue</h2>
         <div id="stat">
           <img
             src="https://www.arcgis.com/sharing/rest/content/items/015b4153a8e94201aa90f615ebc2eb40/resources/images/widget_526/1675240205608.png"
@@ -32,8 +30,8 @@
             width="40px"
             height="40px"
           />
-          <h3 id="co2" style="margin: 0; font-family: Arial, Helvetica, sans-serif;">0</h3>
-          <h6><p style="margin: 0; font-family: Arial, Helvetica, sans-serif;"><i>(KG of CO2 emitted)</i></p></h6>
+          <h2 id="co2" style="margin: 0">0</h2>
+          <p style="margin: 0"><i>(KG of CO2 emitted)</i></p>
         </div>
         <div id="stat">
           <img
@@ -42,8 +40,8 @@
             width="40px"
             height="40px"
           />
-          <h3 id="water" style="margin: 0;font-family: Arial, Helvetica, sans-serif;">0</h3> 
-          <h6><p style="margin: 0;font-family: Arial, Helvetica, sans-serif;"><i>(m3 of water used)</i></p></h6>
+          <h2 id="water" style="margin: 0">0</h2>
+          <p style="margin: 0"><i>(m3 of water used)</i></p>
         </div>
         <div id="stat">
           <img
@@ -52,9 +50,15 @@
             width="40px"
             height="40px"
           />
-          <h3 id="waste" style="margin: 0">0</h3>
-          <h6><p style="margin: 0;font-family: Arial, Helvetica, sans-serif;"><i>(KG of waste generated)</i></p></h6>
+          <h2 id="waste" style="margin: 0">0</h2>
+          <p style="margin: 0"><i>(KG of waste generated)</i></p>
         </div>
+      </div>
+      <div id="unhcrLogo">
+        <img
+          src="https://www.arcgis.com/sharing/rest/content/items/015b4153a8e94201aa90f615ebc2eb40/resources/images/widget_347/1670487399513.png"
+          width="100%"
+        />
       </div>
     </div>
     <div class="overlay">
@@ -182,12 +186,20 @@
   }
   .button:hover,
   #label {
-    color: rgb(47, 46, 46);
+    color: rgb(250, 249, 249);
   }
   .button,
   #label {
     margin: 10px;
   }
+  .esri-icon-play:before {
+    content: "";
+    color: white;
+}
+.esri-icon-pause:before {
+    content: "";
+    color: white;
+}
   .esri-widget {
     font-size: 12.4px;
   }
@@ -4308,6 +4320,8 @@
       view.watch("camera.position.longitude", (longitude) => {
         label.innerHTML = `Longitude: ${longitude.toFixed(1)}&deg;`;
       });
+      view.ui.add(play, "top-left");
+      view.ui.add(pause, "top-left");
       let abort = false;
       function rotate() {
         if (!view.interacting && !abort) {
@@ -4327,6 +4341,7 @@
       pause.onclick = function () {
         abort = true;
       };
+      rotate();
       // html elements
       let co2Element = document.getElementById("co2");
       let wasteElement = document.getElementById("waste");
@@ -4429,10 +4444,6 @@
                   fieldName: "Total_KWh_Measured__Oct_Dec2022",
                   label: "Total KWh Measured in 2022",
                 },
-                {
-                  fieldName: "Total_GHG_Emissions__Co2_",
-                  label: "Total GHG Emissions (Co2 tons)",
-                },
               ],
             },
           ],
@@ -4510,43 +4521,6 @@
             name: "UNHCR Offices",
             placeholder: "example: Caracas",
             zoomScale: 500000,
-          },
-          {
-            layer: greenboxes,
-            searchFields: ["Location"],
-            displayField: "Location",
-            exactMatch: false,
-            outFields: ["*"],
-            name: "Green Boxes installed",
-            placeholder: "example: INS#277",
-            zoomScale: 500000,
-          },
-          {
-            layer: greentheblue,
-            searchFields: ["Location"],
-            displayField: "Location",
-            exactMatch: false,
-            outFields: ["*"],
-            name: "Greening The Blue 2022",
-            placeholder: "Paris",
-            zoomScale: 500000,
-          },
-          {
-            layer: Countries,
-            searchFields: ["COUNTRYAFF"],
-            displayField: "COUNTRYAFF",
-            exactMatch: true,
-            outFields: ["*"],
-            name: "UNHCR Countries",
-            placeholder: "example: Colombia",
-          },
-          {
-            name: "ArcGIS World Geocoding Service",
-            placeholder: "example: Nuuk, GRL",
-            apiKey:
-              "AAPK853e389eacab4000b8168009a957884eAeNxkMsT5xLndSZFhHgao-ynp074HaJnWU6CfSjbF8QQuZc5bL4FoHut1NkoYGYU",
-            singleLineFieldName: "SingleLine",
-            url: "https://geocode-api.arcgis.com/arcgis/rest/services/World/GeocodeServer",
           },
         ],
       });
@@ -4658,7 +4632,7 @@
       var homebtn = new Home({
         view: view,
       });
-      view.ui.add(homebtn, "top-left");
+      view.ui.add(homebtn, "top-right");
     });
   });
 </script>
