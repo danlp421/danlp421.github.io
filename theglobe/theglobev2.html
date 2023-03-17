@@ -81,6 +81,14 @@ body {
     font-weight: bold !important;
     color: #f5f1f1;
   }
+  .esri-icon-play:before {
+    content: "";
+    color: white;
+  }
+  .esri-icon-pause:before {
+    content: "";
+    color: white;
+  }
   .overlay {
     position: absolute;
     width: 50%;
@@ -270,6 +278,8 @@ $(document).ready(function(){
   view.watch("camera.position.longitude", (longitude) => {
     label.innerHTML = `Longitude: ${longitude.toFixed(1)}&deg;`;
   });
+  view.ui.add(play, "top-left");
+  view.ui.add(pause, "top-left");
   let abort = false;
   function rotate() { 
     if (!view.interacting && !abort) {
@@ -288,6 +298,7 @@ $(document).ready(function(){
   pause.onclick = function() {
     abort = true;
   };
+  rotate();
   const offices = new FeatureLayer({
     url: "https://services.arcgis.com/qovwaCdMoEzUUFzS/ArcGIS/rest/services/Offices/FeatureServer/0",
     popupTemplate: {
