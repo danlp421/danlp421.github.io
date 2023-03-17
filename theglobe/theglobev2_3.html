@@ -1,0 +1,4638 @@
+<html>
+  <head>
+    <meta name="author" content="Daniel Leon" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://js.arcgis.com/4.25/esri/themes/light/main.css"
+    />
+    <script src="https://js.arcgis.com/4.25/"></script>
+    <script
+      src="https://code.jquery.com/jquery-3.6.1.min.js"
+      integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ="
+      crossorigin="anonymous"
+    ></script>
+  </head>
+  <body>
+    <div id="viewDiv"></div>
+    <div id="panel">
+      <div id="totalPowerDiv">
+        <h2>Estimated <span id="office">Offices</span> Power Consumption</h2>
+        <h2 id="totalPowerConsumption">200 KWh</h2>
+        <p id="consumptionDate">2023 year to date</p>
+      </div>
+      <div id="blueStats">
+        <h2>Greening The Blue</h2>
+        <div id="stat">
+          <img
+            src="https://www.arcgis.com/sharing/rest/content/items/015b4153a8e94201aa90f615ebc2eb40/resources/images/widget_526/1675240205608.png"
+            alt="co2"
+            width="40px"
+            height="40px"
+          />
+          <h2 id="co2" style="margin: 0">0</h2>
+          <p style="margin: 0"><i>(KG of CO2 emitted)</i></p>
+        </div>
+        <div id="stat">
+          <img
+            src="https://www.arcgis.com/sharing/rest/content/items/015b4153a8e94201aa90f615ebc2eb40/resources/images/widget_527/1675240244586.png"
+            alt="co2"
+            width="40px"
+            height="40px"
+          />
+          <h2 id="water" style="margin: 0">0</h2>
+          <p style="margin: 0"><i>(m3 of water used)</i></p>
+        </div>
+        <div id="stat">
+          <img
+            src="https://www.arcgis.com/sharing/rest/content/items/015b4153a8e94201aa90f615ebc2eb40/resources/images/widget_528/1675240286533.png"
+            alt="co2"
+            width="40px"
+            height="40px"
+          />
+          <h2 id="waste" style="margin: 0">0</h2>
+          <p style="margin: 0"><i>(KG of waste generated)</i></p>
+        </div>
+      </div>
+      <div id="unhcrLogo">
+        <img
+          src="https://www.arcgis.com/sharing/rest/content/items/015b4153a8e94201aa90f615ebc2eb40/resources/images/widget_347/1670487399513.png"
+          width="100%"
+        />
+      </div>
+    </div>
+    <div class="overlay">
+      <div>
+        <span id="play" class="button esri-icon-play" style="display: block" />
+      </div>
+      <div>
+        <span id="pause" class="button esri-icon-pause" style="display: none" />
+      </div>
+      <div id="label">Heading: 0&deg;</div>
+    </div>
+  </body>
+</html>
+<style>
+  html,
+  body {
+    background: rgb(0, 0, 0);
+    display: flex;
+    width: 100%;
+    align-items: center;
+  }
+  #panel {
+    box-sizing: border-box;
+    background-color: black;
+    color: white;
+    /* height: 100%; */
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+  }
+  #totalPowerDiv {
+    flex: 2;
+    border: 1px solid;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0px;
+    text-align: center;
+    flex-direction: column;
+    box-sizing: border-box;
+  }
+  #viewDiv {
+    padding: 0;
+    margin: 0;
+    height: 100%;
+    /* width: 90%; */
+    flex: 4;
+  }
+  #blueStats {
+    flex: 4;
+    border: 1px solid white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    text-align: center;
+    box-sizing: border-box;
+    padding: 10px 0px;
+  }
+  #blueStats h2 {
+    margin: 0;
+    margin-bottom: 10px;
+  }
+  #unhcrLogo {
+    flex: 1;
+    margin: 0;
+  }
+  .esri-widget__table {
+    color: #ffffff;
+  }
+  .esri-widget--button {
+    color: #ffffff;
+  }
+  .esri-widget__heading {
+    color: #f8f8f8;
+    font-weight: 600;
+    margin: 0 0 0.5rem 0;
+  }
+  .esri-widget--button {
+    font-size: 14px;
+    background-color: #141414;
+    color: #141414;
+  }
+  .esri-widget {
+    box-sizing: border-box;
+    color: #141414;
+    font-size: 14px;
+    font-family: "Avenir Next", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    line-height: 1.3em;
+    background-color: #141414;
+  }
+  .esri-widget {
+    box-sizing: border-box;
+    color: #141414;
+    font-size: 14px;
+    font-family: "Avenir Next", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    line-height: 1.3em;
+    background-color: #141414;
+  }
+  .button {
+    cursor: pointer;
+    font-size: 30pt !important;
+    font-weight: bold !important;
+    color: #f5f1f1;
+  }
+  .overlay {
+    position: absolute;
+    width: 50%;
+    bottom: 50px;
+    left: 0px;
+    background-color: rgba(80, 80, 80, 0);
+    text-align: center;
+    font-family: "Avenir Next", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  }
+  #viewDiv canvas {
+    filter: saturate(1.2) drop-shadow(0 0 20px rgba(255, 255, 255, 0));
+  }
+  .button {
+    cursor: pointer;
+    font-size: 30pt !important;
+    font-weight: bold !important;
+    color: rgb(5, 4, 4);
+  }
+  .button:hover,
+  #label {
+    color: rgb(250, 249, 249);
+  }
+  .button,
+  #label {
+    margin: 10px;
+  }
+  .esri-icon-play:before {
+    content: "";
+    color: white;
+}
+.esri-icon-pause:before {
+    content: "";
+    color: white;
+}
+  .esri-widget {
+    font-size: 12.4px;
+  }
+  .esri-popup__button {
+    border-radius: 1px;
+    padding: 4px 5px;
+    margin: 1px 0;
+  }
+  .esri-layer-list__item {
+    background-color: #000000;
+    color: white;
+  }
+  .esri-layer-list__item-container {
+    padding: 8px 4px 8px 8px;
+  }
+  .esri-view-height-small .esri-ui-corner .esri-component.esri-widget--panel {
+    max-height: 300px;
+  }
+  .esri-ui-corner .esri-component.esri-widget--panel {
+    width: 180px;
+  }
+  .esri-layer-list__item-toggle {
+    color: #ffffff;
+  }
+  .esri-layer-list__item-toggle {
+    color: #f8f8f8;
+  }
+  .esri-widget--button {
+    color: #ffffff;
+  }
+  .esri-feature__content-element {
+    padding: 0 1px 2px;
+  }
+  .esri-legend__service {
+    padding: 6px 6px;
+  }
+  h3.esri-widget__heading,
+  h4.esri-widget__heading,
+  h5.esri-widget__heading,
+  h6.esri-widget__heading {
+    font-size: 12px;
+  }
+  .esri-legend__layer {
+    margin-left: 1px;
+  }
+  .esri-legend__layer-cell--symbols {
+    min-width: 8px;
+  }
+  .esri-legend__layer-cell {
+    padding: 0px 0;
+  }
+  .esri-widget__heading {
+    margin: 0 0 0.1rem 0;
+  }
+  h2.esri-widget__heading {
+    font-weight: 500;
+    font-size: 14px;
+  }
+  .esri-legend__layer-table {
+    width: 80%;
+    margin-bottom: 5px;
+  }
+  .esri-popup__main-container {
+    width: 30%;
+    max-height: 40%;
+  }
+  .esri-view-surface--inset-outline:focus::after {
+    outline: none !important;
+  }
+  .esri-layer-list__item-title {
+    line-height: 0.9em;
+  }
+  .esri-widget__table {
+    line-height: 0.8em;
+  }
+  .esri-view-width-large .esri-popup__main-container {
+    width: 300px;
+  }
+  .esri-widget__table tr td {
+    width: 30%;
+  }
+  .esri-widget__table tr th {
+    width: 30%;
+  }
+  .esri-widget__table tr td,
+  .esri-widget__table tr th {
+    padding: 0.2em 0.3em;
+    font-size: 12px;
+    font-weight: 300;
+  }
+  .esri-feature__content-element:last-child {
+    margin-bottom: 0;
+  }
+  .esri-view-height-less-than-medium .esri-popup__main-container {
+    max-height: 300px;
+  }
+  .esri-view-width-xlarge .esri-popup__main-container {
+    width: 320px;
+  }
+  .esri-ui-corner .esri-expand .esri-widget--panel,
+  .esri-ui-corner .esri-expand .esri-widget--panel-height-only,
+  .esri-ui-corner .esri-component > .esri-widget--panel,
+  .esri-ui-corner .esri-component.esri-widget--panel {
+    width: 230px;
+  }
+</style>
+<script>
+  const locations = [
+    {
+      location: "Oranjestad",
+      total_Kwh: "-",
+      co2: 2139,
+      waste: 5102,
+      water: 120,
+    },
+    {
+      location: "Bamyan",
+      total_Kwh: 121111,
+      co2: 146889,
+      waste: 650,
+      water: 350,
+    },
+    {
+      location: "Herat",
+      total_Kwh: 679018,
+      co2: 128710,
+      waste: 1711,
+      water: 637,
+    },
+    {
+      location: "Jalalabad",
+      total_Kwh: 364252,
+      co2: 542620,
+      waste: 3500,
+      water: 450,
+    },
+    {
+      location: "Kandahar",
+      total_Kwh: 488332,
+      co2: "-",
+      waste: "-",
+      water: "-",
+    },
+    {
+      location: "Mazar-i-Sharif",
+      total_Kwh: 172920,
+      co2: 197312,
+      waste: 4200,
+      water: 292,
+    },
+    {
+      location: "Kunduz",
+      total_Kwh: 25141,
+      co2: 63239,
+      waste: 2200,
+      water: 100,
+    },
+    {
+      location: "Kabul",
+      total_Kwh: 491320,
+      co2: 162031,
+      waste: 10475,
+      water: 762,
+    },
+    {
+      location: "Luanda",
+      total_Kwh: 22865,
+      co2: 83157,
+      waste: 726,
+      water: 50,
+    },
+    {
+      location: "Dundo",
+      total_Kwh: 20976,
+      co2: 17114,
+      waste: 1100,
+      water: 250,
+    },
+    {
+      location: "Tirana",
+      total_Kwh: "-",
+      co2: "-",
+      waste: "-",
+      water: "-",
+    },
+    {
+      location: "Abu Dhabi",
+      total_Kwh: 100013,
+      co2: "-",
+      waste: 1257,
+      water: 348,
+    },
+    {
+      location: "Dubai",
+      total_Kwh: 26330,
+      co2: 27488,
+      waste: 16401,
+      water: 410,
+    },
+    {
+      location: "Buenos Aires",
+      total_Kwh: 84,
+      co2: 10608,
+      waste: 4545,
+      water: 775,
+    },
+    {
+      location: "Yerevan",
+      total_Kwh: "-",
+      co2: 17098,
+      waste: 572,
+      water: 60,
+    },
+    {
+      location: "Canberra",
+      total_Kwh: "-",
+      co2: 26160,
+      waste: 2082,
+      water: 593,
+    },
+    {
+      location: "Vienna",
+      total_Kwh: "-",
+      co2: "-",
+      waste: "-",
+      water: "-",
+    },
+    {
+      location: "Baku",
+      total_Kwh: "-",
+      co2: 28447,
+      waste: 62,
+      water: 70,
+    },
+    {
+      location: "Bujumbura",
+      total_Kwh: 191399,
+      co2: "-",
+      waste: "-",
+      water: "-",
+    },
+    {
+      location: "Muyinga",
+      total_Kwh: 58797,
+      co2: "-",
+      waste: "-",
+      water: "-",
+    },
+    {
+      location: "Ruyigi",
+      total_Kwh: 40949,
+      co2: 28503,
+      waste: 10050,
+      water: 2200,
+    },
+    {
+      location: "Makamba",
+      total_Kwh: "-",
+      co2: "-",
+      waste: "-",
+      water: "-",
+    },
+    {
+      location: "Brussels",
+      total_Kwh: "-",
+      co2: 18483,
+      waste: 8162,
+      water: 254,
+    },
+    {
+      location: "Ouagadougou",
+      total_Kwh: 68136,
+      co2: 184885,
+      waste: 6509,
+      water: 3522,
+    },
+    {
+      location: "Dori",
+      total_Kwh: "-",
+      co2: 67078,
+      waste: 3192,
+      water: 498,
+    },
+    {
+      location: "Bobo-Dioulasso",
+      total_Kwh: "-",
+      co2: "-",
+      waste: "-",
+      water: "-",
+    },
+    {
+      location: "Djibo",
+      total_Kwh: "-",
+      co2: 20404,
+      waste: 597,
+      water: 350,
+    },
+    {
+      location: "Kaya",
+      total_Kwh: "-",
+      co2: 88871,
+      waste: 2786,
+      water: 552,
+    },
+    {
+      location: "Ouahigouya",
+      total_Kwh: "-",
+      co2: "-",
+      waste: "-",
+      water: "-",
+    },
+    {
+      location: "Cox's Bazar",
+      total_Kwh: 827429,
+      co2: 149694,
+      waste: 187950,
+      water: 11000,
+    },
+    {
+      location: "Dhaka",
+      total_Kwh: 101526,
+      co2: "-",
+      waste: "-",
+      water: "-",
+    },
+    {
+      location: "Sofia",
+      total_Kwh: 21982,
+      co2: 4860,
+      waste: 1943,
+      water: 78,
+    },
+    {
+      location: "Bihac",
+      total_Kwh: "-",
+      co2: "-",
+      waste: "-",
+      water: "-",
+    },
+    {
+      location: "Sarajevo",
+      total_Kwh: 45939,
+      co2: 71959,
+      waste: 500,
+      water: 600,
+    },
+    {
+      location: "Minsk",
+      total_Kwh: 26019,
+      co2: 5833,
+      waste: 667,
+      water: 82,
+    },
+    {
+      location: "Belmopan",
+      total_Kwh: 14825,
+      co2: 2367,
+      waste: 45007,
+      water: 112,
+    },
+    {
+      location: "Brasilia",
+      total_Kwh: 60542,
+      co2: 1833,
+      waste: 22767,
+      water: 878,
+    },
+    {
+      location: "Manaus",
+      total_Kwh: 51244,
+      co2: 2734,
+      waste: 3754,
+      water: 172,
+    },
+    {
+      location: "Boa Vista",
+      total_Kwh: 73817,
+      co2: 36648,
+      waste: 9373,
+      water: 8244,
+    },
+    {
+      location: "Pacaraima",
+      total_Kwh: 9307,
+      co2: 1384,
+      waste: 16985,
+      water: 189,
+    },
+    {
+      location: "Belem",
+      total_Kwh: "-",
+      co2: 197,
+      waste: 26000,
+      water: 3,
+    },
+    {
+      location: "Dukwi",
+      total_Kwh: 8450,
+      co2: 9800,
+      waste: 404,
+      water: 69,
+    },
+    {
+      location: "Bangui",
+      total_Kwh: "-",
+      co2: "-",
+      waste: "-",
+      water: "-",
+    },
+    {
+      location: "Kaga Bandoro",
+      total_Kwh: 7131,
+      co2: "-",
+      waste: "-",
+      water: "-",
+    },
+    {
+      location: "Paoua",
+      total_Kwh: 5066,
+      co2: "-",
+      waste: "-",
+      water: "-",
+    },
+    {
+      location: "Bouar",
+      total_Kwh: 12911,
+      co2: "-",
+      waste: "-",
+      water: "-",
+    },
+    {
+      location: "Obo",
+      total_Kwh: "-",
+      co2: "-",
+      waste: "-",
+      water: "-",
+    },
+    {
+      location: "Bambari",
+      total_Kwh: 6644,
+      co2: "-",
+      waste: "-",
+      water: "-",
+    },
+    {
+      location: "Berberati",
+      total_Kwh: "-",
+      co2: "-",
+      waste: "-",
+      water: "-",
+    },
+    {
+      location: "Ottawa",
+      total_Kwh: "-",
+      co2: 1847,
+      waste: 5,
+      water: 258,
+    },
+    {
+      location: "Montreal",
+      total_Kwh: "-",
+      co2: "-",
+      waste: "-",
+      water: "-",
+    },
+    {
+      location: "Toronto",
+      total_Kwh: "-",
+      co2: "-",
+      waste: "-",
+      water: "-",
+    },
+    {
+      location: "Geneva",
+      total_Kwh: 1260219,
+      co2: 489016,
+      waste: 104766,
+      water: 2992,
+    },
+    {
+      location: "Bern",
+      total_Kwh: "-",
+      co2: 3643,
+      waste: 1010,
+      water: 51,
+    },
+    {
+      location: "Santiago",
+      total_Kwh: "-",
+      co2: 12966,
+      waste: 45,
+      water: 416,
+    },
+    {
+      location: "Arica",
+      total_Kwh: "-",
+      co2: 1174,
+      waste: 303,
+      water: 449,
+    },
+    {
+      location: "Beijing",
+      total_Kwh: "-",
+      co2: 16275,
+      waste: 3060,
+      water: 240,
+    },
+    {
+      location: "Abidjan",
+      total_Kwh: 74776,
+      co2: "-",
+      waste: 3644,
+      water: 273,
+    },
+    {
+      location: "Guiglo",
+      total_Kwh: "-",
+      co2: "-",
+      waste: 418,
+      water: 150,
+    },
+    {
+      location: "Yaounde",
+      total_Kwh: 90348,
+      co2: 12624,
+      waste: 13350,
+      water: 5400,
+    },
+    {
+      location: "Meiganga",
+      total_Kwh: 24668,
+      co2: 10772,
+      waste: 335,
+      water: 5760,
+    },
+    {
+      location: "Bertoua",
+      total_Kwh: 19388,
+      co2: 18040,
+      waste: 386,
+      water: 585,
+    },
+    {
+      location: "Kousséri",
+      total_Kwh: 22847,
+      co2: 9462,
+      waste: 1387,
+      water: 2160,
+    },
+    {
+      location: "Maroua",
+      total_Kwh: 84961,
+      co2: 8389,
+      waste: 570,
+      water: 2250,
+    },
+    {
+      location: "Batouri",
+      total_Kwh: 9349,
+      co2: 43049,
+      waste: 133,
+      water: 861,
+    },
+    {
+      location: "Djohong",
+      total_Kwh: 48841,
+      co2: 10281,
+      waste: 951,
+      water: 900,
+    },
+    {
+      location: "Touboro",
+      total_Kwh: 64016,
+      co2: 9607,
+      waste: 883,
+      water: 1800,
+    },
+    {
+      location: "Buea",
+      total_Kwh: 39197,
+      co2: 4561,
+      waste: 93,
+      water: 540,
+    },
+    {
+      location: "Bamenda",
+      total_Kwh: 31982,
+      co2: 15039,
+      waste: 204,
+      water: 430,
+    },
+    {
+      location: "Douala",
+      total_Kwh: 61642,
+      co2: 10427,
+      waste: 113,
+      water: 258,
+    },
+    {
+      location: "Aru",
+      total_Kwh: 35887,
+      co2: 125508,
+      waste: 1050,
+      water: 120,
+    },
+    {
+      location: "Goma",
+      total_Kwh: 24461,
+      co2: 44382,
+      waste: 2402,
+      water: 0,
+    },
+    {
+      location: "Gbadolite",
+      total_Kwh: 87577,
+      co2: 258519,
+      waste: 12000,
+      water: 706,
+    },
+    {
+      location: "Bukavu",
+      total_Kwh: 4088,
+      co2: 88678,
+      waste: 1800,
+      water: 800,
+    },
+    {
+      location: "Kinshasa",
+      total_Kwh: 59521,
+      co2: "-",
+      waste: "-",
+      water: "-",
+    },
+    {
+      location: "Uvira",
+      total_Kwh: 30461,
+      co2: 24448,
+      waste: 2400,
+      water: 552,
+    },
+    {
+      location: "Libenge",
+      total_Kwh: "-",
+      co2: 265519,
+      waste: 4000,
+      water: 240,
+    },
+    {
+      location: "Baraka",
+      total_Kwh: 20711,
+      co2: 92975,
+      waste: 2500,
+      water: 87,
+    },
+    {
+      location: "Baraka",
+      total_Kwh: 20711,
+      co2: 93452,
+      waste: 2500,
+      water: 164,
+    },
+    {
+      location: "Bunia",
+      total_Kwh: "-",
+      co2: 155674,
+      waste: 1000,
+      water: 110,
+    },
+    {
+      location: "Kalemie",
+      total_Kwh: 14598,
+      co2: 60493,
+      waste: 1470,
+      water: 500,
+    },
+    {
+      location: "Beni",
+      total_Kwh: "-",
+      co2: 10932,
+      waste: 490,
+      water: 120,
+    },
+    {
+      location: "Bili",
+      total_Kwh: 7484,
+      co2: 139670,
+      waste: 4000,
+      water: 180,
+    },
+    {
+      location: "Kananga",
+      total_Kwh: "-",
+      co2: 98876,
+      waste: 240,
+      water: 3000,
+    },
+    {
+      location: "Tshikapa",
+      total_Kwh: 18119,
+      co2: 83500,
+      waste: 220,
+      water: 500,
+    },
+    {
+      location: "Betou",
+      total_Kwh: 23711,
+      co2: 1476630,
+      waste: 9786,
+      water: 2400,
+    },
+    {
+      location: "Gamboma",
+      total_Kwh: 14259,
+      co2: 31594,
+      waste: 1740,
+      water: 70,
+    },
+    {
+      location: "Apartadó",
+      total_Kwh: 16543,
+      co2: "-",
+      waste: "-",
+      water: "-",
+    },
+    {
+      location: "Bogota",
+      total_Kwh: 64029,
+      co2: "-",
+      waste: "-",
+      water: "-",
+    },
+    {
+      location: "Barranquilla",
+      total_Kwh: 4220,
+      co2: "-",
+      waste: "-",
+      water: "-",
+    },
+    {
+      location: "Pasto",
+      total_Kwh: 11577,
+      co2: 265,
+      waste: 132,
+      water: 108,
+    },
+    {
+      location: "Cali",
+      total_Kwh: 39968,
+      co2: 7418,
+      waste: 273,
+      water: 240,
+    },
+    {
+      location: "Cúcuta",
+      total_Kwh: 70014,
+      co2: 14289,
+      waste: 292,
+      water: 809,
+    },
+    {
+      location: "Quibdó",
+      total_Kwh: 8081,
+      co2: 2885,
+      waste: 130,
+      water: 11,
+    },
+    {
+      location: "Mocoa",
+      total_Kwh: 6307,
+      co2: 2181,
+      waste: 116,
+      water: 112,
+    },
+    {
+      location: "Medellín",
+      total_Kwh: 19008,
+      co2: 1556,
+      waste: 227,
+      water: 42,
+    },
+    {
+      location: "Arauca",
+      total_Kwh: 24415,
+      co2: 5567,
+      waste: 250,
+      water: 310,
+    },
+    {
+      location: "Buenaventura",
+      total_Kwh: 11587,
+      co2: 1780,
+      waste: 104,
+      water: 24,
+    },
+    {
+      location: "Riohacha",
+      total_Kwh: 31578,
+      co2: 16843,
+      waste: 67,
+      water: 240,
+    },
+    {
+      location: "San José",
+      total_Kwh: 59889,
+      co2: 5531,
+      waste: 10807,
+      water: 60,
+    },
+    {
+      location: "Upala",
+      total_Kwh: 55058,
+      co2: "-",
+      waste: "-",
+      water: "-",
+    },
+    {
+      location: "San José",
+      total_Kwh: 22422,
+      co2: "-",
+      waste: "-",
+      water: "-",
+    },
+    {
+      location: "Havana",
+      total_Kwh: "-",
+      co2: 828,
+      waste: 861,
+      water: 160,
+    },
+    {
+      location: "Nicosia",
+      total_Kwh: 41461,
+      co2: 15523,
+      waste: 343,
+      water: 25,
+    },
+    {
+      location: "Prague",
+      total_Kwh: "-",
+      co2: "-",
+      waste: "-",
+      water: "-",
+    },
+    {
+      location: "Nuremberg",
+      total_Kwh: "-",
+      co2: "-",
+      waste: "-",
+      water: "-",
+    },
+    {
+      location: "Berlin",
+      total_Kwh: "-",
+      co2: 7028,
+      waste: 1902,
+      water: 103,
+    },
+    {
+      location: "Djibouti",
+      total_Kwh: 124506,
+      co2: 80216,
+      waste: 3220,
+      water: 662,
+    },
+    {
+      location: "Ali Sabieh",
+      total_Kwh: 59090,
+      co2: 36451,
+      waste: 1051,
+      water: 1259,
+    },
+    {
+      location: "Obock",
+      total_Kwh: 82800,
+      co2: 33147,
+      waste: 805,
+      water: 869,
+    },
+    {
+      location: "Copenhagen",
+      total_Kwh: "-",
+      co2: 82401,
+      waste: 8812,
+      water: 917,
+    },
+    {
+      location: "Santo Domingo",
+      total_Kwh: 43087,
+      co2: 35829,
+      waste: 60,
+      water: 40,
+    },
+    {
+      location: "Algiers",
+      total_Kwh: "-",
+      co2: 48244,
+      waste: 2360,
+      water: 156,
+    },
+    {
+      location: "Tindouf",
+      total_Kwh: "-",
+      co2: "-",
+      waste: "-",
+      water: "-",
+    },
+    {
+      location: "Rabouni",
+      total_Kwh: 20773,
+      co2: "-",
+      waste: "-",
+      water: "-",
+    },
+    {
+      location: "Quito",
+      total_Kwh: 51132,
+      co2: 6465,
+      waste: 138,
+      water: 1274,
+    },
+    {
+      location: "Lago Agrio",
+      total_Kwh: 55305,
+      co2: 8936,
+      waste: 63,
+      water: 140,
+    },
+    {
+      location: "Ibarra",
+      total_Kwh: 18731,
+      co2: 1259,
+      waste: 92,
+      water: 216,
+    },
+    {
+      location: "Esmeraldas",
+      total_Kwh: 35914,
+      co2: 4718,
+      waste: 99,
+      water: 14,
+    },
+    {
+      location: "Cuenca",
+      total_Kwh: 12535,
+      co2: 652,
+      waste: 20,
+      water: 84,
+    },
+    {
+      location: "Tulcán",
+      total_Kwh: 10487,
+      co2: 1319,
+      waste: 810,
+      water: 4680,
+    },
+    {
+      location: "Quito (Sassari)",
+      total_Kwh: "-",
+      co2: 2286,
+      waste: 60,
+      water: 300,
+    },
+    {
+      location: "Guayaquil",
+      total_Kwh: 6940,
+      co2: 3537,
+      waste: 72,
+      water: 180,
+    },
+    {
+      location: "Huaquillas",
+      total_Kwh: 28980,
+      co2: 1849,
+      waste: 20,
+      water: 120,
+    },
+    {
+      location: "Cairo",
+      total_Kwh: 132552,
+      co2: "-",
+      waste: "-",
+      water: "-",
+    },
+    {
+      location: "Alexandria",
+      total_Kwh: 77845,
+      co2: 87568,
+      waste: 2467,
+      water: 690,
+    },
+    {
+      location: "Asmara",
+      total_Kwh: 26723,
+      co2: 39347,
+      waste: 77,
+      water: 280,
+    },
+    {
+      location: "Laayoune",
+      total_Kwh: 24114,
+      co2: 19694,
+      waste: 132,
+      water: 496,
+    },
+    {
+      location: "Madrid",
+      total_Kwh: "-",
+      co2: 16297,
+      waste: 3128,
+      water: 138,
+    },
+    {
+      location: "Addis Ababa",
+      total_Kwh: "-",
+      co2: "-",
+      waste: "-",
+      water: "-",
+    },
+    {
+      location: "Asosa",
+      total_Kwh: 15159,
+      co2: 43049,
+      waste: 1258,
+      water: 25,
+    },
+    {
+      location: "Gambella",
+      total_Kwh: 223838,
+      co2: 55168,
+      waste: 42000,
+      water: 1056,
+    },
+    {
+      location: "Gambella",
+      total_Kwh: 223838,
+      co2: 131858,
+      waste: 60480,
+      water: 1056,
+    },
+    {
+      location: "Jijiga",
+      total_Kwh: 42969,
+      co2: 2581,
+      waste: 106,
+      water: 775,
+    },
+    {
+      location: "Pugnido",
+      total_Kwh: 160233,
+      co2: 183923,
+      waste: 1616,
+      water: 275,
+    },
+    {
+      location: "Dimma",
+      total_Kwh: 112680,
+      co2: 159139,
+      waste: 1313,
+      water: 224,
+    },
+    {
+      location: "Shire",
+      total_Kwh: "-",
+      co2: 6602,
+      waste: 235,
+      water: 600,
+    },
+    {
+      location: "Dollo Ado",
+      total_Kwh: "-",
+      co2: "-",
+      waste: "-",
+      water: "-",
+    },
+    {
+      location: "Aw-barre",
+      total_Kwh: "-",
+      co2: 3891,
+      waste: 861,
+      water: 20,
+    },
+    {
+      location: "Kebribeyah",
+      total_Kwh: 3976,
+      co2: 2032,
+      waste: 861,
+      water: 25,
+    },
+    {
+      location: "Sherkole",
+      total_Kwh: "-",
+      co2: 48758,
+      waste: 654,
+      water: 25,
+    },
+    {
+      location: "Addis Ababa",
+      total_Kwh: "-",
+      co2: "-",
+      waste: "-",
+      water: "-",
+    },
+    {
+      location: "Bokolmayo",
+      total_Kwh: "-",
+      co2: "-",
+      waste: "-",
+      water: "-",
+    },
+    {
+      location: "Tongo",
+      total_Kwh: "-",
+      co2: "-",
+      waste: "-",
+      water: "-",
+    },
+    {
+      location: "Bambasi",
+      total_Kwh: "-",
+      co2: 58367,
+      waste: 390,
+      water: 10,
+    },
+    {
+      location: "Melkadida",
+      total_Kwh: 554280,
+      co2: 1089744,
+      waste: 14967,
+      water: 90,
+    },
+    {
+      location: "Hilaweyn",
+      total_Kwh: "-",
+      co2: "-",
+      waste: "-",
+      water: "-",
+    },
+    {
+      location: "Buramino",
+      total_Kwh: "-",
+      co2: "-",
+      waste: "-",
+      water: "-",
+    },
+    {
+      location: "Kobe",
+      total_Kwh: "-",
+      co2: "-",
+      waste: "-",
+      water: "-",
+    },
+    {
+      location: "Mai Aini",
+      total_Kwh: "-",
+      co2: "-",
+      waste: "-",
+      water: "-",
+    },
+    {
+      location: "Sheder",
+      total_Kwh: "-",
+      co2: 2652,
+      waste: 861,
+      water: 20,
+    },
+    {
+      location: "Itang",
+      total_Kwh: "-",
+      co2: "-",
+      waste: "-",
+      water: "-",
+    },
+    {
+      location: "Samara",
+      total_Kwh: "-",
+      co2: 58010,
+      waste: 504,
+      water: 25,
+    },
+    {
+      location: "Embamadre",
+      total_Kwh: "-",
+      co2: 17446,
+      waste: 1616,
+      water: 40,
+    },
+    {
+      location: "Tsore",
+      total_Kwh: "-",
+      co2: "-",
+      waste: "-",
+      water: "-",
+    },
+    {
+      location: "Jewi",
+      total_Kwh: "-",
+      co2: 34174,
+      waste: 404,
+      water: 69,
+    },
+    {
+      location: "Mekelle",
+      total_Kwh: "-",
+      co2: 7078,
+      waste: 480,
+      water: 360,
+    },
+    {
+      location: "Paris",
+      total_Kwh: "-",
+      co2: 3527,
+      waste: 2205,
+      water: 100,
+    },
+    {
+      location: "Strasbourg",
+      total_Kwh: "-",
+      co2: "-",
+      waste: "-",
+      water: "-",
+    },
+    {
+      location: "Libreville",
+      total_Kwh: 5016,
+      co2: 44238,
+      waste: 505,
+      water: 1,
+    },
+    {
+      location: "London",
+      total_Kwh: 8112,
+      co2: "-",
+      waste: "-",
+      water: "-",
+    },
+    {
+      location: "Gali",
+      total_Kwh: "-",
+      co2: 2499,
+      waste: 100,
+      water: 120,
+    },
+    {
+      location: "Sukhumi",
+      total_Kwh: "-",
+      co2: 1071,
+      waste: 40,
+      water: 52,
+    },
+    {
+      location: "Tbilisi",
+      total_Kwh: 49869,
+      co2: 4541,
+      waste: 4985,
+      water: 10,
+    },
+    {
+      location: "Accra",
+      total_Kwh: 22750,
+      co2: "-",
+      waste: "-",
+      water: "-",
+    },
+    {
+      location: "Takoradi",
+      total_Kwh: "-",
+      co2: "-",
+      waste: "-",
+      water: "-",
+    },
+    {
+      location: "Conakry",
+      total_Kwh: "-",
+      co2: 28144,
+      waste: 182,
+      water: 2500,
+    },
+    {
+      location: "Athens",
+      total_Kwh: 485180,
+      co2: 83610,
+      waste: 48283,
+      water: 2936,
+    },
+    {
+      location: "Chios",
+      total_Kwh: 13482,
+      co2: 6273,
+      waste: 1023,
+      water: 141,
+    },
+    {
+      location: "Samos",
+      total_Kwh: 34327,
+      co2: 12281,
+      waste: 2005,
+      water: 8,
+    },
+    {
+      location: "Kos",
+      total_Kwh: 10200,
+      co2: 6274,
+      waste: 1720,
+      water: 116,
+    },
+    {
+      location: "Lesvos",
+      total_Kwh: 84679,
+      co2: 49841,
+      waste: 3150,
+      water: 394,
+    },
+    {
+      location: "Thessaloniki",
+      total_Kwh: 36360,
+      co2: 15698,
+      waste: 1310,
+      water: 100,
+    },
+    {
+      location: "Orestiada",
+      total_Kwh: 4884,
+      co2: "-",
+      waste: "-",
+      water: "-",
+    },
+    {
+      location: "Guatemala city",
+      total_Kwh: 26451,
+      co2: 9326,
+      waste: 199,
+      water: 75,
+    },
+    {
+      location: "Santa Elena",
+      total_Kwh: 8480,
+      co2: 11704,
+      waste: 80,
+      water: 30,
+    },
+    {
+      location: "Puerto Barrios",
+      total_Kwh: 14931,
+      co2: "-",
+      waste: "-",
+      water: "-",
+    },
+    {
+      location: "Esquipulas",
+      total_Kwh: 10833,
+      co2: 4060,
+      waste: 47,
+      water: 207,
+    },
+    {
+      location: "Tecun Uman",
+      total_Kwh: 17991,
+      co2: 10959,
+      waste: 58,
+      water: 207,
+    },
+    {
+      location: "Georgetown",
+      total_Kwh: "-",
+      co2: 5192,
+      waste: 1515,
+      water: 497,
+    },
+    {
+      location: "Hong Kong",
+      total_Kwh: "-",
+      co2: 38490,
+      waste: 650,
+      water: 86,
+    },
+    {
+      location: "San Pedro Sula",
+      total_Kwh: 9804,
+      co2: 10674,
+      waste: 2109,
+      water: 100,
+    },
+    {
+      location: "Tegucigalpa",
+      total_Kwh: 20932,
+      co2: 20373,
+      waste: 4120,
+      water: 1274,
+    },
+    {
+      location: "Ocotepeque",
+      total_Kwh: 3773,
+      co2: 8194,
+      waste: 632,
+      water: 34,
+    },
+    {
+      location: "Choluteca",
+      total_Kwh: 20897,
+      co2: 11761,
+      waste: 240,
+      water: 100,
+    },
+    {
+      location: "Zagreb",
+      total_Kwh: 16043,
+      co2: 14350,
+      waste: 2590,
+      water: 305,
+    },
+    {
+      location: "Port-au-Prince",
+      total_Kwh: "-",
+      co2: "-",
+      waste: "-",
+      water: "-",
+    },
+    {
+      location: "Budapest",
+      total_Kwh: 46246,
+      co2: "-",
+      waste: "-",
+      water: "-",
+    },
+    {
+      location: "Budapest",
+      total_Kwh: 47766,
+      co2: 40004,
+      waste: 48276,
+      water: 348,
+    },
+    {
+      location: "Jakarta",
+      total_Kwh: "-",
+      co2: 214572,
+      waste: 6290,
+      water: 800,
+    },
+    {
+      location: "Tanjung Pinang",
+      total_Kwh: "-",
+      co2: 1063,
+      waste: 41,
+      water: 15,
+    },
+    {
+      location: "Medan",
+      total_Kwh: "-",
+      co2: 2638,
+      waste: 41,
+      water: 25,
+    },
+    {
+      location: "Pekanbaru",
+      total_Kwh: "-",
+      co2: 1063,
+      waste: 41,
+      water: 15,
+    },
+    {
+      location: "Makassar",
+      total_Kwh: "-",
+      co2: 2118,
+      waste: 41,
+      water: 15,
+    },
+    {
+      location: "Lhoksemauwe",
+      total_Kwh: "-",
+      co2: "-",
+      waste: "-",
+      water: "-",
+    },
+    {
+      location: "Chennai",
+      total_Kwh: "-",
+      co2: 12546,
+      waste: 1475,
+      water: 8,
+    },
+    {
+      location: "New Delhi",
+      total_Kwh: 145506,
+      co2: 110429,
+      waste: 5985,
+      water: 3100,
+    },
+    {
+      location: "Dublin",
+      total_Kwh: "-",
+      co2: 5028,
+      waste: 76,
+      water: 14,
+    },
+    {
+      location: "Dogharoun",
+      total_Kwh: "-",
+      co2: 81132,
+      waste: 35,
+      water: 3000,
+    },
+    {
+      location: "Esfahan",
+      total_Kwh: 77696,
+      co2: "-",
+      waste: "-",
+      water: "-",
+    },
+    {
+      location: "Mashad",
+      total_Kwh: 44699,
+      co2: "-",
+      waste: "-",
+      water: "-",
+    },
+    {
+      location: "Shiraz",
+      total_Kwh: 14178,
+      co2: "-",
+      waste: "-",
+      water: "-",
+    },
+    {
+      location: "Tehran",
+      total_Kwh: 54323,
+      co2: 41905,
+      waste: 360,
+      water: 1560,
+    },
+    {
+      location: "Kerman",
+      total_Kwh: 45977,
+      co2: 70018,
+      waste: 665,
+      water: 2000,
+    },
+    {
+      location: "Baghdad",
+      total_Kwh: 144960,
+      co2: 108194,
+      waste: 18226,
+      water: 5800,
+    },
+    {
+      location: "Dohuk",
+      total_Kwh: "-",
+      co2: "-",
+      waste: "-",
+      water: "-",
+    },
+    {
+      location: "Erbil",
+      total_Kwh: 89328,
+      co2: "-",
+      waste: "-",
+      water: "-",
+    },
+    {
+      location: "Sulaymaniyah",
+      total_Kwh: "-",
+      co2: "-",
+      waste: "-",
+      water: "-",
+    },
+    {
+      location: "Kirkuk",
+      total_Kwh: 21068,
+      co2: 78364,
+      waste: 2530,
+      water: 3000,
+    },
+    {
+      location: "Tel Aviv",
+      total_Kwh: 4551,
+      co2: 26627,
+      waste: 1071,
+      water: 110,
+    },
+    {
+      location: "Rome",
+      total_Kwh: 144598,
+      co2: 31025,
+      waste: 1016,
+      water: 1400,
+    },
+    {
+      location: "Amman",
+      total_Kwh: 74925,
+      co2: 508202,
+      waste: 17395,
+      water: 8039,
+    },
+    {
+      location: "Amman",
+      total_Kwh: 466236,
+      co2: 130490,
+      waste: 515,
+      water: 864,
+    },
+    {
+      location: "Mafraq",
+      total_Kwh: 86377,
+      co2: 105747,
+      waste: 4523,
+      water: 1448,
+    },
+    {
+      location: "Azraq",
+      total_Kwh: 155271,
+      co2: 406770,
+      waste: 11656,
+      water: 1514,
+    },
+    {
+      location: "Zaatari",
+      total_Kwh: 362650,
+      co2: 132760,
+      waste: 54619,
+      water: 2271,
+    },
+    {
+      location: "Raba Al Sarhan",
+      total_Kwh: 42587,
+      co2: "-",
+      waste: "-",
+      water: "-",
+    },
+    {
+      location: "Irbid",
+      total_Kwh: 141324,
+      co2: 73586,
+      waste: 2547,
+      water: 615,
+    },
+    {
+      location: "Tokyo",
+      total_Kwh: 23799,
+      co2: 31243,
+      waste: 262,
+      water: 220,
+    },
+    {
+      location: "Am Djarass",
+      total_Kwh: 8106,
+      co2: 45029,
+      waste: 13880,
+      water: 497,
+    },
+    {
+      location: "Dadaab",
+      total_Kwh: 897624,
+      co2: 536557,
+      waste: 289512,
+      water: 241,
+    },
+    {
+      location: "Kakuma",
+      total_Kwh: 1598880,
+      co2: 1933381,
+      waste: 25040,
+      water: 2031,
+    },
+    {
+      location: "Nairobi",
+      total_Kwh: 43384,
+      co2: 19435,
+      waste: 1510,
+      water: 697,
+    },
+    {
+      location: "Nairobi",
+      total_Kwh: 233338,
+      co2: "-",
+      waste: "-",
+      water: "-",
+    },
+    {
+      location: "Bishkek",
+      total_Kwh: 17052,
+      co2: 1471,
+      waste: 505,
+      water: 86,
+    },
+    {
+      location: "Seoul",
+      total_Kwh: 54840,
+      co2: 16201,
+      waste: 895,
+      water: 46,
+    },
+    {
+      location: "Kuwait City",
+      total_Kwh: 7764,
+      co2: 12037,
+      waste: 162,
+      water: 14,
+    },
+    {
+      location: "Beirut",
+      total_Kwh: 1666964,
+      co2: 1810791,
+      waste: 36083,
+      water: 1495,
+    },
+    {
+      location: "Tyre",
+      total_Kwh: 1956,
+      co2: 321626,
+      waste: 92012,
+      water: 1250,
+    },
+    {
+      location: "Qobayat",
+      total_Kwh: 4911,
+      co2: 198440,
+      waste: 604,
+      water: 10,
+    },
+    {
+      location: "Zahleh",
+      total_Kwh: 124211,
+      co2: "-",
+      waste: "-",
+      water: "-",
+    },
+    {
+      location: "Tripoli",
+      total_Kwh: 78944,
+      co2: 609392,
+      waste: 13228,
+      water: 5120,
+    },
+    {
+      location: "Mont Lebanon",
+      total_Kwh: "-",
+      co2: 369595,
+      waste: 16463,
+      water: 2490,
+    },
+    {
+      location: "Harper",
+      total_Kwh: "-",
+      co2: 201794,
+      waste: 300,
+      water: 57,
+    },
+    {
+      location: "Monrovia",
+      total_Kwh: 47768,
+      co2: 9411,
+      waste: 400,
+      water: 19,
+    },
+    {
+      location: "Zwedru",
+      total_Kwh: "-",
+      co2: 192015,
+      waste: 500,
+      water: 95,
+    },
+    {
+      location: "Saclepea",
+      total_Kwh: "-",
+      co2: 71179,
+      waste: 1600,
+      water: 8,
+    },
+    {
+      location: "Tripoli",
+      total_Kwh: 595196,
+      co2: 140992,
+      waste: 41520,
+      water: 3000,
+    },
+    {
+      location: "Jaffna",
+      total_Kwh: "-",
+      co2: "-",
+      waste: "-",
+      water: "-",
+    },
+    {
+      location: "Colombo",
+      total_Kwh: "-",
+      co2: 19774,
+      waste: 60,
+      water: 900,
+    },
+    {
+      location: "Vilnius",
+      total_Kwh: "-",
+      co2: 4472,
+      waste: 2403,
+      water: 36,
+    },
+    {
+      location: "Rabat",
+      total_Kwh: 48408,
+      co2: 52775,
+      waste: 3465,
+      water: 1105,
+    },
+    {
+      location: "Tijuana",
+      total_Kwh: 7235,
+      co2: 2910,
+      waste: 235,
+      water: 360,
+    },
+    {
+      location: "Mexico City",
+      total_Kwh: 59208,
+      co2: 33099,
+      waste: 281,
+      water: 2104,
+    },
+    {
+      location: "Monterrey",
+      total_Kwh: 33924,
+      co2: 17619,
+      waste: 281,
+      water: 391,
+    },
+    {
+      location: "Acayucan",
+      total_Kwh: "-",
+      co2: 4624,
+      waste: 56,
+      water: 139,
+    },
+    {
+      location: "Tapachula",
+      total_Kwh: 19974,
+      co2: 13840,
+      waste: 72,
+      water: 391,
+    },
+    {
+      location: "Saltillo",
+      total_Kwh: 8374,
+      co2: 7751,
+      waste: 15,
+      water: 126,
+    },
+    {
+      location: "Aguas Calientes",
+      total_Kwh: 10505,
+      co2: 3322,
+      waste: 306,
+      water: 50,
+    },
+    {
+      location: "Palenque",
+      total_Kwh: 30510,
+      co2: 8383,
+      waste: 3212,
+      water: 164,
+    },
+    {
+      location: "Ciudad Juarez",
+      total_Kwh: "-",
+      co2: "-",
+      waste: "-",
+      water: "-",
+    },
+    {
+      location: "Guadalajara",
+      total_Kwh: 9399,
+      co2: 12390,
+      waste: 141,
+      water: 126,
+    },
+    {
+      location: "Queretaro",
+      total_Kwh: "-",
+      co2: "-",
+      waste: "-",
+      water: "-",
+    },
+    {
+      location: "Torreon",
+      total_Kwh: "-",
+      co2: "-",
+      waste: "-",
+      water: "-",
+    },
+    {
+      location: "Cancun",
+      total_Kwh: "-",
+      co2: "-",
+      waste: "-",
+      water: "-",
+    },
+    {
+      location: "Leon",
+      total_Kwh: "-",
+      co2: "-",
+      waste: "-",
+      water: "-",
+    },
+    {
+      location: "Puebla",
+      total_Kwh: "-",
+      co2: "-",
+      waste: "-",
+      water: "-",
+    },
+    {
+      location: "San Luis Potosi",
+      total_Kwh: "-",
+      co2: "-",
+      waste: "-",
+      water: "-",
+    },
+    {
+      location: "Mexicali",
+      total_Kwh: "-",
+      co2: "-",
+      waste: "-",
+      water: "-",
+    },
+    {
+      location: "Tenosique",
+      total_Kwh: 16073,
+      co2: 22526,
+      waste: 31,
+      water: 139,
+    },
+    {
+      location: "Skopje",
+      total_Kwh: 41777,
+      co2: "-",
+      waste: "-",
+      water: "-",
+    },
+    {
+      location: "Bamako",
+      total_Kwh: 109003,
+      co2: "-",
+      waste: "-",
+      water: "-",
+    },
+    {
+      location: "Gao",
+      total_Kwh: "-",
+      co2: "-",
+      waste: "-",
+      water: "-",
+    },
+    {
+      location: "Tombouctou",
+      total_Kwh: "-",
+      co2: 44212,
+      waste: 238,
+      water: 3,
+    },
+    {
+      location: "Mopti",
+      total_Kwh: 31227,
+      co2: 29195,
+      waste: 692,
+      water: 9,
+    },
+    {
+      location: "Menaka",
+      total_Kwh: "-",
+      co2: "-",
+      waste: "-",
+      water: "-",
+    },
+    {
+      location: "Valetta",
+      total_Kwh: "-",
+      co2: 6486,
+      waste: 1061,
+      water: 100,
+    },
+    {
+      location: "Maungdaw",
+      total_Kwh: "-",
+      co2: 693642,
+      waste: 1150,
+      water: 57,
+    },
+    {
+      location: "Yangon",
+      total_Kwh: 78958,
+      co2: 109587,
+      waste: 632,
+      water: 14,
+    },
+    {
+      location: "Buthidaung",
+      total_Kwh: "-",
+      co2: 18243,
+      waste: 12,
+      water: 172,
+    },
+    {
+      location: "Myitkyina",
+      total_Kwh: "-",
+      co2: 38941,
+      waste: 375,
+      water: 30,
+    },
+    {
+      location: "Bhomo",
+      total_Kwh: 23684,
+      co2: 1705,
+      waste: 73,
+      water: 146,
+    },
+    {
+      location: "Loikaw",
+      total_Kwh: "-",
+      co2: 367,
+      waste: 10,
+      water: 69,
+    },
+    {
+      location: "Hpa-An",
+      total_Kwh: 50365,
+      co2: 160070,
+      waste: 642,
+      water: 11,
+    },
+    {
+      location: "Sittwe",
+      total_Kwh: "-",
+      co2: 42846,
+      waste: 2056,
+      water: 1136,
+    },
+    {
+      location: "Nay Pyi Taw",
+      total_Kwh: "-",
+      co2: 2329,
+      waste: 73,
+      water: 146,
+    },
+    {
+      location: "Podgorica",
+      total_Kwh: "-",
+      co2: "-",
+      waste: "-",
+      water: "-",
+    },
+    {
+      location: "Ulaanbaatar",
+      total_Kwh: "-",
+      co2: "-",
+      waste: "-",
+      water: "-",
+    },
+    {
+      location: "Maputo",
+      total_Kwh: 20482,
+      co2: 4338,
+      waste: 4197,
+      water: 120,
+    },
+    {
+      location: "Nampula",
+      total_Kwh: 46240,
+      co2: "-",
+      waste: "-",
+      water: "-",
+    },
+    {
+      location: "Pemba",
+      total_Kwh: 23827,
+      co2: 2459,
+      waste: 1237,
+      water: 480,
+    },
+    {
+      location: "Nouadhibou",
+      total_Kwh: 8870,
+      co2: 5717,
+      waste: 1111,
+      water: 189,
+    },
+    {
+      location: "Nouakchott",
+      total_Kwh: 57680,
+      co2: 171832,
+      waste: 3838,
+      water: 654,
+    },
+    {
+      location: "Bassikounou",
+      total_Kwh: 81498,
+      co2: "-",
+      waste: "-",
+      water: "-",
+    },
+    {
+      location: "Lilongwe",
+      total_Kwh: 63250,
+      co2: 88845,
+      waste: 990,
+      water: 1084,
+    },
+    {
+      location: "Kuala Lumpur",
+      total_Kwh: 229555,
+      co2: 296420,
+      waste: 75350,
+      water: 578,
+    },
+    {
+      location: "Windhoek",
+      total_Kwh: "-",
+      co2: 1916,
+      waste: 1592,
+      water: 15,
+    },
+    {
+      location: "Niamey",
+      total_Kwh: 537105,
+      co2: "-",
+      waste: "-",
+      water: "-",
+    },
+    {
+      location: "Tahoua",
+      total_Kwh: 56591,
+      co2: "-",
+      waste: "-",
+      water: "-",
+    },
+    {
+      location: "Abala",
+      total_Kwh: 35317,
+      co2: "-",
+      waste: "-",
+      water: "-",
+    },
+    {
+      location: "Diffa",
+      total_Kwh: "-",
+      co2: 145529,
+      waste: 4321,
+      water: 3,
+    },
+    {
+      location: "Agadez",
+      total_Kwh: 104320,
+      co2: 93852,
+      waste: 791,
+      water: 1901,
+    },
+    {
+      location: "Ouallam",
+      total_Kwh: 411872,
+      co2: 14982,
+      waste: 424,
+      water: 720,
+    },
+    {
+      location: "Tillabéri",
+      total_Kwh: 40366,
+      co2: "-",
+      waste: "-",
+      water: "-",
+    },
+    {
+      location: "Maradi",
+      total_Kwh: "-",
+      co2: 64617,
+      waste: 1518,
+      water: 470,
+    },
+    {
+      location: "Lagos",
+      total_Kwh: 17274,
+      co2: 67333,
+      waste: 614,
+      water: 25,
+    },
+    {
+      location: "Maiduguri",
+      total_Kwh: 48581,
+      co2: 180750,
+      waste: 1058,
+      water: 55,
+    },
+    {
+      location: "Maiduguri",
+      total_Kwh: 48581,
+      co2: 439156,
+      waste: 622,
+      water: 548,
+    },
+    {
+      location: "Abuja",
+      total_Kwh: "-",
+      co2: 23149,
+      waste: 908,
+      water: 25,
+    },
+    {
+      location: "Makurdi",
+      total_Kwh: "-",
+      co2: "-",
+      waste: "-",
+      water: "-",
+    },
+    {
+      location: "Yola",
+      total_Kwh: 7095,
+      co2: 16273,
+      waste: 113338,
+      water: 400,
+    },
+    {
+      location: "Calabar",
+      total_Kwh: 28974,
+      co2: 53250,
+      waste: 347,
+      water: 54,
+    },
+    {
+      location: "Adikpo",
+      total_Kwh: "-",
+      co2: 238874,
+      waste: 319,
+      water: 108,
+    },
+    {
+      location: "Ogoja",
+      total_Kwh: 234169,
+      co2: 1619432,
+      waste: 1870,
+      water: 25,
+    },
+    {
+      location: "Bama",
+      total_Kwh: "-",
+      co2: "-",
+      waste: "-",
+      water: "-",
+    },
+    {
+      location: "Ngala",
+      total_Kwh: "-",
+      co2: "-",
+      waste: "-",
+      water: "-",
+    },
+    {
+      location: "Monguno",
+      total_Kwh: "-",
+      co2: "-",
+      waste: "-",
+      water: "-",
+    },
+    {
+      location: "Banki",
+      total_Kwh: "-",
+      co2: "-",
+      waste: "-",
+      water: "-",
+    },
+    {
+      location: "Gwoza",
+      total_Kwh: "-",
+      co2: "-",
+      waste: "-",
+      water: "-",
+    },
+    {
+      location: "Gembu",
+      total_Kwh: "-",
+      co2: "-",
+      waste: "-",
+      water: "-",
+    },
+    {
+      location: "The Hague",
+      total_Kwh: "-",
+      co2: 16306,
+      waste: 4603,
+      water: 53,
+    },
+    {
+      location: "Kathmandu",
+      total_Kwh: "-",
+      co2: 15902,
+      waste: 985,
+      water: 624,
+    },
+    {
+      location: "Islamabad",
+      total_Kwh: 684437,
+      co2: 169266,
+      waste: 1650,
+      water: 2238,
+    },
+    {
+      location: "Peshawar",
+      total_Kwh: 90554,
+      co2: 8531,
+      waste: 2930,
+      water: 2324,
+    },
+    {
+      location: "Quetta",
+      total_Kwh: 576,
+      co2: 194241,
+      waste: 2337,
+      water: 69,
+    },
+    {
+      location: "Quetta",
+      total_Kwh: 576,
+      co2: 241292,
+      waste: 2337,
+      water: 379,
+    },
+    {
+      location: "Quetta",
+      total_Kwh: 576,
+      co2: 398487,
+      waste: 2337,
+      water: 138,
+    },
+    {
+      location: "Quetta",
+      total_Kwh: 576,
+      co2: 390004,
+      waste: 2337,
+      water: 998,
+    },
+    {
+      location: "Quetta",
+      total_Kwh: 576,
+      co2: 330996,
+      waste: 2337,
+      water: 120,
+    },
+    {
+      location: "Quetta",
+      total_Kwh: 576,
+      co2: 279436,
+      waste: 2337,
+      water: 172,
+    },
+    {
+      location: "Quetta",
+      total_Kwh: 576,
+      co2: 242481,
+      waste: 2337,
+      water: 189,
+    },
+    {
+      location: "Karachi",
+      total_Kwh: "-",
+      co2: 2981,
+      waste: 202,
+      water: 34,
+    },
+    {
+      location: "Kohat",
+      total_Kwh: 2330,
+      co2: 2417,
+      waste: 202,
+      water: 34,
+    },
+    {
+      location: "Chaman",
+      total_Kwh: "-",
+      co2: "-",
+      waste: "-",
+      water: "-",
+    },
+    {
+      location: "Loralai",
+      total_Kwh: "-",
+      co2: 108621,
+      waste: 2337,
+      water: 34,
+    },
+    {
+      location: "Dalbandin",
+      total_Kwh: "-",
+      co2: 82735,
+      waste: 2337,
+      water: 34,
+    },
+    {
+      location: "Haripur",
+      total_Kwh: 276,
+      co2: 2225,
+      waste: 202,
+      water: 34,
+    },
+    {
+      location: "Panama City",
+      total_Kwh: 41529,
+      co2: "-",
+      waste: "-",
+      water: "-",
+    },
+    {
+      location: "Lima",
+      total_Kwh: 75859,
+      co2: 4349,
+      waste: 2023,
+      water: 389,
+    },
+    {
+      location: "Tacna",
+      total_Kwh: 6644,
+      co2: 563,
+      waste: 45,
+      water: 262,
+    },
+    {
+      location: "Tumbes",
+      total_Kwh: 35207,
+      co2: 2957,
+      waste: 361,
+      water: 187,
+    },
+    {
+      location: "Arequipa",
+      total_Kwh: 8344,
+      co2: 1209,
+      waste: 51,
+      water: 410,
+    },
+    {
+      location: "Manila",
+      total_Kwh: "-",
+      co2: 2162,
+      waste: 3180,
+      water: 540,
+    },
+    {
+      location: "Cotabato",
+      total_Kwh: 52711,
+      co2: 31767,
+      waste: 818,
+      water: 356,
+    },
+    {
+      location: "Warsaw",
+      total_Kwh: 7665,
+      co2: "-",
+      waste: "-",
+      water: "-",
+    },
+    {
+      location: "Bucharest",
+      total_Kwh: 6606,
+      co2: "-",
+      waste: "-",
+      water: "-",
+    },
+    {
+      location: "Timisoara",
+      total_Kwh: "-",
+      co2: "-",
+      waste: "-",
+      water: "-",
+    },
+    {
+      location: "Moscow",
+      total_Kwh: "-",
+      co2: 36494,
+      waste: 5483,
+      water: 110,
+    },
+    {
+      location: "Kibuye",
+      total_Kwh: 66939,
+      co2: "-",
+      waste: "-",
+      water: "-",
+    },
+    {
+      location: "Kigali",
+      total_Kwh: 51808,
+      co2: 45536,
+      waste: 6331,
+      water: 4429,
+    },
+    {
+      location: "Huye",
+      total_Kwh: 21296,
+      co2: 23494,
+      waste: 2885,
+      water: 756,
+    },
+    {
+      location: "Kirehe",
+      total_Kwh: 42174,
+      co2: 39628,
+      waste: 26400,
+      water: 1920,
+    },
+    {
+      location: "Kabarore",
+      total_Kwh: 16020,
+      co2: 16026,
+      waste: 1505,
+      water: 525,
+    },
+    {
+      location: "Riyadh",
+      total_Kwh: 209692,
+      co2: 1754,
+      waste: 213,
+      water: 3,
+    },
+    {
+      location: "Gedaref",
+      total_Kwh: 34179,
+      co2: 31610,
+      waste: 18280,
+      water: 200,
+    },
+    {
+      location: "Khartoum",
+      total_Kwh: 405613,
+      co2: 176876,
+      waste: 1700,
+      water: 1500,
+    },
+    {
+      location: "Kassala",
+      total_Kwh: 137622,
+      co2: 155442,
+      waste: 5757,
+      water: 981,
+    },
+    {
+      location: "El Geneina",
+      total_Kwh: 6570,
+      co2: 229735,
+      waste: 1100,
+      water: 723,
+    },
+    {
+      location: "El Fasher",
+      total_Kwh: 21279,
+      co2: 266409,
+      waste: 1100,
+      water: 1377,
+    },
+    {
+      location: "Nyala",
+      total_Kwh: 28522,
+      co2: "-",
+      waste: "-",
+      water: "-",
+    },
+    {
+      location: "Zalingei",
+      total_Kwh: 11377,
+      co2: 176228,
+      waste: 1100,
+      water: 221,
+    },
+    {
+      location: "Ed Daein",
+      total_Kwh: 6395,
+      co2: "-",
+      waste: "-",
+      water: "-",
+    },
+    {
+      location: "El Obeid",
+      total_Kwh: 4660,
+      co2: "-",
+      waste: "-",
+      water: "-",
+    },
+    {
+      location: "Kadugli",
+      total_Kwh: 23480,
+      co2: "-",
+      waste: "-",
+      water: "-",
+    },
+    {
+      location: "Kosti",
+      total_Kwh: 49678,
+      co2: 310768,
+      waste: 25,
+      water: 520,
+    },
+    {
+      location: "Khashm El Girba",
+      total_Kwh: 33099,
+      co2: 36585,
+      waste: 3131,
+      water: 534,
+    },
+    {
+      location: "Dakar",
+      total_Kwh: 772631,
+      co2: "-",
+      waste: "-",
+      water: "-",
+    },
+    {
+      location: "Dakar",
+      total_Kwh: 113753,
+      co2: 149099,
+      waste: 277,
+      water: 664,
+    },
+    {
+      location: "San Salvador",
+      total_Kwh: "-",
+      co2: 3323,
+      waste: 1923,
+      water: 12,
+    },
+    {
+      location: "Bossaso",
+      total_Kwh: 34975,
+      co2: 26133,
+      waste: 1680,
+      water: 65,
+    },
+    {
+      location: "Gaalkacyo",
+      total_Kwh: 101694,
+      co2: 82241,
+      waste: 1680,
+      water: 60,
+    },
+    {
+      location: "Hargeysa",
+      total_Kwh: 23454,
+      co2: 42060,
+      waste: 1210,
+      water: 600,
+    },
+    {
+      location: "Kismaayo",
+      total_Kwh: 4730,
+      co2: 49615,
+      waste: 270330,
+      water: 100,
+    },
+    {
+      location: "Mogadishu",
+      total_Kwh: 31451,
+      co2: 7773,
+      waste: 20571,
+      water: 730,
+    },
+    {
+      location: "Garoowe",
+      total_Kwh: 1306,
+      co2: 1115,
+      waste: 770,
+      water: 52,
+    },
+    {
+      location: "Baidoa",
+      total_Kwh: 12071,
+      co2: 27922,
+      waste: 756,
+      water: 5,
+    },
+    {
+      location: "Dollow",
+      total_Kwh: 5172,
+      co2: 2518,
+      waste: 181406,
+      water: 103,
+    },
+    {
+      location: "Dhobley",
+      total_Kwh: 7963,
+      co2: 3699,
+      waste: 38,
+      water: 11,
+    },
+    {
+      location: "Berbera",
+      total_Kwh: 17620,
+      co2: 6864,
+      waste: 108,
+      water: 103,
+    },
+    {
+      location: "Belgrade",
+      total_Kwh: 19842,
+      co2: 43830,
+      waste: 1477,
+      water: 244,
+    },
+    {
+      location: "Priština",
+      total_Kwh: 26596,
+      co2: 71738,
+      waste: 5742,
+      water: 366,
+    },
+    {
+      location: "Preševo",
+      total_Kwh: "-",
+      co2: "-",
+      waste: "-",
+      water: "-",
+    },
+    {
+      location: "Yei",
+      total_Kwh: 16333,
+      co2: 258676,
+      waste: 700,
+      water: 2555,
+    },
+    {
+      location: "Juba",
+      total_Kwh: 131678,
+      co2: "-",
+      waste: "-",
+      water: "-",
+    },
+    {
+      location: "Yambio",
+      total_Kwh: "-",
+      co2: "-",
+      waste: "-",
+      water: "-",
+    },
+    {
+      location: "Malakal",
+      total_Kwh: 76629,
+      co2: 684554,
+      waste: 2920,
+      water: 2468,
+    },
+    {
+      location: "Bor",
+      total_Kwh: 89079,
+      co2: "-",
+      waste: "-",
+      water: "-",
+    },
+    {
+      location: "Bunj",
+      total_Kwh: 711763,
+      co2: "-",
+      waste: "-",
+      water: "-",
+    },
+    {
+      location: "Jam Jang",
+      total_Kwh: 635364,
+      co2: "-",
+      waste: "-",
+      water: "-",
+    },
+    {
+      location: "Wau",
+      total_Kwh: 39559,
+      co2: "-",
+      waste: "-",
+      water: "-",
+    },
+    {
+      location: "Bentiu",
+      total_Kwh: "-",
+      co2: "-",
+      waste: "-",
+      water: "-",
+    },
+    {
+      location: "Stockholm",
+      total_Kwh: 13941,
+      co2: 3265,
+      waste: 3520,
+      water: 100,
+    },
+    {
+      location: "Damascus",
+      total_Kwh: 353440,
+      co2: "-",
+      waste: "-",
+      water: "-",
+    },
+    {
+      location: "Homs",
+      total_Kwh: "-",
+      co2: 162074,
+      waste: 7700,
+      water: 2000,
+    },
+    {
+      location: "Aleppo",
+      total_Kwh: 153831,
+      co2: 130134,
+      waste: 5270,
+      water: 767,
+    },
+    {
+      location: "Tartous",
+      total_Kwh: 84133,
+      co2: 159808,
+      waste: 400,
+      water: 250,
+    },
+    {
+      location: "Qamishli",
+      total_Kwh: 99227,
+      co2: 698702,
+      waste: 2987,
+      water: 7000,
+    },
+    {
+      location: "Sweida",
+      total_Kwh: 86325,
+      co2: 140485,
+      waste: 4610,
+      water: 150,
+    },
+    {
+      location: "N'Djamena",
+      total_Kwh: 553651,
+      co2: 1257000,
+      waste: 600,
+      water: 400,
+    },
+    {
+      location: "Gore",
+      total_Kwh: "-",
+      co2: 1274280,
+      waste: 1670,
+      water: 689,
+    },
+    {
+      location: "Iriba",
+      total_Kwh: 215500,
+      co2: 1317614,
+      waste: 350,
+      water: 50,
+    },
+    {
+      location: "Maro",
+      total_Kwh: "-",
+      co2: 742339,
+      waste: 1670,
+      water: 258,
+    },
+    {
+      location: "Abéché",
+      total_Kwh: "-",
+      co2: 115335,
+      waste: 120,
+      water: 30,
+    },
+    {
+      location: "Farchana",
+      total_Kwh: "-",
+      co2: 748776,
+      waste: 250,
+      water: 240,
+    },
+    {
+      location: "Goz Beïda",
+      total_Kwh: "-",
+      co2: 1172851,
+      waste: 150,
+      water: 100,
+    },
+    {
+      location: "Haraze",
+      total_Kwh: "-",
+      co2: 324804,
+      waste: 183,
+      water: 116,
+    },
+    {
+      location: "Baga Sola",
+      total_Kwh: "-",
+      co2: 1047452,
+      waste: 350,
+      water: 244,
+    },
+    {
+      location: "Moissala",
+      total_Kwh: "-",
+      co2: 295624,
+      waste: 1670,
+      water: 207,
+    },
+    {
+      location: "Lome",
+      total_Kwh: 18377,
+      co2: 5476,
+      waste: 529,
+      water: 22,
+    },
+    {
+      location: "Bangkok",
+      total_Kwh: 20282,
+      co2: 81958,
+      waste: 10771,
+      water: 576,
+    },
+    {
+      location: "Mae Hong Son",
+      total_Kwh: 31317,
+      co2: 16229,
+      waste: 438,
+      water: 157,
+    },
+    {
+      location: "Mae Sot",
+      total_Kwh: 20042,
+      co2: 23264,
+      waste: 93,
+      water: 776,
+    },
+    {
+      location: "Bangkok",
+      total_Kwh: 72086,
+      co2: 101161,
+      waste: 2566,
+      water: 707,
+    },
+    {
+      location: "Bangkok",
+      total_Kwh: "-",
+      co2: "-",
+      waste: "-",
+      water: "-",
+    },
+    {
+      location: "Dushanbe",
+      total_Kwh: 1860,
+      co2: 10479,
+      waste: 557,
+      water: 77,
+    },
+    {
+      location: "Tunis",
+      total_Kwh: 44778,
+      co2: 47941,
+      waste: 13726,
+      water: 480,
+    },
+    {
+      location: "Zarzis",
+      total_Kwh: 34057,
+      co2: 26306,
+      waste: 13726,
+      water: 480,
+    },
+    {
+      location: "Ankara",
+      total_Kwh: 277260,
+      co2: 141723,
+      waste: 17271,
+      water: 556,
+    },
+    {
+      location: "Istanbul",
+      total_Kwh: 52124,
+      co2: 14752,
+      waste: 5789,
+      water: 100,
+    },
+    {
+      location: "Van",
+      total_Kwh: "-",
+      co2: "-",
+      waste: "-",
+      water: "-",
+    },
+    {
+      location: "Gaziantep",
+      total_Kwh: 112298,
+      co2: 64701,
+      waste: 3380,
+      water: 605,
+    },
+    {
+      location: "Sanliurfa",
+      total_Kwh: 16524,
+      co2: 19695,
+      waste: 3440,
+      water: 145,
+    },
+    {
+      location: "Hatay",
+      total_Kwh: 22151,
+      co2: 9175,
+      waste: 2752,
+      water: 200,
+    },
+    {
+      location: "Izmir",
+      total_Kwh: 48607,
+      co2: 14008,
+      waste: 2457,
+      water: 69,
+    },
+    {
+      location: "Dar Es Salam",
+      total_Kwh: 123134,
+      co2: 103651,
+      waste: 6000,
+      water: 809,
+    },
+    {
+      location: "Kasulu",
+      total_Kwh: 287038,
+      co2: 88699,
+      waste: 5676,
+      water: 70,
+    },
+    {
+      location: "Kibondo",
+      total_Kwh: "-",
+      co2: 44239,
+      waste: 30,
+      water: 34,
+    },
+    {
+      location: "Kigoma",
+      total_Kwh: 61441,
+      co2: 37932,
+      waste: 990,
+      water: 293,
+    },
+    {
+      location: "Mwanza",
+      total_Kwh: "-",
+      co2: "-",
+      waste: "-",
+      water: "-",
+    },
+    {
+      location: "Arua",
+      total_Kwh: 100740,
+      co2: 32314,
+      waste: 12150,
+      water: 30000,
+    },
+    {
+      location: "Kampala",
+      total_Kwh: 133817,
+      co2: "-",
+      waste: "-",
+      water: "-",
+    },
+    {
+      location: "Mbarara",
+      total_Kwh: 20193,
+      co2: 24938,
+      waste: 14140,
+      water: 2410,
+    },
+    {
+      location: "Moyo",
+      total_Kwh: 89429,
+      co2: 43485,
+      waste: 1342,
+      water: 3500,
+    },
+    {
+      location: "Kisoro",
+      total_Kwh: 8076,
+      co2: 8433,
+      waste: 909,
+      water: 155,
+    },
+    {
+      location: "Kyaka II",
+      total_Kwh: 36848,
+      co2: 44864,
+      waste: 3737,
+      water: 637,
+    },
+    {
+      location: "Kyangwali",
+      total_Kwh: 110992,
+      co2: "-",
+      waste: "-",
+      water: "-",
+    },
+    {
+      location: "Nakivale",
+      total_Kwh: 23428,
+      co2: 38783,
+      waste: 2828,
+      water: 482,
+    },
+    {
+      location: "Rwamwanja",
+      total_Kwh: 28436,
+      co2: 27065,
+      waste: 2020,
+      water: 344,
+    },
+    {
+      location: "Kiryandongo",
+      total_Kwh: "-",
+      co2: 71804,
+      waste: 1040,
+      water: 54,
+    },
+    {
+      location: "Yumbe",
+      total_Kwh: 156022,
+      co2: 424074,
+      waste: 15741,
+      water: 690,
+    },
+    {
+      location: "Lamwo",
+      total_Kwh: 52287,
+      co2: "-",
+      waste: "-",
+      water: "-",
+    },
+    {
+      location: "Kiev",
+      total_Kwh: "-",
+      co2: "-",
+      waste: "-",
+      water: "-",
+    },
+    {
+      location: "Mariupol",
+      total_Kwh: "-",
+      co2: "-",
+      waste: "-",
+      water: "-",
+    },
+    {
+      location: "Donetsk",
+      total_Kwh: "-",
+      co2: "-",
+      waste: "-",
+      water: "-",
+    },
+    {
+      location: "Luhansk",
+      total_Kwh: "-",
+      co2: "-",
+      waste: "-",
+      water: "-",
+    },
+    {
+      location: "Sievierodonetsk",
+      total_Kwh: "-",
+      co2: "-",
+      waste: "-",
+      water: "-",
+    },
+    {
+      location: "Sloviansk",
+      total_Kwh: "-",
+      co2: "-",
+      waste: "-",
+      water: "-",
+    },
+    {
+      location: "Montevideo",
+      total_Kwh: "-",
+      co2: "-",
+      waste: "-",
+      water: "-",
+    },
+    {
+      location: "New York",
+      total_Kwh: "-",
+      co2: "-",
+      waste: "-",
+      water: "-",
+    },
+    {
+      location: "Washington",
+      total_Kwh: 2040,
+      co2: "-",
+      waste: "-",
+      water: "-",
+    },
+    {
+      location: "San DIego",
+      total_Kwh: "-",
+      co2: "-",
+      waste: "-",
+      water: "-",
+    },
+    {
+      location: "Caracas",
+      total_Kwh: 162569,
+      co2: 5638,
+      waste: 1800,
+      water: 36,
+    },
+    {
+      location: "San Cristobal",
+      total_Kwh: 17378,
+      co2: "-",
+      waste: "-",
+      water: "-",
+    },
+    {
+      location: "Guasdualito",
+      total_Kwh: 100830,
+      co2: 7671,
+      waste: 960,
+      water: 204,
+    },
+    {
+      location: "Maracaibo",
+      total_Kwh: 72469,
+      co2: 24389,
+      waste: 900,
+      water: 138,
+    },
+    {
+      location: "Ciudad Guayana",
+      total_Kwh: 88251,
+      co2: 4261,
+      waste: 2400,
+      water: 600,
+    },
+    {
+      location: "San Antonio",
+      total_Kwh: 39172,
+      co2: 6060,
+      waste: 1500,
+      water: 96,
+    },
+    {
+      location: "Aden",
+      total_Kwh: 146806,
+      co2: "-",
+      waste: "-",
+      water: "-",
+    },
+    {
+      location: "Sana'a",
+      total_Kwh: 33259,
+      co2: "-",
+      waste: "-",
+      water: "-",
+    },
+    {
+      location: "Kharaz",
+      total_Kwh: 13740,
+      co2: "-",
+      waste: "-",
+      water: "-",
+    },
+    {
+      location: "Sa'ada",
+      total_Kwh: 623,
+      co2: "-",
+      waste: "-",
+      water: "-",
+    },
+    {
+      location: "Hudaydah",
+      total_Kwh: 28345,
+      co2: "-",
+      waste: "-",
+      water: "-",
+    },
+    {
+      location: "Ibb",
+      total_Kwh: "-",
+      co2: "-",
+      waste: "-",
+      water: "-",
+    },
+    {
+      location: "Cape Town",
+      total_Kwh: "-",
+      co2: "-",
+      waste: "-",
+      water: "-",
+    },
+    {
+      location: "Pretoria",
+      total_Kwh: 606515,
+      co2: "-",
+      waste: "-",
+      water: "-",
+    },
+    {
+      location: "Kawambwa",
+      total_Kwh: 21510,
+      co2: 11100,
+      waste: 600,
+      water: 240,
+    },
+    {
+      location: "Lusaka",
+      total_Kwh: 31191,
+      co2: 70771,
+      waste: 4410,
+      water: 240,
+    },
+    {
+      location: "Kaoma",
+      total_Kwh: 23483,
+      co2: 7514,
+      waste: 4,
+      water: 672,
+    },
+    {
+      location: "Solwezi",
+      total_Kwh: 9980,
+      co2: 8533,
+      waste: 270,
+      water: 1124,
+    },
+    {
+      location: "Harare",
+      total_Kwh: 29283,
+      co2: 12810,
+      waste: 910,
+      water: 97,
+    },
+    {
+      location: "Tongogara",
+      total_Kwh: "-",
+      co2: 128629,
+      waste: 1608,
+      water: 169,
+    },
+    {
+      location: "Tongogara",
+      total_Kwh: "-",
+      co2: 74231,
+      waste: 500,
+      water: 87,
+    },
+    {
+      location: "Mbera",
+      total_Kwh: 6219,
+      co2: "-",
+      waste: "-",
+      water: "-",
+    },
+    {
+      location: "Tindouf",
+      total_Kwh: 35503,
+      co2: 105532,
+      waste: 5015,
+      water: 250,
+    },
+    {
+      location: "São Paulo",
+      total_Kwh: "-",
+      co2: 1237,
+      waste: 10922,
+      water: 120,
+    },
+    {
+      location: "São Paulo",
+      total_Kwh: "-",
+      co2: 443,
+      waste: 2135,
+      water: 220,
+    },
+    {
+      total_Kwh: "-",
+      co2: 335067,
+      waste: 250,
+      water: 275,
+    },
+    {
+      location: "Guereda",
+      total_Kwh: "-",
+      co2: 545884,
+      waste: 350,
+      water: 244,
+    },
+    {
+      location: "Maicao",
+      total_Kwh: 14297,
+      co2: "-",
+      waste: "-",
+      water: "-",
+    },
+    {
+      location: "Cairo",
+      total_Kwh: 670716,
+      co2: "-",
+      waste: "-",
+      water: "-",
+    },
+    {
+      location: "Cairo",
+      total_Kwh: 52663,
+      co2: 315557,
+      waste: 2537,
+      water: 690,
+    },
+    {
+      location: "Addis Ababa",
+      total_Kwh: "-",
+      co2: "-",
+      waste: "-",
+      water: "-",
+    },
+    {
+      location: "Budapest",
+      total_Kwh: 131368,
+      co2: 305285,
+      waste: 53025,
+      water: 1779,
+    },
+    {
+      location: "Ramtha",
+      total_Kwh: 399334,
+      co2: "-",
+      waste: "-",
+      water: "-",
+    },
+    {
+      location: "Nur-Sultan",
+      total_Kwh: 2355,
+      co2: 3770,
+      waste: 505,
+      water: 74,
+    },
+    {
+      location: "Garissa",
+      total_Kwh: "-",
+      co2: 6042,
+      waste: 50,
+      water: 10,
+    },
+    {
+      location: "Hamrun",
+      total_Kwh: 13239,
+      co2: 4225,
+      waste: 212,
+      water: 16,
+    },
+    {
+      location: "Nowshera",
+      total_Kwh: 10133,
+      co2: 15760,
+      waste: 768,
+      water: 172,
+    },
+    {
+      location: "Panama City",
+      total_Kwh: "-",
+      co2: 169120,
+      waste: 2181,
+      water: 160,
+    },
+    {
+      location: "Algeciras",
+      total_Kwh: "-",
+      co2: "-",
+      waste: "-",
+      water: "-",
+    },
+    {
+      location: "Malaga",
+      total_Kwh: "-",
+      co2: "-",
+      waste: "-",
+      water: "-",
+    },
+    {
+      location: "Melilla",
+      total_Kwh: "-",
+      co2: "-",
+      waste: "-",
+      water: "-",
+    },
+    {
+      location: "Damascus",
+      total_Kwh: 115167,
+      co2: "-",
+      waste: "-",
+      water: "-",
+    },
+    {
+      location: "Damascus",
+      total_Kwh: 293551,
+      co2: 715261,
+      waste: 510,
+      water: 1450,
+    },
+    {
+      location: "Ankara",
+      total_Kwh: 231347,
+      co2: 201968,
+      waste: 12270,
+      water: 498,
+    },
+    {
+      location: "Ankara",
+      total_Kwh: 265891,
+      co2: 187177,
+      waste: 18566,
+      water: 750,
+    },
+    {
+      location: "Sana'a",
+      total_Kwh: 10005,
+      co2: "-",
+      waste: "-",
+      water: "-",
+    },
+    {
+      location: "Niamey",
+      total_Kwh: 81885,
+      co2: "-",
+      waste: "-",
+      water: "-",
+    },
+    {
+      location: "Bastos",
+      total_Kwh: 39478,
+      co2: "-",
+      waste: "-",
+      water: "-",
+    },
+    {
+      location: "Bogota",
+      total_Kwh: "-",
+      co2: "-",
+      waste: "-",
+      water: "-",
+    },
+    {
+      location: "Brazzaville",
+      total_Kwh: 31457,
+      co2: 56282,
+      waste: 8935,
+      water: 180,
+    },
+    {
+      location: "Nairobi",
+      total_Kwh: 115921,
+      co2: 9809880,
+      waste: 6890,
+      water: 3090,
+    },
+    {
+      location: "Nyamata",
+      total_Kwh: 28180,
+      co2: 17706,
+      waste: 5160,
+      water: 20,
+    },
+    {
+      location: "Aysaita",
+      total_Kwh: "-",
+      co2: "-",
+      waste: "-",
+      water: "-",
+    },
+    {
+      location: "Dzaleka",
+      total_Kwh: 3528,
+      co2: 26751,
+      waste: 238,
+      water: 172,
+    },
+    {
+      location: "Luxembourg",
+      total_Kwh: "-",
+      co2: 636,
+      waste: 16,
+      water: 17,
+    },
+    {
+      location: "Skopje",
+      total_Kwh: 32665,
+      co2: 54126,
+      waste: 2331,
+      water: 6,
+    },
+    {
+      location: "Niamey",
+      total_Kwh: 71072,
+      co2: 297397,
+      waste: 2675,
+      water: 1341,
+    },
+    {
+      location: "Adjumani-Pakele",
+      total_Kwh: 178320,
+      co2: "-",
+      waste: "-",
+      water: "-",
+    },
+    {
+      location: "Ambato",
+      total_Kwh: 3754,
+      co2: 543,
+      waste: 36,
+      water: 48,
+    },
+    {
+      location: "Kutupalong",
+      total_Kwh: "-",
+      co2: 24836,
+      waste: 2600,
+      water: 520,
+    },
+    {
+      location: "Kutupalong",
+      total_Kwh: 19878,
+      co2: 18262,
+      waste: 1300,
+      water: 520,
+    },
+    {
+      location: "Kule",
+      total_Kwh: "-",
+      co2: 8601,
+      waste: 505,
+      water: 86,
+    },
+    {
+      location: "Nguenyyiel",
+      total_Kwh: "-",
+      co2: 34157,
+      waste: 17,
+      water: 103,
+    },
+    {
+      location: "Okugo",
+      total_Kwh: "-",
+      co2: "-",
+      waste: "-",
+      water: "-",
+    },
+    {
+      location: "Tierkidi",
+      total_Kwh: "-",
+      co2: 4239,
+      waste: 17,
+      water: 86,
+    },
+    {
+      location: "Karoga",
+      total_Kwh: 1586,
+      co2: "-",
+      waste: "-",
+      water: "-",
+    },
+    {
+      location: "Pugnido",
+      total_Kwh: "-",
+      co2: "-",
+      waste: "-",
+      water: "-",
+    },
+    {
+      location: "Kampala",
+      total_Kwh: 10710,
+      co2: "-",
+      waste: "-",
+      water: "-",
+    },
+    {
+      location: "Maratane",
+      total_Kwh: 835,
+      co2: "-",
+      waste: "-",
+      water: "-",
+    },
+    {
+      location: "Marib",
+      total_Kwh: 952,
+      co2: "-",
+      waste: "-",
+      water: "-",
+    },
+    {
+      location: "Tapachula",
+      total_Kwh: 26249,
+      co2: 7730,
+      waste: 87,
+      water: 1,
+    },
+    {
+      location: "Hagadera",
+      total_Kwh: 3129,
+      co2: 62213,
+      waste: 200,
+      water: 200,
+    },
+    {
+      location: "IFO",
+      total_Kwh: 1196,
+      co2: 62213,
+      waste: 200,
+      water: 200,
+    },
+    {
+      location: "Dagahaley",
+      total_Kwh: 4693,
+      co2: 62213,
+      waste: 200,
+      water: 200,
+    },
+    {
+      location: "EL Fula",
+      total_Kwh: 30835,
+      co2: "-",
+      waste: "-",
+      water: "-",
+    },
+    {
+      location: "Mongoumba",
+      total_Kwh: 11658,
+      co2: "-",
+      waste: "-",
+      water: "-",
+    },
+    {
+      location: "Dodoma",
+      total_Kwh: "-",
+      co2: 134,
+      waste: 25,
+      water: 25,
+    },
+    {
+      location: "Port of Spain",
+      total_Kwh: 5994,
+      co2: 398907,
+      waste: 129,
+      water: 15,
+    },
+    {
+      location: "El Paso",
+      total_Kwh: "-",
+      co2: "-",
+      waste: "-",
+      water: "-",
+    },
+    {
+      location: "Dzaleka",
+      total_Kwh: 36566,
+      co2: "-",
+      waste: "-",
+      water: "-",
+    },
+    {
+      location: "Takum",
+      total_Kwh: 24871,
+      co2: 75079,
+      waste: 322,
+      water: 54,
+    },
+    {
+      location: "Dez",
+      total_Kwh: "-",
+      co2: 19015,
+      waste: 197,
+      water: 86,
+    },
+    {
+      location: "Bogota",
+      total_Kwh: "-",
+      co2: 7837,
+      waste: 221,
+      water: 744,
+    },
+    {
+      location: "Ipiales",
+      total_Kwh: 7221,
+      co2: 1647,
+      waste: 75,
+      water: 114,
+    },
+    {
+      location: "Bucaramanga",
+      total_Kwh: 11187,
+      co2: 2060,
+      waste: 160,
+      water: 103,
+    },
+    {
+      location: "Barranquilla",
+      total_Kwh: "-",
+      co2: 1587,
+      waste: 111,
+      water: 1680,
+    },
+    {
+      location: "Gambella",
+      total_Kwh: 114696,
+      co2: "-",
+      waste: "-",
+      water: "-",
+    },
+    {
+      location: "Yakoma",
+      total_Kwh: 31943,
+      co2: 214485,
+      waste: 2000,
+      water: 360,
+    },
+    {
+      location: "Faradje",
+      total_Kwh: "-",
+      co2: 179423,
+      waste: 1919,
+      water: 130,
+    },
+    {
+      location: "Tuxtla Gutierrez",
+      total_Kwh: 12579,
+      co2: 1132,
+      waste: 110,
+      water: 138,
+    },
+    {
+      location: "Chihuahua",
+      total_Kwh: "-",
+      co2: "-",
+      waste: "-",
+      water: "-",
+    },
+    {
+      location: "Irapuato",
+      total_Kwh: "-",
+      co2: "-",
+      waste: "-",
+      water: "-",
+    },
+    {
+      location: "Silao",
+      total_Kwh: "-",
+      co2: "-",
+      waste: "-",
+      water: "-",
+    },
+    {
+      location: "Tapachula",
+      total_Kwh: "-",
+      co2: 27602,
+      waste: 223,
+      water: 2,
+    },
+    {
+      location: "Abi Adi",
+      total_Kwh: "-",
+      co2: 706,
+      waste: 200,
+      water: 201,
+    },
+    {
+      location: "Adigrat",
+      total_Kwh: "-",
+      co2: 706,
+      waste: 200,
+      water: 201,
+    },
+    {
+      location: "Maychew",
+      total_Kwh: "-",
+      co2: 706,
+      waste: 200,
+      water: 201,
+    },
+    {
+      location: "Beirut",
+      total_Kwh: 211439,
+      co2: "-",
+      waste: "-",
+      water: "-",
+    },
+    {
+      location: "Barahle",
+      total_Kwh: "-",
+      co2: "-",
+      waste: "-",
+      water: "-",
+    },
+    {
+      location: "Milan",
+      total_Kwh: "-",
+      co2: "-",
+      waste: "-",
+      water: "-",
+    },
+    {
+      location: "Guatemala City",
+      total_Kwh: 15963,
+      co2: "-",
+      waste: "-",
+      water: "-",
+    },
+    {
+      location: "Guatemala City",
+      total_Kwh: 41062,
+      co2: 4345,
+      waste: 147,
+      water: 50,
+    },
+    {
+      location: "Doha",
+      total_Kwh: "-",
+      co2: "-",
+      waste: "-",
+      water: "-",
+    },
+    {
+      location: "Dire Dawa",
+      total_Kwh: 3402,
+      co2: 98,
+      waste: 13,
+      water: 24,
+    },
+    {
+      location: "Kinshasa",
+      total_Kwh: 214601,
+      co2: 133006,
+      waste: 2100,
+      water: 6934,
+    },
+    {
+      location: "Tegucigalpa",
+      total_Kwh: "-",
+      co2: "-",
+      waste: "-",
+      water: "-",
+    },
+    {
+      location: "Lisbon",
+      total_Kwh: "-",
+      co2: "-",
+      waste: "-",
+      water: "-",
+    },
+    {
+      location: "Bangassou",
+      total_Kwh: "-",
+      co2: "-",
+      waste: "-",
+      water: "-",
+    },
+    {
+      location: "Bria",
+      total_Kwh: "-",
+      co2: "-",
+      waste: "-",
+      water: "-",
+    },
+    {
+      location: "Tammenga",
+      total_Kwh: "-",
+      co2: "-",
+      waste: "-",
+      water: "-",
+    },
+    {
+      location: "Tashkent",
+      total_Kwh: "-",
+      co2: "-",
+      waste: "-",
+      water: "-",
+    },
+    {
+      location: "Port Moresby",
+      total_Kwh: "-",
+      co2: "-",
+      waste: "-",
+      water: "-",
+    },
+    {
+      location: "Debre Birhan",
+      total_Kwh: "-",
+      co2: "-",
+      waste: "-",
+      water: "-",
+    },
+    {
+      location: "Torit",
+      total_Kwh: 39389,
+      co2: "-",
+      waste: "-",
+      water: "-",
+    },
+    {
+      location: "Panama City",
+      total_Kwh: 28870,
+      co2: 62923,
+      waste: 3968,
+      water: 692,
+    },
+    {
+      location: "Suceava",
+      total_Kwh: "-",
+      co2: "-",
+      waste: "-",
+      water: "-",
+    },
+    {
+      location: "Lasi",
+      total_Kwh: "-",
+      co2: "-",
+      waste: "-",
+      water: "-",
+    },
+    {
+      location: "Galati",
+      total_Kwh: "-",
+      co2: "-",
+      waste: "-",
+      water: "-",
+    },
+    {
+      location: "Bucharest",
+      total_Kwh: "-",
+      co2: "-",
+      waste: "-",
+      water: "-",
+    },
+    {
+      location: "Vinnytsia",
+      total_Kwh: "-",
+      co2: "-",
+      waste: "-",
+      water: "-",
+    },
+    {
+      location: "Pichincha",
+      total_Kwh: 12855,
+      co2: "-",
+      waste: "-",
+      water: "-",
+    },
+    {
+      location: "Nayapara",
+      total_Kwh: "-",
+      co2: 29982,
+      waste: 2496,
+      water: 260,
+    },
+    {
+      location: "Hama",
+      total_Kwh: "-",
+      co2: 63271,
+      waste: 650,
+      water: 200,
+    },
+    {
+      location: "Karongi",
+      total_Kwh: "-",
+      co2: 20505,
+      waste: 20140,
+      water: 635,
+    },
+    {
+      location: "Evros",
+      total_Kwh: "-",
+      co2: 331,
+      waste: 330,
+      water: 24,
+    },
+    {
+      location: "Beirut",
+      total_Kwh: "-",
+      co2: 821627,
+      waste: 20100,
+      water: 3500,
+    },
+  ];
+
+  $(document).ready(function () {
+    require([
+      "esri/config",
+      "esri/views/SceneView",
+      "esri/Map",
+      "esri/widgets/Expand",
+      "esri/widgets/BasemapGallery",
+      "esri/layers/FeatureLayer",
+      "esri/widgets/LayerList",
+      "esri/widgets/Home",
+      "esri/widgets/Legend",
+      "esri/widgets/Search",
+      "esri/widgets/LayerList/ListItem",
+    ], function (esriConfig, SceneView, Map, Expand, BasemapGallery, FeatureLayer, LayerList, Home, Legend, Search, ListItem) {
+      //esriConfig.apiKey ="AAPK853e389eacab4000b8168009a957884eAeNxkMsT5xLndSZFhHgao-ynp074HaJnWU6CfSjbF8QQuZc5bL4FoHut1NkoYGYU";
+      var scene = new Map({
+        basemap: "hybrid",
+        ground: "world-elevation",
+      });
+      var view = new SceneView({
+        container: "viewDiv",
+        map: scene,
+        alphaCompositingEnabled: true,
+        qualityProfile: "high",
+        camera: {
+          position: [0.0, 14.398459, 25000000.0],
+          heading: 0.0,
+          tilt: 0.16,
+        },
+      });
+      var basemapGallery = new BasemapGallery({
+        view: view,
+        container: document.createElement("div"),
+      });
+      var bgExpand = new Expand({
+        view: view,
+        content: basemapGallery,
+      });
+      view.ui.add(bgExpand, "top-left");
+      view.watch("camera.position.longitude", (longitude) => {
+        label.innerHTML = `Longitude: ${longitude.toFixed(1)}&deg;`;
+      });
+      view.ui.add(play, "top-left");
+      view.ui.add(pause, "top-left");
+      let abort = false;
+      function rotate() {
+        if (!view.interacting && !abort) {
+          play.style.display = "none";
+          pause.style.display = "block";
+          const camera = view.camera.clone();
+          camera.position.longitude -= 0.2;
+          view.goTo(camera, { animate: false });
+          requestAnimationFrame(rotate);
+        } else {
+          abort = false;
+          play.style.display = "block";
+          pause.style.display = "none";
+        }
+      }
+      play.onclick = rotate;
+      pause.onclick = function () {
+        abort = true;
+      };
+      rotate();
+      // html elements
+      let co2Element = document.getElementById("co2");
+      let wasteElement = document.getElementById("waste");
+      let waterElement = document.getElementById("water");
+      let total_co2 = 0;
+      let total_waste = 0;
+      let total_water = 0;
+
+      for (let i = 0; i < locations.length; i++) {
+        const location = locations[i];
+        if (typeof location.co2 === "number") {
+          total_co2 += location.co2;
+        }
+        if (typeof location.waste === "number") {
+          total_waste += location.waste;
+        }
+        if (typeof location.water === "number") {
+          total_water += location.water;
+        }
+      }
+      co2Element.innerText = total_co2.toLocaleString("en-US");
+      wasteElement.innerText = total_waste.toLocaleString("en-US");
+      waterElement.innerText = total_water.toLocaleString("en-US");
+      const getDayOfYear = () => {
+        const now = new Date();
+        const start = new Date(now.getFullYear(), 0, 0);
+        const diff = now - start;
+        const oneDay = 1000 * 60 * 60 * 24;
+        const day = Math.floor(diff / oneDay);
+        return day;
+      };
+      const secondsPerYear = 31535000;
+      const secondsPerDay = 86400;
+      const secondsUpTONow = getDayOfYear() * secondsPerDay;
+      let total_KWh = 0;
+      let kWhPerSecond = 0;
+      let counterStartingPoint = 0; //kwhPerSecond*secondsUpTONow;
+      const KWhPer5seconds = 5.39;
+      const counterElement = document.getElementById("totalPowerConsumption");
+      const updateCounter = () => {
+        counterStartingPoint += KWhPer5seconds;
+        counterElement.innerText =
+          (counterStartingPoint + KWhPer5seconds).toLocaleString("en-US") +
+          " KWh";
+      };
+      let intervalID = undefined;
+
+      const offices = new FeatureLayer({
+        url: "https://services.arcgis.com/qovwaCdMoEzUUFzS/ArcGIS/rest/services/Offices_UN/FeatureServer/0",
+        popupTemplate: {
+          title: "UNHCR Offices",
+          content: [
+            {
+              type: "fields",
+              fieldInfos: [
+                {
+                  fieldName: "Country__UNHCR_",
+                  label: "Country",
+                },
+                {
+                  fieldName: "Location",
+                  label: "Location",
+                },
+                {
+                  fieldName: "Office_type",
+                  label: "Office type",
+                },
+                {
+                  fieldName: "Green",
+                  label: "Green Boxes",
+                },
+                {
+                  fieldName: "Greening",
+                  label: "Greening the Blue 2022",
+                },
+              ],
+            },
+          ],
+          overwriteActions: false,
+        },
+      });
+      scene.add(offices);
+      const greenboxes = new FeatureLayer({
+        url: "https://services.arcgis.com/qovwaCdMoEzUUFzS/ArcGIS/rest/services/GreenBoxes/FeatureServer/0",
+        popupTemplate: {
+          title: "Green Boxes installed",
+          content: [
+            {
+              type: "fields",
+              fieldInfos: [
+                {
+                  fieldName: "Country__UNHCR_",
+                  label: "Country",
+                },
+                {
+                  fieldName: "Location",
+                  label: "Location",
+                },
+                {
+                  fieldName: "Total_KWh_Measured__Oct_Dec2022",
+                  label: "Total KWh Measured in 2022",
+                },
+              ],
+            },
+          ],
+          overwriteActions: false,
+        },
+      });
+      greenboxes.visible = false;
+      scene.add(greenboxes);
+
+      const greentheblue = new FeatureLayer({
+        url: "https://services.arcgis.com/qovwaCdMoEzUUFzS/ArcGIS/rest/services/Greening_The_Blue_2022/FeatureServer/0",
+        popupTemplate: {
+          title: "Greening The Blue 2022",
+          content: [
+            {
+              type: "fields",
+              fieldInfos: [
+                {
+                  fieldName: "Country__UNHCR_",
+                  label: "Country",
+                },
+                {
+                  fieldName: "Location",
+                  label: "Location",
+                },
+                {
+                  fieldName: "Total_GHG_Emissions__Co2_",
+                  label: "Total CO2 (Ton)",
+                },
+                {
+                  fieldName: "Total_Waste__Kg_",
+                  label: "Total Waste (Kg)",
+                },
+                {
+                  fieldName: "Water_Use__m3_",
+                  label: "Water use (m³)",
+                },
+              ],
+            },
+          ],
+          overwriteActions: false,
+        },
+      });
+      scene.add(greentheblue);
+      greentheblue.visible = false;
+      const Countries = new FeatureLayer({
+        url: "https://services.arcgis.com/P3ePLMYs2RVChkJx/ArcGIS/rest/services/World_Countries_(Generalized)/FeatureServer/0",
+        popupTemplate: {
+          title: "UNHCR Countries",
+          content: [
+            {
+              type: "fields",
+              fieldInfos: [
+                {
+                  fieldName: "COUNTRYAFF",
+                  label: "COUNTRY",
+                },
+              ],
+            },
+          ],
+          overwriteActions: false,
+        },
+      });
+      const searchWidget = new Search({
+        view: view,
+        allPlaceholder: "UNHCR",
+        includeDefaultSources: false,
+        sources: [
+          {
+            layer: offices,
+            searchFields: ["Location"],
+            displayField: "Location",
+            exactMatch: false,
+            outFields: ["*"],
+            name: "UNHCR Offices",
+            placeholder: "example: Caracas",
+            zoomScale: 500000,
+          },
+        ],
+      });
+      searchWidget.on("select-result", function (event) {
+        clearInterval(intervalID);
+        total_KWh = 0;
+        kWhPerSecond = 0;
+        counterStartingPoint = 0;
+        console.log("The selected search result: ", event);
+        if (event.source.name != "UNHCR Countries")
+          view.goTo({
+            scale: 500000,
+          });
+        console.log(
+          "YOu searched for: ",
+          event.result.feature.attributes.Location
+        );
+
+        total_KWh = locations.find(
+          (location) =>
+            location.location === event.result.feature.attributes.Location ||
+            event.result.feature.attributes.Location.includes(location.location)
+        )?.total_Kwh;
+        console.log("Fetched total kwh: ", total_KWh);
+        kWhPerSecond = total_KWh / secondsPerYear;
+        console.log("kwh per second: ", kWhPerSecond);
+        console.log("seconds up to now: ", secondsUpTONow);
+        counterStartingPoint = kWhPerSecond * secondsUpTONow;
+        console.log("Counter Starting Point: ", counterStartingPoint);
+
+        // document.getElementById("office").innerText =
+        //   event.result.feature.attributes.Location;
+        if (counterStartingPoint) {
+          counterElement.innerText = counterStartingPoint.toFixed(2) + " KWh";
+          intervalID = setInterval(updateCounter, 1000);
+        } else {
+          counterElement.innerText = "No KWh found";
+        }
+        // clearInterval(intervalID);
+        co2Element.innerText =
+          event.result.feature.attributes.Total_GHG_Emissions__Co2_;
+        waterElement.innerText = event.result.feature.attributes.Water_Use__m3_;
+        wasteElement.innerText =
+          event.result.feature.attributes.Total_Waste__Kg_;
+      });
+      view.ui.add(searchWidget, "bottom-right", {
+        position: "bottom-right",
+      });
+      searchWidget.on("search-clear", function (event) {
+        total_co2 = 0
+        total_waste = 0
+        total_water = 0
+        total_KWh = 0
+        clearInterval(intervalID);
+        counterElement.innerText = '0 KWh'
+        for (let i = 0; i < locations.length; i++) {
+          const location = locations[i];
+          if (typeof location.co2 === "number") {
+            total_co2 += location.co2;
+          }
+          if (typeof location.waste === "number") {
+            total_waste += location.waste;
+          }
+          if (typeof location.water === "number") {
+            total_water += location.water;
+          }
+        }
+        co2Element.innerText = total_co2.toLocaleString("en-US");
+        wasteElement.innerText = total_waste.toLocaleString("en-US");
+        waterElement.innerText = total_water.toLocaleString("en-US");
+        console.log(
+          "----------------------------------------------------------Search input textbox was cleared."
+        );
+      });
+      function shiftCamera(deg) {
+        var camera = view.camera.clone();
+        camera.position.longitude += deg;
+        return camera;
+      }
+      // Add a legend instance to the panel of a
+      // ListItem in a LayerList instance
+      const layerList = new LayerList({
+        view: view,
+        listItemCreatedFunction: (event) => {
+          const item = event.item;
+          if (item.layer.type != "group") {
+            // don't show legend twice
+            item.panel = {
+              content: "legend",
+              open: true,
+            };
+          }
+        },
+      });
+      greenboxes.visibleElements = {
+        statusIndicators: false,
+        errors: true,
+      };
+      view.ui.add(
+        [
+          new Expand({
+            view: view,
+            content: layerList,
+            group: "top-right",
+          }),
+        ],
+        "top-right"
+      );
+      var homebtn = new Home({
+        view: view,
+      });
+      view.ui.add(homebtn, "top-right");
+    });
+  });
+</script>
