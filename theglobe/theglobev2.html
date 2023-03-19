@@ -266,18 +266,18 @@ $(document).ready(function(){
       heading: 0.00,
       tilt: 0.16,}
   });
-  var basemapGallery = new BasemapGallery({
-    view: view,
-    container: document.createElement("div")
-  });
-  var bgExpand = new Expand({
-    view: view,
-    content: basemapGallery
-  });
-  view.ui.add(bgExpand, "top-left");
-  view.watch("camera.position.longitude", (longitude) => {
-    label.innerHTML = `Longitude: ${longitude.toFixed(1)}&deg;`;
-  });
+  //var basemapGallery = new BasemapGallery({
+    //view: view,
+    //container: document.createElement("div")
+  //});
+  //var bgExpand = new Expand({
+    //view: view,
+    //content: basemapGallery
+  //});
+  //view.ui.add(bgExpand, "top-left");
+  //view.watch("camera.position.longitude", (longitude) => {
+    //label.innerHTML = `Longitude: ${longitude.toFixed(1)}&deg;`;
+  //});
   view.ui.add(play, "top-left");
   view.ui.add(pause, "top-left");
   let abort = false;
@@ -411,46 +411,46 @@ $(document).ready(function(){
     includeDefaultSources: false,
     sources: [
       {layer: offices,
-        searchFields: ["InS_ID"],
-        displayField: "InS_ID",
-        exactMatch: false,
-        outFields: ["*"],
-        name: "UNHCR Offices",
-        placeholder: "example: INS#739",
-        zoomScale: 500000
-      },
-      {layer: greenboxes,
-        searchFields: ["InS_ID"],
-        displayField: "InS_ID",
-        exactMatch: false,
-        outFields: ["*"],
-        name: "Green Boxes installed",
-        placeholder: "example: INS#277",
-        zoomScale: 500000
-      },
-      {layer: greentheblue,
         searchFields: ["Location"],
         displayField: "Location",
         exactMatch: false,
         outFields: ["*"],
-        name: "Greening The Blue 2022",
-        placeholder: "Paris",
+        name: "UNHCR Offices",
+        placeholder: "example: Caracas",
         zoomScale: 500000
-      },      
-      {layer: Countries,
-        searchFields: ["COUNTRYAFF"],
-        displayField: "COUNTRYAFF",
-        exactMatch: true,
-        outFields: ["*"],
-        name: "UNHCR Countries",
-        placeholder: "example: Colombia"
       },
-      {name: "ArcGIS World Geocoding Service",
-        placeholder: "example: Nuuk, GRL",
-        apiKey: "AAPK853e389eacab4000b8168009a957884eAeNxkMsT5xLndSZFhHgao-ynp074HaJnWU6CfSjbF8QQuZc5bL4FoHut1NkoYGYU",
-        singleLineFieldName: "SingleLine",
-        url: "https://geocode-api.arcgis.com/arcgis/rest/services/World/GeocodeServer"
-      }
+      //{layer: greenboxes,
+        //searchFields: ["InS_ID"],
+        //displayField: "InS_ID",
+        //exactMatch: false,
+        //outFields: ["*"],
+        //name: "Green Boxes installed",
+        //placeholder: "example: INS#277",
+        //zoomScale: 500000
+      //},
+      //{layer: greentheblue,
+        //searchFields: ["Location"],
+        //displayField: "Location",
+        //exactMatch: false,
+        //outFields: ["*"],
+        //name: "Greening The Blue 2022",
+        //placeholder: "Paris",
+        //zoomScale: 500000
+      //},      
+      //{layer: Countries,
+        //searchFields: ["COUNTRYAFF"],
+        //displayField: "COUNTRYAFF",
+        //exactMatch: true,
+        //outFields: ["*"],
+        //name: "UNHCR Countries",
+        //placeholder: "example: Colombia"
+      //},
+      //{name: "ArcGIS World Geocoding Service",
+        //placeholder: "example: Nuuk, GRL",
+        //apiKey: "AAPK853e389eacab4000b8168009a957884eAeNxkMsT5xLndSZFhHgao-ynp074HaJnWU6CfSjbF8QQuZc5bL4FoHut1NkoYGYU",
+        //singleLineFieldName: "SingleLine",
+        //url: "https://geocode-api.arcgis.com/arcgis/rest/services/World/GeocodeServer"
+      //}
     ]
   });
   searchWidget.on("select-result",
@@ -500,7 +500,7 @@ $(document).ready(function(){
   var homebtn = new Home({
     view:view
   });
-  view.ui.add(homebtn, "top-left");
+  view.ui.add(homebtn, "top-right");
 });
 });
 </script>
