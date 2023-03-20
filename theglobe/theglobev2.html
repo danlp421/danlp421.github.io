@@ -498,6 +498,15 @@ $(document).ready(function(){
         name: "UNHCR Offices",
         placeholder: "example: Caracas",
         zoomScale: 500000
+      },{
+        layer: aeroplane,
+        searchFields: ["Number_of"],
+        displayField: "Routes",
+        exactMatch: false,
+        outFields: ["*"],
+        name: "Aeroplane Routes",
+        placeholder: "example: Abidjan, Addis Ababa",
+        zoomScale: 500000,
       },
       //{layer: greenboxes,
         //searchFields: ["InS_ID"],
