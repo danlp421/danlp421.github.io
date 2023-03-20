@@ -485,39 +485,6 @@ $(document).ready(function(){
       });
       scene.add(aeroplane);
       aeroplane.visible = false;
-      const routesfly = new FeatureLayer({
-        url: "https://services.arcgis.com/qovwaCdMoEzUUFzS/arcgis/rest/services/RoutesFly/FeatureServer",
-        popupTemplate: {
-          title: "Routes Fly",
-          //content: [
-            //{
-              //type: "fields",
-              //fieldInfos: [
-                //{
-                  //fieldName: "Number_of",
-                  //label: "Routes",
-                //},
-                //{
-                  //fieldName: "Number_o_1",
-                  //label: "Number of flights",
-                //},
-                //{
-                  //fieldName: "CO2_emitte",
-                  //label: "CO2 emitted (tons)", 
-                //},
-                //{
-                  //fieldName: "Net_Spent",
-                  //label: "Net Spent (USD)", 
-                //},
-              //],
-            //},
-          //],
-          overwriteActions: false,
-        },
-      });
-      scene.add(routesfly);
-      aroutesfly.visible = false;
-
   const searchWidget = new Search({
     view: view,
     allPlaceholder: "UNHCR",
