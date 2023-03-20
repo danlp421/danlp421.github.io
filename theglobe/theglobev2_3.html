@@ -4571,9 +4571,9 @@
         total_co2 = 0
         total_waste = 0
         total_water = 0
-        total_KWh = 0
+        //total_KWh = 0
         clearInterval(intervalID);
-        counterElement.innerText = '0 KWh'
+        counterElement.innerText = '2,979,683.35 KWh'
         for (let i = 0; i < locations.length; i++) {
           const location = locations[i];
           if (typeof location.co2 === "number") {
@@ -4589,9 +4589,9 @@
         co2Element.innerText = total_co2.toLocaleString("en-US");
         wasteElement.innerText = total_waste.toLocaleString("en-US");
         waterElement.innerText = total_water.toLocaleString("en-US");
-        console.log(
-          "----------------------------------------------------------Search input textbox was cleared."
-        );
+        //console.log(
+          //"----------------------------------------------------------Search input textbox was cleared."
+        //);
       });
       function shiftCamera(deg) {
         var camera = view.camera.clone();
