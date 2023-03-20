@@ -4589,6 +4589,16 @@
             placeholder: "example: Caracas",
             zoomScale: 500000,
           },
+          {
+            layer: aeroplane,
+            searchFields: ["Number_of"],
+            displayField: "Routes",
+            exactMatch: false,
+            outFields: ["*"],
+            name: "Aeroplane Routes",
+            placeholder: "example: Abidjan, Addis Ababa",
+            zoomScale: 500000,
+          },
         ],
       });
       searchWidget.on("select-result", function (event) {
