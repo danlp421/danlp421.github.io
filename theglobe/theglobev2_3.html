@@ -4707,15 +4707,15 @@
         statusIndicators: false,
         errors: true,
       };
-      //view.ui.add(
-        //[new Expand({
-            //view: view,
-            //content: layerList,
-            //group: "top-right",
-          //}),
-        //],
-        //"top-right"
-      //);
+      view.ui.add(
+        [new Expand({
+            view: view,
+            content: layerList,
+            group: "top-right",
+          }),
+        ],
+        "top-right"
+      );
       var homebtn = new Home({
         view: view,
       });
