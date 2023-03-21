@@ -4555,6 +4555,12 @@
       routesarrival.visible = false;
       const aeroplane = new FeatureLayer({
         url: "https://services.arcgis.com/qovwaCdMoEzUUFzS/ArcGIS/rest/services/Aeroplane/FeatureServer/0",
+        elevationInfo: {
+        mode: "relative-to-ground",
+        featureExpressionInfo: {
+          expression: "Geometry($feature).z * 10 + $feature.HEIGHT100"
+        },
+        unit: "meters"},
         popupTemplate: {
           title: "Aeroplane",
           content: [
@@ -4585,6 +4591,8 @@
       });
       scene.add(aeroplane);
       aeroplane.visible = false;
+      
+
       const searchWidget = new Search({
         view: view,
         allPlaceholder: "UNHCR",
