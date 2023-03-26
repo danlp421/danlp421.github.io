@@ -405,54 +405,54 @@ $(document).ready(function(){
       overwriteActions: false,
     }
   });
-  const routesdeparture = new FeatureLayer({
-        url: "https://services.arcgis.com/qovwaCdMoEzUUFzS/ArcGIS/rest/services/RoutesDeparture/FeatureServer/0",
-        popupTemplate: {
-          title: "Routes Departure",
-          content: [
-            {
-              type: "fields",
-              fieldInfos: [
-                {
-                  fieldName: "Routes",
-                  label: "Routes",
-                },
-                {
-                  fieldName: "Departure",
-                  label: "Departure",
-                },
-              ],
-            },
-          ],
-          overwriteActions: false,
-        },
-      });
-      scene.add(routesdeparture);
-      routesdeparture.visible = false;
-      const routesarrival = new FeatureLayer({
-        url: "https://services.arcgis.com/qovwaCdMoEzUUFzS/ArcGIS/rest/services/RoutesArrival/FeatureServer/0",
-        popupTemplate: {
-          title: "Routes Arrival",
-          content: [
-            {
-              type: "fields",
-              fieldInfos: [
-                {
-                  fieldName: "Routes",
-                  label: "Routes",
-                },
-                {
-                  fieldName: "Arrival",
-                  label: "Arrival",
-                },
-              ],
-            },
-          ],
-          overwriteActions: false,
-        },
-      });
-      scene.add(routesarrival);
-      routesarrival.visible = false;
+  //const routesdeparture = new FeatureLayer({
+        //url: "https://services.arcgis.com/qovwaCdMoEzUUFzS/ArcGIS/rest/services/RoutesDeparture/FeatureServer/0",
+        //popupTemplate: {
+          //title: "Routes Departure",
+          //content: [
+            //{
+              //type: "fields",
+              //fieldInfos: [
+                //{
+                  //fieldName: "Routes",
+                  //label: "Routes",
+                //},
+                //{
+                  //fieldName: "Departure",
+                  //label: "Departure",
+                //},
+              //],
+            //},
+          //],
+          //overwriteActions: false,
+        //},
+      //});
+      //scene.add(routesdeparture);
+      //routesdeparture.visible = false;
+      //const routesarrival = new FeatureLayer({
+        //url: "https://services.arcgis.com/qovwaCdMoEzUUFzS/ArcGIS/rest/services/RoutesArrival/FeatureServer/0",
+        //popupTemplate: {
+          //title: "Routes Arrival",
+          //content: [
+            //{
+              //type: "fields",
+              //fieldInfos: [
+                //{
+                  //fieldName: "Routes",
+                  //label: "Routes",
+                //},
+                //{
+                  //fieldName: "Arrival",
+                  //label: "Arrival",
+                //},
+              //],
+            //},
+          //],
+         //overwriteActions: false,
+        //},
+      //});
+      //scene.add(routesarrival);
+      //routesarrival.visible = false;
       const aeroplane = new FeatureLayer({
         url: "https://services.arcgis.com/qovwaCdMoEzUUFzS/ArcGIS/rest/services/Aeroplane/FeatureServer/0",
         title: "Flights",
