@@ -99,7 +99,7 @@
     border-top: 2px solid white; 
     margin-left: 10%;
     margin-right: 10%; 
-    margin-top: 15px;
+    margin-top: 35px;
   }
   .memotext{
     font-family: Arial, Helvetica, sans-serif;
@@ -129,7 +129,7 @@
     border-bottom: 2px solid white; 
     margin-left: 10%;
     margin-right: 10%; 
-    margin-bottom: 30px;
+    margin-bottom: 35px;
   }
   #blueStats h2 {
     margin: 0;
@@ -185,6 +185,9 @@
     font-family: "Avenir Next", "Helvetica Neue", Helvetica, Arial, sans-serif;
     line-height: 1.3em;
     background-color: #141414;
+  }
+  .esri-ui-corner-container{
+    inset: 20px 20px 35px;
   }
   .button {
     cursor: pointer;
@@ -246,6 +249,18 @@
   }
   .esri-ui-corner .esri-component.esri-widget--panel {
     width: 180px;
+  }
+  .esri-ui-top-right{
+    top:100px;
+    right:20px;
+  }
+  .esri-ui-top-left{
+    top:20px;
+    left:20px;
+  }
+  .esri-ui-bottom-right{
+    bottom:20px;
+    right:20px;
   }
   .esri-layer-list__item-toggle {
     color: #ffffff;
@@ -4318,19 +4333,10 @@
       "esri/widgets/Legend",
       "esri/widgets/Search",
       "esri/widgets/LayerList/ListItem",
-      "esri/layers/GraphicsLayer",
-      "esri/symbols/SimpleLineSymbol",
       "esri/geometry/Polyline",
-      "esri/Graphic",
-      "esri/rest/route",
-      "esri/rest/support/RouteParameters",
-      "esri/rest/support/FeatureSet",
-      "esri/rest/support/RouteResult",
-      "esri/rest/support/DirectionsFeatureSet",
-      "esri/core/urlUtils",
-      "esri/widgets/Directions"
+      "esri/Graphic"
     ], function (esriConfig, SceneView, Map, Expand, BasemapGallery, FeatureLayer, LayerList, Home, Legend, Search, ListItem,
-    GraphicsLayer, SimpleLineSymbol, Polyline, Graphic, route, RouteParameters, FeatureSet, RouteResult, DirectionsFeatureSet, urlUtils, Directions) {
+     Polyline, Graphic) {
       //esriConfig.apiKey ="AAPK853e389eacab4000b8168009a957884eAeNxkMsT5xLndSZFhHgao-ynp074HaJnWU6CfSjbF8QQuZc5bL4FoHut1NkoYGYU";
       var scene = new Map({
         basemap: "hybrid",
@@ -4470,6 +4476,7 @@
         },
       });
       scene.add(offices);
+
       const greenboxes = new FeatureLayer({
         url: "https://services.arcgis.com/qovwaCdMoEzUUFzS/ArcGIS/rest/services/GreenBoxes/FeatureServer/0",
         popupTemplate: {
@@ -4510,7 +4517,7 @@
         // symbol of the route line
         const symbol = {
           type: "simple-line",
-          color: [226, 119, 40],
+          color: [128, 128, 128],
           width: 4
         };
         const features = result.features;
@@ -4525,7 +4532,11 @@
         // set a Graphic object with customized symbols
         const graphic = new Graphic({
             geometry: polyline,
-            symbol: symbol
+            symbol: {
+              type: "simple-line",
+              color: "grey",
+              width: "1px"
+            }
           });
         // set Fly Route Feature layer and add to scene.
         const flineLayer = new FeatureLayer({
@@ -4540,6 +4551,15 @@
             ],
             source: [graphic],
             spatialReference: { wkid: 4326 },
+            renderer: {
+              type: "simple",
+              symbol: {
+                type: "simple-line",
+                color: "grey",
+                width: "2px",
+                style: "dash"
+              }
+            },
             popupTemplate: {
               title: "Routes Flights",
             }
@@ -4628,6 +4648,7 @@
       });
       scene.add(routesdeparture);
       routesdeparture.visible = false;
+
       const routesarrival = new FeatureLayer({
         url: "https://services.arcgis.com/qovwaCdMoEzUUFzS/ArcGIS/rest/services/RoutesArrival/FeatureServer/0",
         title: "Arrival",
@@ -4653,6 +4674,7 @@
       });
       scene.add(routesarrival);
       routesarrival.visible = false;
+
       const aeroplane = new FeatureLayer({
         url: "https://services.arcgis.com/qovwaCdMoEzUUFzS/ArcGIS/rest/services/Aeroplane/FeatureServer/0",
         title: "Flights",
@@ -4663,7 +4685,7 @@
         },
         unit: "meters"},
         popupTemplate: {
-          title: "FLights",
+          title: "Flights",
           content: [
             {
               type: "fields",
@@ -4691,8 +4713,8 @@
         },
       });
       scene.add(aeroplane);
-      
       aeroplane.visible = false;
+
       const searchWidget = new Search({
         view: view,
         allPlaceholder: "UNHCR",
@@ -4817,6 +4839,7 @@
           }
         },
       });
+
       greenboxes.visibleElements = {
         statusIndicators: false,
         errors: true,
@@ -4830,10 +4853,24 @@
         ],
         "top-right"
       );
+      
       var homebtn = new Home({
         view: view,
       });
       view.ui.add(homebtn, "top-right");
+      // Create a new div element for the image
+      var imageDiv = document.createElement("div");
+      imageDiv.style.position = "absolute";
+      imageDiv.style.top = "20px"; // adjust as needed
+      imageDiv.style.right = "320px"; // adjust as needed
+      imageDiv.style.width = "260px"; // adjust as needed
+      imageDiv.style.height = "102px"; // adjust as needed
+      imageDiv.style.backgroundImage = "url('mark.png')";
+      imageDiv.style.backgroundSize = "cover";
+
+      // Add the div element to the map's container
+      var mapContainer = document.getElementById("viewDiv"); // replace with your map container element
+      mapContainer.appendChild(imageDiv);
     });
   });
 </script>
