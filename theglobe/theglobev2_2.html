@@ -25,27 +25,27 @@
         <p id="consumptionDate" class="memotext">2023 year to date</p>
       </div>
       <div id="blueStats">
-        <h2 class="paneltitle">Greening The Blue</h2>
+        <h2 class="paneltitle">Greening The Blue 2022</h2>
         <div id="stat">
           <div class="container">
             <img src="CO2.png" class="info-icon" width="40px" height="40px" alt="co2"/>
             <h2 id="co2" class="powerinfotext">0</h2>
           </div>
-          <p class="memotext"><i>(KG of CO2 emitted)</i></p>
+          <p class="memotext" text-align="center"><i>(KG of CO2 emitted)</i></p>
         </div>
         <div id="stat">
           <div class="container powerinfo">
             <img src="water.png" class="info-icon" width="40px" height="40px" alt="co2" />
           <h2 id="water" class="powerinfotext">0</h2>
           </div>
-          <p class="memotext"><i>(m3 of water used)</i></p>
+          <p class="memotext" text-align="center"><i>(m3 of water used)</i></p>
         </div>
         <div id="stat">
           <div class="container powerinfo">
             <img src="waste.png"class="info-icon" width="40px" height="40px" alt="co2"/>
           <h2 id="waste" class="powerinfotext">0</h2>
           </div>
-          <p class="memotext"><i>(KG of waste generated)</i></p>
+          <p class="memotext" text-align="center"><i>(KG of waste generated)</i></p>
         </div>
       </div>
     </div>
@@ -104,6 +104,10 @@
   .memotext{
     font-family: Arial, Helvetica, sans-serif;
     font-size: 13px;
+    margin-left: 20px;
+    margin-right: 20px;
+    margin-top:10px;
+    margin-bottom:10px;
   }
   #viewDiv {
     padding: 0;
@@ -4443,6 +4447,7 @@
 
       const offices = new FeatureLayer({
         url: "https://services.arcgis.com/qovwaCdMoEzUUFzS/ArcGIS/rest/services/UNHCROffices/FeatureServer/0",
+        title: "UNHCR Offices",
         popupTemplate: {
           title: "UNHCR Offices",
           content: [
@@ -4479,6 +4484,7 @@
 
       const greenboxes = new FeatureLayer({
         url: "https://services.arcgis.com/qovwaCdMoEzUUFzS/ArcGIS/rest/services/GreenBoxes/FeatureServer/0",
+        title: "Green Boxes",
         popupTemplate: {
           title: "Green Boxes installed",
           content: [
@@ -4887,7 +4893,7 @@
       greenboxes.visibleElements = {
         statusIndicators: false,
         errors: true,
-      };
+      };090
       view.ui.add(
         [new Expand({
             view: view,
@@ -4906,9 +4912,9 @@
       var imageDiv = document.createElement("div");
       imageDiv.style.position = "absolute";
       imageDiv.style.top = "20px"; // adjust as needed
-      imageDiv.style.right = "320px"; // adjust as needed
-      imageDiv.style.width = "260px"; // adjust as needed
-      imageDiv.style.height = "102px"; // adjust as needed
+      imageDiv.style.right = "300px"; // adjust as needed
+      imageDiv.style.width = "200px"; // adjust as needed
+      imageDiv.style.height = "80px"; // adjust as needed
       imageDiv.style.backgroundImage = "url('mark.png')";
       imageDiv.style.backgroundSize = "cover";
 
