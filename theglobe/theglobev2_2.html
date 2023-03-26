@@ -4702,16 +4702,24 @@
             placeholder: "example: Caracas",
             zoomScale: 500000,
           },
-          {
-            layer: aeroplane,
-            searchFields: ["Number_of"],
-            displayField: "Routes",
-            exactMatch: false,
+          {layer: Countries,
+            searchFields: ["COUNTRYAFF"],
+            displayField: "COUNTRYAFF",
+            exactMatch: true,
             outFields: ["*"],
-            name: "Aeroplane Routes",
-            placeholder: "example: Abidjan, Addis Ababa",
-            zoomScale: 500000,
+            name: "UNHCR Countries",
+            placeholder: "example: Colombia"
           },
+          //{
+            //layer: aeroplane,
+            //searchFields: ["Number_of"],
+            //displayField: "Routes",
+            //exactMatch: false,
+            //outFields: ["*"],
+            //name: "Aeroplane Routes",
+            //placeholder: "example: Abidjan, Addis Ababa",
+            //zoomScale: 500000,
+          //},
         ],
       });
       // scene.reorder(routeflylayer, map.layers.length - 1);
