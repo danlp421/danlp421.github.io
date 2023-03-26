@@ -17,41 +17,35 @@
     <div id="viewDiv"></div>
     <div id="panel">
       <div id="totalPowerDiv">
-        <h2>Estimated <span id="office">Offices</span> Power Consumption</h2>
-        <h2 id="totalPowerConsumption">2,979,683.35 KWh</h2>
-        <p id="consumptionDate">2023 year to date</p>
+        <h2 class="paneltitle">Estimated <span id="office">Offices</span> Power Consumption</h2>
+        <div class="container powerinfo">
+            <img src="power c.png" width="40px" height="40px" class="info-icon">
+            <h2 id="totalPowerConsumption" class="powerinfotext">2,979,683.35 KWh</h2>
+        </div>
+        <p id="consumptionDate" class="memotext">2023 year to date</p>
       </div>
       <div id="blueStats">
-        <h2>Greening The Blue</h2>
+        <h2 class="paneltitle">Greening The Blue</h2>
         <div id="stat">
-          <img
-            src="https://www.arcgis.com/sharing/rest/content/items/015b4153a8e94201aa90f615ebc2eb40/resources/images/widget_526/1675240205608.png"
-            alt="co2"
-            width="40px"
-            height="40px"
-          />
-          <h2 id="co2" style="margin: 0">0</h2>
-          <p style="margin: 0"><i>(KG of CO2 emitted)</i></p>
+          <div class="container">
+            <img src="CO2.png" class="info-icon" width="40px" height="40px" alt="co2"/>
+            <h2 id="co2" class="powerinfotext">0</h2>
+          </div>
+          <p class="memotext"><i>(KG of CO2 emitted)</i></p>
         </div>
         <div id="stat">
-          <img
-            src="https://www.arcgis.com/sharing/rest/content/items/015b4153a8e94201aa90f615ebc2eb40/resources/images/widget_527/1675240244586.png"
-            alt="co2"
-            width="40px"
-            height="40px"
-          />
-          <h2 id="water" style="margin: 0">0</h2>
-          <p style="margin: 0"><i>(m3 of water used)</i></p>
+          <div class="container powerinfo">
+            <img src="water.png" class="info-icon" width="40px" height="40px" alt="co2" />
+          <h2 id="water" class="powerinfotext">0</h2>
+          </div>
+          <p class="memotext"><i>(m3 of water used)</i></p>
         </div>
         <div id="stat">
-          <img
-            src="https://www.arcgis.com/sharing/rest/content/items/015b4153a8e94201aa90f615ebc2eb40/resources/images/widget_528/1675240286533.png"
-            alt="co2"
-            width="40px"
-            height="40px"
-          />
-          <h2 id="waste" style="margin: 0">0</h2>
-          <p style="margin: 0"><i>(KG of waste generated)</i></p>
+          <div class="container powerinfo">
+            <img src="waste.png"class="info-icon" width="40px" height="40px" alt="co2"/>
+          <h2 id="waste" class="powerinfotext">0</h2>
+          </div>
+          <p class="memotext"><i>(KG of waste generated)</i></p>
         </div>
       </div>
     </div>
@@ -73,20 +67,26 @@
     display: flex;
     width: 100%;
     align-items: center;
+    /* change layout for screen size */
+    display: flex;
+    margin: 0px;
   }
   #panel {
     box-sizing: border-box;
     background-color: black;
     color: white;
     /* height: 100%; */
-    flex: 1;
     display: flex;
     flex-direction: column;
     box-sizing: border-box;
+    /* draw white vertical line of left side; */
+    border-left: 2px solid white; 
+    flex: 0;
+    height: 100%;
   }
   #totalPowerDiv {
     flex: 2;
-    border: 1px solid;
+    /* border: 1px solid; */
     display: flex;
     justify-content: center;
     align-items: center;
@@ -94,14 +94,24 @@
     text-align: center;
     flex-direction: column;
     box-sizing: border-box;
+
+    border: none; 
+    border-top: 2px solid white; 
+    margin-left: 10%;
+    margin-right: 10%; 
+    margin-top: 15px;
+  }
+  .memotext{
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 13px;
   }
   #viewDiv {
     padding: 0;
     margin: 0;
     height: 100%;
-    /* width: 90%; */
-    flex: 4;
+    flex: 1;
   }
+  /* drow white top border line and bottom border line */
   #blueStats {
     flex: 4;
     border: 1px solid white;
@@ -113,6 +123,13 @@
     text-align: center;
     box-sizing: border-box;
     padding: 10px 0px;
+
+    border:none;
+    border-top: 2px solid white;
+    border-bottom: 2px solid white; 
+    margin-left: 10%;
+    margin-right: 10%; 
+    margin-bottom: 30px;
   }
   #blueStats h2 {
     margin: 0;
@@ -121,6 +138,29 @@
   #unhcrLogo {
     flex: 1;
     margin: 0;
+  }
+  .paneltitle{
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 18;
+  }
+  .powerinfo{
+    margin-left: 20px;
+    margin-right: 20px;
+    margin-top:10px;
+    margin-bottom:10px;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 18;
+  }
+  /* style for powerinfo text*/
+  .powerinfotext{
+    margin: 0px;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 14px;
+    width:220px;
+  }
+  .info-icon{
+    float: left;
+    flex:1;
   }
   .esri-widget__table {
     color: #ffffff;
@@ -146,7 +186,6 @@
     line-height: 1.3em;
     background-color: #141414;
   }
-
   .button {
     cursor: pointer;
     font-size: 30pt !important;
@@ -292,6 +331,7 @@
   .esri-ui-corner .esri-component.esri-widget--panel {
     width: 230px;
   }
+  
 </style>
 <script>
   const locations = [
@@ -4278,7 +4318,19 @@
       "esri/widgets/Legend",
       "esri/widgets/Search",
       "esri/widgets/LayerList/ListItem",
-    ], function (esriConfig, SceneView, Map, Expand, BasemapGallery, FeatureLayer, LayerList, Home, Legend, Search, ListItem) {
+      "esri/layers/GraphicsLayer",
+      "esri/symbols/SimpleLineSymbol",
+      "esri/geometry/Polyline",
+      "esri/Graphic",
+      "esri/rest/route",
+      "esri/rest/support/RouteParameters",
+      "esri/rest/support/FeatureSet",
+      "esri/rest/support/RouteResult",
+      "esri/rest/support/DirectionsFeatureSet",
+      "esri/core/urlUtils",
+      "esri/widgets/Directions"
+    ], function (esriConfig, SceneView, Map, Expand, BasemapGallery, FeatureLayer, LayerList, Home, Legend, Search, ListItem,
+    GraphicsLayer, SimpleLineSymbol, Polyline, Graphic, route, RouteParameters, FeatureSet, RouteResult, DirectionsFeatureSet, urlUtils, Directions) {
       //esriConfig.apiKey ="AAPK853e389eacab4000b8168009a957884eAeNxkMsT5xLndSZFhHgao-ynp074HaJnWU6CfSjbF8QQuZc5bL4FoHut1NkoYGYU";
       var scene = new Map({
         basemap: "hybrid",
@@ -4375,6 +4427,13 @@
           " KWh";
       };
       let intervalID = undefined;
+      const routeflylayer = new FeatureLayer({
+        url: "https://services.arcgis.com/qovwaCdMoEzUUFzS/ArcGIS/rest/services/RoutesFly/FeatureServer/0",
+        elevationInfo: {
+        mode: "relative-to-ground",
+        offset: 10
+      }
+      });
 
       const offices = new FeatureLayer({
         url: "https://services.arcgis.com/qovwaCdMoEzUUFzS/ArcGIS/rest/services/Offices_UNHCR/FeatureServer/0",
@@ -4438,8 +4497,53 @@
         },
       });
       greenboxes.visible = false;
-      scene.add(greenboxes);
 
+      scene.add(greenboxes);
+      // add RouteFly feature layer to scene
+      // get paths out route lines and customize
+      let featurePaths = [];
+      routeflylayer.queryFeatures().then(function(result) {
+        // symbol of the route line
+        const symbol = {
+          type: "simple-line",
+          color: [226, 119, 40],
+          width: 4
+        };
+        const features = result.features;
+        for (let i = 0; i < features.length; i++) {
+          featurePaths.push(features[i].geometry.paths[0]);
+        }
+        // set a polyline with all route lines
+        const polyline = new Polyline({
+          paths:featurePaths,
+          spatialReference: { wkid: 4326 }
+        });
+        // set a Graphic object with customized symbols
+        const graphic = new Graphic({
+            geometry: polyline,
+            symbol: symbol
+          });
+        // set Fly Route Feature layer and add to scene.
+        const flineLayer = new FeatureLayer({
+          title: "Routes Flights",
+            objectIdField: "OBJECTID ",
+            fields: [
+              {
+                name: "OBJECTID ",
+                alias: "OBJECTID ",
+                type: "oid"
+              }
+            ],
+            source: [graphic],
+            spatialReference: { wkid: 4326 },
+            popupTemplate: {
+              title: "Routes Flights",
+            }
+          });
+        scene.add(flineLayer);
+        flineLayer.visible =  true;
+      });
+      
       const greentheblue = new FeatureLayer({
         url: "https://services.arcgis.com/qovwaCdMoEzUUFzS/ArcGIS/rest/services/Greening_The_Blue_2022/FeatureServer/0",
         popupTemplate: {
@@ -4475,6 +4579,7 @@
         },
       });
       scene.add(greentheblue);
+
       greentheblue.visible = false;
       const Countries = new FeatureLayer({
         url: "https://services.arcgis.com/P3ePLMYs2RVChkJx/ArcGIS/rest/services/World_Countries_(Generalized)/FeatureServer/0",
@@ -4579,6 +4684,7 @@
         },
       });
       scene.add(aeroplane);
+      
       aeroplane.visible = false;
       const searchWidget = new Search({
         view: view,
@@ -4607,6 +4713,7 @@
           },
         ],
       });
+      // scene.reorder(routeflylayer, map.layers.length - 1);
       searchWidget.on("select-result", function (event) {
         clearInterval(intervalID);
         total_KWh = 0;
