@@ -4649,6 +4649,7 @@
       routesarrival.visible = false;
       const aeroplane = new FeatureLayer({
         url: "https://services.arcgis.com/qovwaCdMoEzUUFzS/ArcGIS/rest/services/Aeroplane/FeatureServer/0",
+        title: "Flights",
         elevationInfo: {
         mode: "relative-to-ground",
         featureExpressionInfo: {
@@ -4656,7 +4657,7 @@
         },
         unit: "meters"},
         popupTemplate: {
-          title: "Aeroplane",
+          title: "FLights",
           content: [
             {
               type: "fields",
