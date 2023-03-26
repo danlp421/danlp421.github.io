@@ -11,7 +11,7 @@
     </head>
     <body>
         <section class="container">
-           <h1></h1>
+           <h1>Offices Power Consumption</h1>
            <div id="counter"> 2,979,683.35 KWh</div>
         </section>
         <section><h2></h2></section>
@@ -21,7 +21,7 @@
     <style>
         body
     #counter {
-    font-size: 23px;
+    font-size: 30px;
     text-align: center;
     color: rgb(255, 255, 255);
         }
@@ -44,7 +44,7 @@
     <body>
         <script>
         let currentEnergyConsumed = 2979677.96;
-        const kwhPerKw = 1;
+        const kwhPerKw = 5.39;
         const counterElement = document.querySelector("#counter");
 
         const updateCounter = () => {
@@ -52,13 +52,10 @@
             counterElement.innerText = (currentEnergyConsumed+kwhPerKw).toLocaleString("en-US", { style: "decimal", useGrouping: true, maximumFractionDigits: 2 }) + " KWh";
         };
 
-        setInterval(updateCounter, 5000); 
+        setInterval(updateCounter, 1000); 
 
 
 
 
         </script>
     </body>
-
-
-
