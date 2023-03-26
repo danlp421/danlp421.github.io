@@ -4715,6 +4715,50 @@
       scene.add(aeroplane);
       aeroplane.visible = false;
 
+      const FleetData = new FeatureLayer({
+        url: "https://services.arcgis.com/qovwaCdMoEzUUFzS/ArcGIS/rest/services/Fleet_Data/FeatureServer/0",
+        title: "Fleet",
+        elevationInfo: {
+        mode: "relative-to-ground",
+        featureExpressionInfo: {
+          expression: "Geometry($feature).z * 10 + $feature.HEIGHT100"
+        },
+        unit: "meters"},
+        popupTemplate: {
+          title: "Fleet",
+          content: [
+            {
+              type: "fields",
+              fieldInfos: [
+                {
+                  fieldName: "Office",
+                  label: "Office",
+                },
+                {
+                  fieldName: "Vehicles",
+                  label: "Vehicles",
+                },
+                {
+                  fieldName: "CO2_Emitted__Kg_ ",
+                  label: "CO2 emitted (Kg)", 
+                },
+                {
+                  fieldName: "Distance_Travelled__Km_",
+                  label: "Distance Travelled (Km)", 
+                },
+                {
+                  fieldName: "Electric_Hybrid_Vehicles",
+                  label: "Electric/Hybrid Vehicles", 
+                },
+              ],
+            },
+          ],
+          overwriteActions: false,
+        },
+      });
+      scene.add(aeroplane);
+      aeroplane.visible = false;
+
       const searchWidget = new Search({
         view: view,
         allPlaceholder: "UNHCR",
