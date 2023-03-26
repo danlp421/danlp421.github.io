@@ -4601,8 +4601,9 @@
       });
       const routesdeparture = new FeatureLayer({
         url: "https://services.arcgis.com/qovwaCdMoEzUUFzS/ArcGIS/rest/services/RoutesDeparture/FeatureServer/0",
+        title: "Departure",
         popupTemplate: {
-          title: "Routes Departure",
+          title: "Departure",
           content: [
             {
               type: "fields",
@@ -4625,8 +4626,9 @@
       routesdeparture.visible = false;
       const routesarrival = new FeatureLayer({
         url: "https://services.arcgis.com/qovwaCdMoEzUUFzS/ArcGIS/rest/services/RoutesArrival/FeatureServer/0",
+        title: "Arrival",
         popupTemplate: {
-          title: "Routes Arrival",
+          title: "Arrival",
           content: [
             {
               type: "fields",
