@@ -455,6 +455,7 @@ $(document).ready(function(){
       routesarrival.visible = false;
       const aeroplane = new FeatureLayer({
         url: "https://services.arcgis.com/qovwaCdMoEzUUFzS/ArcGIS/rest/services/Aeroplane/FeatureServer/0",
+        title: "Flights",
         elevationInfo: {
         mode: "relative-to-ground",
         featureExpressionInfo: {
@@ -505,15 +506,15 @@ $(document).ready(function(){
         placeholder: "example: Caracas",
         zoomScale: 500000
       },
-      {layer: aeroplane,
-        searchFields: ["Number_of"],
-        displayField: "Routes",
-        exactMatch: false,
-        outFields: ["*"],
-        name: "Aeroplane Routes",
-        placeholder: "example: Abidjan, Addis Ababa",
-        zoomScale: 500000,
-      },
+      //{layer: aeroplane,
+        //searchFields: ["Number_of"],
+        //displayField: "Routes",
+        //exactMatch: false,
+        //outFields: ["*"],
+        //name: "Aeroplane Routes",
+        //placeholder: "example: Abidjan, Addis Ababa",
+        //zoomScale: 500000,
+      //},
       //{layer: greenboxes,
         //searchFields: ["InS_ID"],
         //displayField: "InS_ID",
@@ -532,14 +533,14 @@ $(document).ready(function(){
         //placeholder: "Paris",
         //zoomScale: 500000
       //},      
-      //{layer: Countries,
-        //searchFields: ["COUNTRYAFF"],
-        //displayField: "COUNTRYAFF",
-        //exactMatch: true,
-        //outFields: ["*"],
-        //name: "UNHCR Countries",
-        //placeholder: "example: Colombia"
-      //},
+      {layer: Countries,
+        searchFields: ["COUNTRYAFF"],
+        displayField: "COUNTRYAFF",
+        exactMatch: true,
+        outFields: ["*"],
+        name: "UNHCR Countries",
+        placeholder: "example: Colombia"
+      },
       //{name: "ArcGIS World Geocoding Service",
         //placeholder: "example: Nuuk, GRL",
         //apiKey: "AAPK853e389eacab4000b8168009a957884eAeNxkMsT5xLndSZFhHgao-ynp074HaJnWU6CfSjbF8QQuZc5bL4FoHut1NkoYGYU",
