@@ -469,25 +469,29 @@ $(document).ready(function(){
         },
         unit: "meters"},
         popupTemplate: {
-          title: "Aeroplane",
+          title: "Flights",
           content: [
             {
               type: "fields",
               fieldInfos: [
                 {
-                  fieldName: "Number_of",
-                  label: "Routes",
+                  fieldName: "Departure",
+                  label: "Departure",
                 },
                 {
-                  fieldName: "Number_o_1",
+                  fieldName: "Arrival",
+                  label: "Arrival",
+                },
+                {
+                  fieldName: "Number_of_flights_1",
                   label: "Number of flights",
                 },
                 {
-                  fieldName: "CO2_emitte",
-                  label: "CO2 emitted (tons)", 
+                  fieldName: "CO2_emitted__tons_ ",
+                  label: "CO<sub>2</sub> emitted (Tons)", 
                 },
                 {
-                  fieldName: "Net_Spent",
+                  fieldName: "Net_Spent__USD_",
                   label: "Net Spent (USD)", 
                 },
               ],
