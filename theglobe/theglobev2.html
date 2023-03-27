@@ -301,6 +301,7 @@ $(document).ready(function(){
   rotate();
   const offices = new FeatureLayer({
     url: "https://services.arcgis.com/qovwaCdMoEzUUFzS/ArcGIS/rest/services/UNHCROffices/FeatureServer/0",
+    title:"UNHCR Offices",
     popupTemplate: {
       title:"UNHCR Offices",
       content:[{
@@ -331,11 +332,16 @@ $(document).ready(function(){
   scene.add(offices);
   const greenboxes = new FeatureLayer({
     url: "https://services.arcgis.com/qovwaCdMoEzUUFzS/ArcGIS/rest/services/GreenBoxes/FeatureServer/0",
+    title:"Green Boxes",
     popupTemplate: {
       title:"Green Boxes installed",
       content:[{
         type:"fields",
         fieldInfos:[
+        {
+          fieldName:"INS_Code",
+          label:"INS Code"
+        },
         {
           fieldName:"Country__UNHCR_",
           label:"Country"
@@ -372,13 +378,13 @@ $(document).ready(function(){
         },{
 
           fieldName:"Total_GHG_Emissions__Co2_",
-          label:"Total CO2 (Ton)"
+          label:"Total CO<sub>2</sub> (Ton)"
         },{
           fieldName:"Total_Waste__Kg_",
           label:"Total Waste (Kg)"
         },{
           fieldName:"Water_Use__m3_",
-          label:"Water use (m³)"
+          label:"Water used (m³)"
         }
         ]
       }
