@@ -453,7 +453,7 @@ body {
             },
           });
         scene.add(flineLayer);
-        flineLayer.visible =  true;
+        //flineLayer.visible =  true;
       });
       
       //const greentheblue = new FeatureLayer({
@@ -524,17 +524,17 @@ body {
                   fieldName: "Departure",
                   label: "Departure",
                 },
-                {
-                  fieldName: "Arrival",
-                  label: "Arrival",
-                },
+                //{
+                  //fieldName: "Arrival",
+                  //label: "Arrival",
+                //},
                 {
                   fieldName: "Number_o_1",
                   label: "Number of flights",
                 },
                 {
                   fieldName: "CO2_emitte",
-                  label: "CO2 emitted (tons)",
+                  label: "CO<sub>2</sub> emitted (tons)",
                 },
                 {
                   fieldName: "Net_Spent",
@@ -547,7 +547,7 @@ body {
         },
       });
       scene.add(routesdeparture);
-      routesdeparture.visible = true;
+      //routesdeparture.visible = true;
 
       const routesarrival = new FeatureLayer({
         url: "https://services.arcgis.com/qovwaCdMoEzUUFzS/ArcGIS/rest/services/RoutesArrival/FeatureServer/0",
@@ -562,17 +562,17 @@ body {
                   fieldName: "Arrival",
                   label: "Arrival",
                 },
-                {
-                  fieldName: "Departure",
-                  label: "Departure",
-                },
+                //{
+                  //fieldName: "Departure",
+                  //label: "Departure",
+                //},
                 {
                   fieldName: "Number_o_1",
                   label: "Number of flights",
                 },
                 {
                   fieldName: "CO2_emitte",
-                  label: "CO2 emitted (tons)",
+                  label: "CO<sub>2</sub> emitted (tons)",
                 },
                 {
                   fieldName: "Net_Spent",
@@ -585,7 +585,7 @@ body {
         },
       });
       scene.add(routesarrival);
-      routesarrival.visible = true;
+      //routesarrival.visible = true;
 
       const aeroplane = new FeatureLayer({
         url: "https://services.arcgis.com/qovwaCdMoEzUUFzS/ArcGIS/rest/services/Aeroplane/FeatureServer/0",
@@ -603,19 +603,23 @@ body {
               type: "fields",
               fieldInfos: [
                 {
-                  fieldName: "Number_of",
-                  label: "Routes",
+                  fieldName: "Departure ",
+                  label: "Departure ",
                 },
                 {
-                  fieldName: "Number_o_1",
+                  fieldName: "Arrival ",
+                  label: "Arrival",
+                },
+                {
+                  fieldName: "Number_of_flights_1",
                   label: "Number of flights",
                 },
                 {
-                  fieldName: "CO2_emitte",
-                  label: "CO2 emitted (tons)", 
+                  fieldName: "CO2_emitted__tons_",
+                  label: "CO<sub>2</sub> emitted (Tons)", 
                 },
                 {
-                  fieldName: "Net_Spent",
+                  fieldName: "Net_Spent__USD_",
                   label: "Net Spent (USD)", 
                 },
               ],
@@ -625,7 +629,7 @@ body {
         },
       });
       scene.add(aeroplane);
-      aeroplane.visible = true;
+      //aeroplane.visible = true;
 
       const FleetData = new FeatureLayer({
         url: "https://services.arcgis.com/qovwaCdMoEzUUFzS/ArcGIS/rest/services/Fleet_Data/FeatureServer/0",
@@ -647,20 +651,20 @@ body {
                   label: "Office",
                 },
                 {
-                  fieldName: "Vehicles",
-                  label: "Vehicles",
+                  fieldName: "Number_of_Vehicles",
+                  label: "Number of Vehicles",
                 },
                 {
-                  fieldName: "CO2_Emitted__Kg_ ",
-                  label: "CO2 emitted (Kg)", 
+                  fieldName: "CO2_Emitted__Kg_",
+                  label: "CO<sub>2</sub> emitted (Kg)", 
                 },
                 {
                   fieldName: "Distance_Travelled__Km_",
                   label: "Distance Travelled (Km)", 
                 },
                 {
-                  fieldName: "Electric_Hybrid_Vehicles",
-                  label: "Electric/Hybrid Vehicles", 
+                  fieldName: "Number_of_Electric_Hybrid_Vehic",
+                  label: "Number of Electric/Hybrid Vehicles", 
                 },
               ],
             },
