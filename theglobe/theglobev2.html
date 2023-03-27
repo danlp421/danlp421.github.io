@@ -363,7 +363,7 @@ $(document).ready(function(){
   scene.add(greenboxes);
 
   const greentheblue = new FeatureLayer({
-    url: "https://services.arcgis.com/qovwaCdMoEzUUFzS/ArcGIS/rest/services/Greening_The_Blue_2022/FeatureServer/0",
+    url: "https://services.arcgis.com/qovwaCdMoEzUUFzS/ArcGIS/rest/services/GreeningTheBlue2022/FeatureServer/0",
     popupTemplate: {
       title:"Greening The Blue 2022",
       content:[{
@@ -475,11 +475,11 @@ $(document).ready(function(){
               type: "fields",
               fieldInfos: [
                 {
-                  fieldName: "Departure",
-                  label: "Departure",
+                  fieldName: "Departure ",
+                  label: "Departure ",
                 },
                 {
-                  fieldName: "Arrival",
+                  fieldName: "Arrival ",
                   label: "Arrival",
                 },
                 {
@@ -487,7 +487,7 @@ $(document).ready(function(){
                   label: "Number of flights",
                 },
                 {
-                  fieldName: "CO2_emitted__tons_ ",
+                  fieldName: "CO2_emitted__tons_",
                   label: "CO<sub>2</sub> emitted (Tons)", 
                 },
                 {
