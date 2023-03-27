@@ -4529,7 +4529,7 @@
             };
       // add RouteFly feature layer to scene
       const routeflylayer = new FeatureLayer({
-        url: "https://services.arcgis.com/qovwaCdMoEzUUFzS/ArcGIS/rest/services/RoutesFly/FeatureServer/0",
+        url: "#",
         elevationInfo: {
         mode: "relative-to-ground",
         offset: 10
@@ -4660,141 +4660,141 @@
           overwriteActions: false,
         },
       });
-      const routesdeparture = new FeatureLayer({
-        url: "https://services.arcgis.com/qovwaCdMoEzUUFzS/ArcGIS/rest/services/RoutesDeparture/FeatureServer/0",
-        title: "Departure",
-        popupTemplate: {
-          title: "Departure",
-          content: [
-            {
-              type: "fields",
-              fieldInfos: [
-                {
-                  fieldName: "Routes",
-                  label: "Routes",
-                },
-                {
-                  fieldName: "Departure",
-                  label: "Departure",
-                },
-              ],
-            },
-          ],
-          overwriteActions: false,
-        },
-      });
-      scene.add(routesdeparture);
-      routesdeparture.visible = false;
+      //const routesdeparture = new FeatureLayer({
+        //url: "https://services.arcgis.com/qovwaCdMoEzUUFzS/ArcGIS/rest/services/RoutesDeparture/FeatureServer/0",
+        //title: "Departure",
+        //popupTemplate: {
+          //title: "Departure",
+          //content: [
+            //{
+              //type: "fields",
+              //fieldInfos: [
+                //{
+                  //fieldName: "Routes",
+                  //label: "Routes",
+                //},
+                //{
+                  //fieldName: "Departure",
+                  //label: "Departure",
+                //},
+              //],
+            //},
+          //],
+          //overwriteActions: false,
+        //},
+      //});
+      //scene.add(routesdeparture);
+      //routesdeparture.visible = false;
 
-      const routesarrival = new FeatureLayer({
-        url: "https://services.arcgis.com/qovwaCdMoEzUUFzS/ArcGIS/rest/services/RoutesArrival/FeatureServer/0",
-        title: "Arrival",
-        popupTemplate: {
-          title: "Arrival",
-          content: [
-            {
-              type: "fields",
-              fieldInfos: [
-                {
-                  fieldName: "Routes",
-                  label: "Routes",
-                },
-                {
-                  fieldName: "Arrival",
-                  label: "Arrival",
-                },
-              ],
-            },
-          ],
-          overwriteActions: false,
-        },
-      });
-      scene.add(routesarrival);
-      routesarrival.visible = false;
+      //const routesarrival = new FeatureLayer({
+        //url: "https://services.arcgis.com/qovwaCdMoEzUUFzS/ArcGIS/rest/services/RoutesArrival/FeatureServer/0",
+        //title: "Arrival",
+        //popupTemplate: {
+          //title: "Arrival",
+          //content: [
+            //{
+              //type: "fields",
+              //fieldInfos: [
+                //{
+                  //fieldName: "Routes",
+                  //label: "Routes",
+                //},
+                //{
+                  //fieldName: "Arrival",
+                  //label: "Arrival",
+                //},
+              //],
+            //},
+          //],
+          //overwriteActions: false,
+        //},
+      //});
+      //scene.add(routesarrival);
+      //routesarrival.visible = false;
 
-      const aeroplane = new FeatureLayer({
-        url: "https://services.arcgis.com/qovwaCdMoEzUUFzS/ArcGIS/rest/services/Aeroplane/FeatureServer/0",
-        title: "Flights",
-        elevationInfo: {
-        mode: "relative-to-ground",
-        featureExpressionInfo: {
-          expression: "Geometry($feature).z * 10 + $feature.HEIGHT100"
-        },
-        unit: "meters"},
-        popupTemplate: {
-          title: "Flights",
-          content: [
-            {
-              type: "fields",
-              fieldInfos: [
-                {
-                  fieldName: "Number_of",
-                  label: "Routes",
-                },
-                {
-                  fieldName: "Number_o_1",
-                  label: "Number of flights",
-                },
-                {
-                  fieldName: "CO2_emitte",
-                  label: "CO2 emitted (tons)", 
-                },
-                {
-                  fieldName: "Net_Spent",
-                  label: "Net Spent (USD)", 
-                },
-              ],
-            },
-          ],
-          overwriteActions: false,
-        },
-      });
-      scene.add(aeroplane);
-      aeroplane.visible = false;
+      //const aeroplane = new FeatureLayer({
+        //url: "https://services.arcgis.com/qovwaCdMoEzUUFzS/ArcGIS/rest/services/Aeroplane/FeatureServer/0",
+        //title: "Flights",
+        //elevationInfo: {
+        //mode: "relative-to-ground",
+        //featureExpressionInfo: {
+          //expression: "Geometry($feature).z * 10 + $feature.HEIGHT100"
+        //},
+        //unit: "meters"},
+        //popupTemplate: {
+          //title: "Flights",
+          //content: [
+            //{
+              //type: "fields",
+              //fieldInfos: [
+                //{
+                  //fieldName: "Number_of",
+                  //label: "Routes",
+                //},
+                //{
+                  //fieldName: "Number_o_1",
+                  //label: "Number of flights",
+                //},
+                //{
+                  //fieldName: "CO2_emitte",
+                  //label: "CO2 emitted (tons)", 
+                //},
+                //{
+                  //fieldName: "Net_Spent",
+                  //label: "Net Spent (USD)", 
+                //},
+              //],
+            //},
+          //],
+          //overwriteActions: false,
+        //},
+      //});
+      //scene.add(aeroplane);
+      //aeroplane.visible = false;
 
-      const FleetData = new FeatureLayer({
-        url: "https://services.arcgis.com/qovwaCdMoEzUUFzS/ArcGIS/rest/services/Fleet_Data/FeatureServer/0",
-        title: "Fleet",
-        elevationInfo: {
-        mode: "relative-to-ground",
-        featureExpressionInfo: {
-          expression: "Geometry($feature).z * 10 + $feature.HEIGHT100"
-        },
-        unit: "meters"},
-        popupTemplate: {
-          title: "Fleet",
-          content: [
-            {
-              type: "fields",
-              fieldInfos: [
-                {
-                  fieldName: "Office",
-                  label: "Office",
-                },
-                {
-                  fieldName: "Vehicles",
-                  label: "Vehicles",
-                },
-                {
-                  fieldName: "CO2_Emitted__Kg_ ",
-                  label: "CO2 emitted (Kg)", 
-                },
-                {
-                  fieldName: "Distance_Travelled__Km_",
-                  label: "Distance Travelled (Km)", 
-                },
-                {
-                  fieldName: "Electric_Hybrid_Vehicles",
-                  label: "Electric/Hybrid Vehicles", 
-                },
-              ],
-            },
-          ],
-          overwriteActions: false,
-        },
-      });
-      scene.add(FleetData);
-      FleetData.visible = false;
+      //const FleetData = new FeatureLayer({
+        //url: "https://services.arcgis.com/qovwaCdMoEzUUFzS/ArcGIS/rest/services/Fleet_Data/FeatureServer/0",
+        //title: "Fleet",
+        //elevationInfo: {
+        //mode: "relative-to-ground",
+        //featureExpressionInfo: {
+          //expression: "Geometry($feature).z * 10 + $feature.HEIGHT100"
+        //},
+        //unit: "meters"},
+        //popupTemplate: {
+          //title: "Fleet",
+          //content: [
+            //{
+              //type: "fields",
+              //fieldInfos: [
+                //{
+                  //fieldName: "Office",
+                  //label: "Office",
+                //},
+                //{
+                  //fieldName: "Vehicles",
+                  //label: "Vehicles",
+                //},
+                //{
+                  //fieldName: "CO2_Emitted__Kg_ ",
+                  //label: "CO2 emitted (Kg)", 
+                //},
+                //{
+                  //fieldName: "Distance_Travelled__Km_",
+                  //label: "Distance Travelled (Km)", 
+                //},
+                //{
+                  //fieldName: "Electric_Hybrid_Vehicles",
+                  //label: "Electric/Hybrid Vehicles", 
+                //},
+              //],
+            //},
+          //],
+          //overwriteActions: false,
+        //},
+      //});
+      //scene.add(FleetData);
+      //FleetData.visible = false;
 
       const searchWidget = new Search({
         view: view,
