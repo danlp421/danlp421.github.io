@@ -32,7 +32,7 @@
             <img src="CO2.png" class="info-icon" width="40px" height="40px" alt="co2"/>
             <h2 id="co2" class="powerinfotext">0</h2>
           </div>
-          <p class="memotext">(Kg of CO<sub>2</sub>&nbsp;emitted)</p>
+          <p class="memotext">(Tons of CO<sub>2</sub>&nbsp;emitted)</p>
         </div>
         <div id="stat">
           <div class="container powerinfo">
@@ -126,7 +126,7 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    gap: 30px;
+    gap: 10px;
     text-align: center;
     box-sizing: border-box;
     padding: 10px 0px;
@@ -870,6 +870,8 @@
                 }
                 else{
                   total_co2 =value_co2;
+                  total_co2 = total_co2/1000;
+                  total_co2 = total_co2.toFixed(2);
                 }
                 if(isNaN(value_water)){
                   total_water = "N/A";
@@ -948,6 +950,7 @@
               let value_water = parseFloat(features[i].attributes.Water_Use__m3_.replace(/,/g, ''));
               if(!isNaN(value_co2)){
                 total_co2 =total_co2+value_co2;
+                
               }
               if(!isNaN(value_waste)){
                 total_waste =total_waste + value_waste;
@@ -956,6 +959,11 @@
                 total_water =total_water+ value_water;
               }
             }
+            if(total_co2 > 0){
+              total_co2 = Math.floor(total_co2/1000);
+              //total_co2 = total_co2.toFixed(2);
+            }
+            
           });
           if(!isPlaying){
             interval = setInterval(updateDateTime, 1000);
@@ -1021,7 +1029,7 @@
       var imageDiv = document.createElement("div");
       imageDiv.style.position = "absolute";
       imageDiv.style.top = "20px"; // adjust as needed
-      imageDiv.style.right = "300px"; // adjust as needed
+      imageDiv.style.right = "282px"; // adjust as needed
       imageDiv.style.width = "200px"; // adjust as needed
       imageDiv.style.height = "80px"; // adjust as needed
       imageDiv.style.backgroundImage = "url('mark.png')";
