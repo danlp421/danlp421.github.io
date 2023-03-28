@@ -169,6 +169,19 @@ body {
   .esri-widget__heading {
     margin: 0 0 0.1rem 0;
   }
+  .esri-ui-corner-container{
+    inset: 20px 20px 35px;
+  }
+  /* Here you configure the margins for the map buttons. you can customize the margin value of top-right, top-left*/
+  .esri-ui-top-right{
+    top:100px;
+    right:20px;
+  }
+  .esri-ui-top-left{
+    top:20px;
+    left:20px;
+  }
+
   h2.esri-widget__heading {
     font-weight: 500;
     font-size: 14px;
@@ -251,7 +264,8 @@ body {
         alphaCompositingEnabled: true,
         qualityProfile: "high",
         camera: {
-          position: [0.0, 14.398459, 25000000.0],
+          //Here you can set the size of the globe in the user view. modify the z value of position. if it is higher value, the size of globe will be smaller.
+          position: [0.0, 14.398459, 30000000.0],
           heading: 0.0,
           tilt: 0.16,
         },
@@ -384,7 +398,7 @@ body {
       
       let featurePaths = [];
       routeflylayer.queryFeatures().then(function(result) {
-        // symbol of the route line
+        // symbol of the route line. you can customize the color of fly route with rgb value.
         const symbol = {
           type: "simple-line",
           color: [128, 128, 128],
@@ -734,7 +748,16 @@ body {
         },
       });
 
-      
+      var imageDiv = document.createElement("div");
+      imageDiv.style.position = "absolute";
+      imageDiv.style.top = "20px"; // adjust as needed
+      imageDiv.style.right = "100px"; // adjust as needed
+      imageDiv.style.width = "200px"; // adjust as needed
+      imageDiv.style.height = "80px"; // adjust as needed
+      imageDiv.style.backgroundImage = "url('logo.png')";
+      imageDiv.style.backgroundSize = "cover";
+      var mapContainer = document.getElementById("viewDiv"); // replace with your map container element
+      mapContainer.appendChild(imageDiv);
 
       view.ui.add(
         [new Expand({
