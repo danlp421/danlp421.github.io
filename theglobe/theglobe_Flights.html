@@ -391,22 +391,39 @@ body {
         url: "https://services.arcgis.com/qovwaCdMoEzUUFzS/ArcGIS/rest/services/RoutesFly/FeatureServer/0",
         elevationInfo: {
         mode: "relative-to-ground",
-        offset: 10
+        offset: 10,
+        renderer: {
+              type: "simple",
+              symbol: {
+                type: "simple-line",
+                color: [180,180,180],
+                width: "2px",
+                style: "dash"
+              }
+            },
+            popupTemplate: {
+              title: "Route Flights",
+              content: [
+                {
+                  type: "fields",
+                  fieldInfos: [
+                    {
+                      fieldName: "Number_of",
+                      label: "Routes Flights",
+                    }
+                  ],
+                },
+              ],
+              overwriteActions: false,
+            },
       }
       });
       // get paths out route lines and customize
       
-      let featurePaths = [];
+      const graphics = [];
       routeflylayer.queryFeatures().then(function(result) {
         // symbol of the route line. you can customize the color of fly route with rgb value.
-        const symbol = {
-          type: "simple-line",
-          color: [128, 128, 128],
-          width: 4
-        };
         const features = result.features;
-        
-        let graphics = [];
         for (let i = 0; i < features.length; i++) {
           const polyline = new Polyline({
             paths:features[i].geometry.paths[0],
@@ -423,10 +440,10 @@ body {
           });
           graphics.push(graphic);
         }
-        // set Fly Route Feature layer and add to scene.
         const flineLayer = new FeatureLayer({
           title: "Routes Flights",
             objectIdField: "OBJECTID",
+            id: "routeLayer",
             fields: [
               {
                 name: "OBJECTID",
@@ -467,8 +484,48 @@ body {
             },
           });
         scene.add(flineLayer);
+        const searchWidget = new Search({
+        view: view,
+        allPlaceholder: "UNHCR",
+        includeDefaultSources: false,
+        sources: [
+          //{
+            //layer: offices,
+            //searchFields: ["Location"],
+            //displayField: "Location",
+            //exactMatch: false,
+            //outFields: ["*"],
+           // name: "UNHCR Offices",
+            //placeholder: "example: Caracas",
+            //zoomScale: 500000,
+          //},
+          //{layer: Countries,
+            //searchFields: ["COUNTRYAFF"],
+            //displayField: "COUNTRYAFF",
+            //exactMatch: true,
+            //outFields: ["*"],
+            //name: "UNHCR Countries",
+            //placeholder: "example: Colombia"
+          //},
+          {
+            layer: flineLayer,
+            searchFields: ["Number_of"],
+            displayField: "Number_of",
+            exactMatch: false,
+            outFields: ["*"],
+            name: "Routes",
+            placeholder: "example: Abidjan, Addis Ababa",
+            zoomScale: 500000,
+          },
+        ],
+      });
+      view.ui.add(searchWidget, "bottom-right", {
+        position: "bottom-right",
+      });
         //flineLayer.visible =  true;
       });
+      
+      // set Fly Route Feature layer and add to scene.
       
       //const greentheblue = new FeatureLayer({
         //url: "https://services.arcgis.com/qovwaCdMoEzUUFzS/ArcGIS/rest/services/Greening_The_Blue_2022/FeatureServer/0",
@@ -689,44 +746,44 @@ body {
       //scene.add(FleetData);
       //FleetData.visible = false;
 
-      const searchWidget = new Search({
-        view: view,
-        allPlaceholder: "UNHCR",
-        includeDefaultSources: false,
-        sources: [
-          //{
-            //layer: offices,
-            //searchFields: ["Location"],
-            //displayField: "Location",
-            //exactMatch: false,
-            //outFields: ["*"],
-           // name: "UNHCR Offices",
-            //placeholder: "example: Caracas",
-            //zoomScale: 500000,
-          //},
-          //{layer: Countries,
-            //searchFields: ["COUNTRYAFF"],
-            //displayField: "COUNTRYAFF",
-            //exactMatch: true,
-            //outFields: ["*"],
-            //name: "UNHCR Countries",
-            //placeholder: "example: Colombia"
-          //},
-          {
-            layer: routeflylayer,
-            searchFields: ["Number_of"],
-            displayField: "Routes",
-            exactMatch: false,
-            outFields: ["*"],
-            name: "Routes",
-            placeholder: "example: Abidjan, Addis Ababa",
-            zoomScale: 500000,
-          },
-        ],
-      });
-      view.ui.add(searchWidget, "bottom-right", {
-        position: "bottom-right",
-      });
+      // const searchWidget = new Search({
+      //   view: view,
+      //   allPlaceholder: "UNHCR",
+      //   includeDefaultSources: false,
+      //   sources: [
+      //     //{
+      //       //layer: offices,
+      //       //searchFields: ["Location"],
+      //       //displayField: "Location",
+      //       //exactMatch: false,
+      //       //outFields: ["*"],
+      //      // name: "UNHCR Offices",
+      //       //placeholder: "example: Caracas",
+      //       //zoomScale: 500000,
+      //     //},
+      //     //{layer: Countries,
+      //       //searchFields: ["COUNTRYAFF"],
+      //       //displayField: "COUNTRYAFF",
+      //       //exactMatch: true,
+      //       //outFields: ["*"],
+      //       //name: "UNHCR Countries",
+      //       //placeholder: "example: Colombia"
+      //     //},
+      //     {
+      //       layer: scene.findLayerById("routeLayer"),
+      //       searchFields: ["Number_of"],
+      //       displayField: "Routes",
+      //       exactMatch: false,
+      //       outFields: ["*"],
+      //       name: "Routes",
+      //       placeholder: "example: Abidjan, Addis Ababa",
+      //       zoomScale: 500000,
+      //     },
+      //   ],
+      // });
+      // view.ui.add(searchWidget, "bottom-right", {
+      //   position: "bottom-right",
+      // });
       function shiftCamera(deg) {
         var camera = view.camera.clone();
         camera.position.longitude += deg;
@@ -747,11 +804,11 @@ body {
           }
         },
       });
-
+      // logo image add
       var imageDiv = document.createElement("div");
       imageDiv.style.position = "absolute";
       imageDiv.style.top = "20px"; // adjust as needed
-      imageDiv.style.right = "100px"; // adjust as needed
+      imageDiv.style.right = "20px"; // adjust as needed
       imageDiv.style.width = "200px"; // adjust as needed
       imageDiv.style.height = "80px"; // adjust as needed
       imageDiv.style.backgroundImage = "url('logo.png')";
