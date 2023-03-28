@@ -713,20 +713,20 @@ body {
             //placeholder: "example: Colombia"
           //},
           {
-            layer: aeroplane,
+            layer: features,
             searchFields: ["Number_of"],
             displayField: "Routes",
             exactMatch: false,
             outFields: ["*"],
-            name: "Aeroplane Routes",
+            name: "Routes",
             placeholder: "example: Abidjan, Addis Ababa",
             zoomScale: 500000,
           },
         ],
       });
-      //view.ui.add(searchWidget, "bottom-right", {
-        //position: "bottom-right",
-      //});
+      view.ui.add(searchWidget, "bottom-right", {
+        position: "bottom-right",
+      });
       function shiftCamera(deg) {
         var camera = view.camera.clone();
         camera.position.longitude += deg;
