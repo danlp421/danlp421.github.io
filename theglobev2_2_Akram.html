@@ -6,7 +6,6 @@
       rel="stylesheet"
       href="https://js.arcgis.com/4.25/esri/themes/light/main.css"
     />
-    <script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
     <script src="https://js.arcgis.com/4.25/"></script>
     <script
       src="https://code.jquery.com/jquery-3.6.1.min.js"
@@ -17,57 +16,35 @@
   <body>
     <div id="viewDiv"></div>
     <div id="panel">
-      <input type="file" id="input-file" />
       <div id="totalPowerDiv">
-        <h2 class="paneltitle">
-          Estimated <span id="office">Offices</span> Power Consumption
-        </h2>
+        <h2 class="paneltitle">Estimated <span id="office">Offices</span> Power Consumption</h2>
         <div class="container powerinfo">
-          <img src="power c.png" width="40px" height="40px" class="info-icon" />
-          <div class="valueofindex">
-            <h2 id="totalPowerConsumption" class="powerinfotext">0 KWh</h2>
-          </div>
+            <img src="power c.png" width="40px" height="40px" class="info-icon">
+            <div class="valueofindex"><h2 id="totalPowerConsumption"  class="powerinfotext">0 KWh</h2></div>
         </div>
         <p id="consumptionDate" class="memotext">2023 year to date</p>
+        <p id="consumptionDate" class="memotext">Estimated Offices Power Consumption based on 2022's greenboxes' readings</p>
       </div>
       <div id="blueStats">
         <h2 class="paneltitle">Greening The Blue 2022</h2>
         <div id="stat">
           <div class="container">
-            <img
-              src="CO2.png"
-              class="info-icon"
-              width="40px"
-              height="40px"
-              alt="co2"
-            />
+            <img src="CO2.png" class="info-icon" width="40px" height="40px" alt="co2"/>
             <h2 id="co2" class="powerinfotext">0</h2>
           </div>
-          <p class="memotext">(Kg of CO<sub>2</sub>&nbsp;emitted)</p>
+          <p class="memotext">(Tons of CO<sub>2</sub>&nbsp;emitted)</p>
         </div>
         <div id="stat">
           <div class="container powerinfo">
-            <img
-              src="water.png"
-              class="info-icon"
-              width="40px"
-              height="40px"
-              alt="co2"
-            />
-            <h2 id="water" class="powerinfotext">0</h2>
+            <img src="water.png" class="info-icon" width="40px" height="40px" alt="co2" />
+          <h2 id="water" class="powerinfotext">0</h2>
           </div>
-          <p class="memotext">(m³&nbsp;of Water used)</p>
+          <p class="memotext" >(m³&nbsp;of Water used)</p>
         </div>
         <div id="stat">
           <div class="container powerinfo">
-            <img
-              src="waste.png"
-              class="info-icon"
-              width="40px"
-              height="40px"
-              alt="co2"
-            />
-            <h2 id="waste" class="powerinfotext">0</h2>
+            <img src="waste.png"class="info-icon" width="40px" height="40px" alt="co2"/>
+          <h2 id="waste" class="powerinfotext">0</h2>
           </div>
           <p class="memotext">(Kg of waste generated)</p>
         </div>
@@ -104,7 +81,7 @@
     flex-direction: column;
     box-sizing: border-box;
     /* draw white vertical line of left side; */
-    border-left: 2px solid white;
+    border-left: 2px solid white; 
     flex: 0;
     height: 100%;
   }
@@ -119,24 +96,21 @@
     flex-direction: column;
     box-sizing: border-box;
 
-    border: none;
-    border-top: 2px solid white;
+    border: none; 
+    border-top: 2px solid white; 
     margin-left: 10%;
-    margin-right: 10%;
-    margin-top: 5px;
-  }
-  #input-file {
-    margin-left: 10%;
-    margin-top: 30px;
+    margin-right: 10%; 
+    margin-top: 35px;
   }
   /* co2.style */
-  .memotext {
+  .memotext{
     font-family: Arial, Helvetica, sans-serif;
     font-size: 10px;
-    display: flex;
-    justify-content: center;
+    display: flex; 
+    justify-content: center; 
     align-items: center;
-    width: 180px;
+    width:180px;
+    margin-top: 20;
     /* padding-left: 20px; */
   }
   #viewDiv {
@@ -153,55 +127,56 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    gap: 30px;
+    gap: 10px;
     text-align: center;
     box-sizing: border-box;
     padding: 10px 0px;
 
-    border: none;
+    border:none;
     border-top: 2px solid white;
-    border-bottom: 2px solid white;
+    border-bottom: 2px solid white; 
     margin-left: 10%;
-    margin-right: 10%;
+    margin-right: 10%; 
     margin-bottom: 35px;
   }
   #blueStats h2 {
     margin: 0;
-    margin-bottom: 10px;
+    margin-bottom: 20px;
+    margin-top: 20px;
   }
   #unhcrLogo {
     flex: 1;
     margin: 0;
   }
-  .paneltitle {
+  .paneltitle{
     font-family: Arial, Helvetica, sans-serif;
     font-size: 18;
   }
-  .valueofindex {
+  .valueofindex{
     height: 40px;
-    display: flex;
-    justify-content: center;
+    display: flex; 
+    justify-content: center; 
     align-items: center;
   }
-  .powerinfo {
+  .powerinfo{
     margin-left: 20px;
     margin-right: 20px;
-    margin-top: 10px;
-    margin-bottom: 10px;
+    margin-top:10px;
+    margin-bottom:10px;
     font-family: Arial, Helvetica, sans-serif;
     font-size: 18;
   }
   /* style for powerinfo text*/
-  .powerinfotext {
+  .powerinfotext{
     margin: 0px;
     font-family: Arial, Helvetica, sans-serif;
     font-size: 16px;
-    width: 220px;
+    width:220px;
   }
-  .info-icon {
+  .info-icon{
     float: left;
     margin-bottom: 20px;
-    flex: 1;
+    flex:1;
   }
   .esri-widget__table {
     color: #ffffff;
@@ -227,7 +202,7 @@
     line-height: 1.3em;
     background-color: #141414;
   }
-  .esri-ui-corner-container {
+  .esri-ui-corner-container{
     inset: 20px 20px 35px;
   }
   .button {
@@ -265,11 +240,16 @@
   .esri-icon-play:before {
     content: "";
     color: white;
-  }
-  .esri-icon-pause:before {
+    position: absolute;
+    left:0px;
+}
+.esri-icon-pause:before {
     content: "";
     color: white;
-  }
+    position: absolute;
+    left:0px;
+
+}
   .esri-widget {
     font-size: 12.4px;
   }
@@ -291,17 +271,18 @@
   .esri-ui-corner .esri-component.esri-widget--panel {
     width: 180px;
   }
-  .esri-ui-top-right {
-    top: 100px;
-    right: 20px;
+  /* Here you configure the margins for the map buttons. you can customize the margin value of top-right, top-left*/
+  .esri-ui-top-right{
+    top:100px;
+    right:20px;
   }
-  .esri-ui-top-left {
-    top: 20px;
+  .esri-ui-top-left{
+    top:20px;
     left: 20px;
   }
-  .esri-ui-bottom-right {
-    bottom: 20px;
-    right: 20px;
+  .esri-ui-bottom-right{
+    bottom:6px;
+    right:20px;
   }
   .esri-layer-list__item-toggle {
     color: #ffffff;
@@ -378,7 +359,7 @@
   .esri-view-height-less-than-medium .esri-popup__main-container {
     max-height: 300px;
   }
-  .esri-attribution {
+  .esri-attribution{
     height: 0;
   }
   .esri-view-width-xlarge .esri-popup__main-container {
@@ -390,41 +371,9 @@
   .esri-ui-corner .esri-component.esri-widget--panel {
     width: 300px;
   }
+  
 </style>
 <script>
-  let data_from_excel = null
-  const fileInput = document.getElementById("input-file");
-  const loadExcelData = JSON.parse(localStorage.getItem('excel-data'))
-  if(loadExcelData){
-    data_from_excel = loadExcelData
-    // console.log('----------data from local storage: ', data_from_excel)
-  }
-  fileInput.addEventListener("change", (e) => {
-    const file = e.target.files[0]
-    const reader = new FileReader();
-    reader.onload = function(event){
-      const data = event.target.result;
-      const workbook = XLSX.read(data, {type: 'binary'});
-      const sheetName = workbook.SheetNames[0];
-      const worksheet = workbook.Sheets[sheetName];
-      const json = XLSX.utils.sheet_to_json(worksheet)
-      // trimming json keys
-      const trimmedJson = json.map(item => {
-        const newObj = {}
-        Object.keys(item).forEach(key => {
-          const trimmedKey = key.trim();
-          newObj[trimmedKey] = item[key]
-        });
-        return newObj
-      })
-      data_from_excel = trimmedJson;
-      localStorage.setItem('excel-data', JSON.stringify(trimmedJson))
-      console.log('getting data from localstorage: ', JSON.parse(localStorage.getItem('excel-data')))
-      window.location.reload();
-    }
-    reader.readAsBinaryString(file)
-
-  });
   const locations = [
     {
       location: "Oranjestad",
@@ -4405,19 +4354,19 @@
   //let total_waste = 0.0;
   //let total_water = 0.0;
   //function addCommas(number) {
-  // Convert the number to a string and split it by the decimal point (if any)
-  //var parts = number.toString().split(".");
-  // Add commas to the integer part of the number
-  //parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-  // Join the integer and decimal parts back together with a decimal point (if any)
-  //return parts.join(".");
-  //}
+			// Convert the number to a string and split it by the decimal point (if any)
+			//var parts = number.toString().split(".");
+			// Add commas to the integer part of the number
+			//parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+			// Join the integer and decimal parts back together with a decimal point (if any)
+			//return parts.join(".");
+		//}
   //function updateDateTime() {
-  //co2Element.innerText= addCommas(total_co2);
-  //wasteElement.innerText= addCommas(total_waste);
-  //waterElement.innerText= addCommas(total_water);
-  //kwhElement.innerText = addCommas(total_KWh.toFixed(2))+" KWh";
-  //total_KWh = total_KWh + kWhPerSecond;
+      //co2Element.innerText= addCommas(total_co2);
+      //wasteElement.innerText= addCommas(total_waste);
+      //waterElement.innerText= addCommas(total_water);
+      //kwhElement.innerText = addCommas(total_KWh.toFixed(2))+" KWh";
+      //total_KWh = total_KWh + kWhPerSecond;
   //}
   //let interval;
   //let isPlaying = false;
@@ -4435,9 +4384,10 @@
       "esri/renderers/UniqueValueRenderer",
       "esri/widgets/Search",
       "esri/widgets/LayerList/ListItem",
-      "esri/geometry/Polyline",
-      "esri/Graphic",
-    ], function (esriConfig, SceneView, Map, Expand, BasemapGallery, FeatureLayer, LayerList, Home, Legend, UniqueValueRenderer, Search, ListItem, Polyline, Graphic) {
+      "esri/geometry/Polyline", 
+      "esri/Graphic"
+    ], function (esriConfig,SceneView, Map, Expand, BasemapGallery, FeatureLayer, LayerList, Home, Legend,UniqueValueRenderer, Search, ListItem,
+     Polyline, Graphic) {
       //esriConfig.apiKey ="AAPK853e389eacab4000b8168009a957884eAeNxkMsT5xLndSZFhHgao-ynp074HaJnWU6CfSjbF8QQuZc5bL4FoHut1NkoYGYU";
       var scene = new Map({
         basemap: "hybrid",
@@ -4455,12 +4405,12 @@
         },
       });
       //var basemapGallery = new BasemapGallery({
-      //view: view,
-      //container: document.createElement("div"),
-      //});
+        //view: view,
+        //container: document.createElement("div"),
+     //});
       //var bgExpand = new Expand({
-      //view: view,
-      //content: basemapGallery,
+        //view: view,
+        //content: basemapGallery,
       //});
       // view.ui.add(bgExpand, "top-left");
       // view.watch("camera.position.longitude", (longitude) => {
@@ -4488,44 +4438,29 @@
         abort = true;
       };
       rotate();
-      // html elements
-      const counterElement = document.getElementById("totalPowerConsumption");
-      const co2Element = document.getElementById("co2");
-      const wasteElement = document.getElementById("waste");
-      const waterElement = document.getElementById("water");
+            // html elements
+            let co2Element = document.getElementById("co2");
+      let wasteElement = document.getElementById("waste");
+      let waterElement = document.getElementById("water");
       let total_co2 = 0;
       let total_waste = 0;
       let total_water = 0;
-      let total_KWh = 0;
 
-      const updateValuesFromExcel = () => {
-        for (let i = 0; i < data_from_excel?.length; i++) {
-          const data = data_from_excel[i]
-          const kwh = data['Total KWh Measured (for 1 year)']
-          const co2 = data['Total Co2 (tons) emitted']
-          const water = data['Water Use (m3)']
-          const waste = data['Total Waste (Kg)']
-        if (typeof co2 === "number") {
-          total_co2 += co2;
+      for (let i = 0; i < locations.length; i++) {
+        const location = locations[i];
+        if (typeof location.co2 === "number") {
+          total_co2 += location.co2;
         }
-        if (typeof waste === "number") {
-          total_waste += waste;
+        if (typeof location.waste === "number") {
+          total_waste += location.waste;
         }
-        if (typeof water === "number") {
-          total_water += water;
-        }
-        if(typeof kwh === "number"){
-          total_KWh += kwh
+        if (typeof location.water === "number") {
+          total_water += location.water;
         }
       }
       co2Element.innerText = total_co2.toLocaleString("en-US");
       wasteElement.innerText = total_waste.toLocaleString("en-US");
       waterElement.innerText = total_water.toLocaleString("en-US");
-      counterElement.innerText = total_KWh.toLocaleString("en-US")+ " KWh";
-      }
-      updateValuesFromExcel()
-
-      // calculate kwh
       const getDayOfYear = () => {
         const now = new Date();
         const start = new Date(now.getFullYear(), 0, 0);
@@ -4537,14 +4472,15 @@
       const secondsPerYear = 31535000;
       const secondsPerDay = 86400;
       const secondsUpTONow = getDayOfYear() * secondsPerDay;
+      let total_KWh = 0;
       let kWhPerSecond = 0;
       let counterStartingPoint = 0; //kwhPerSecond*secondsUpTONow;
       const KWhPer5seconds = 5.39;
-      
+      const counterElement = document.getElementById("totalPowerConsumption");
       const updateCounter = () => {
         counterStartingPoint += KWhPer5seconds;
         counterElement.innerText =
-          (counterStartingPoint).toLocaleString("en-US") +
+          (counterStartingPoint + KWhPer5seconds).toLocaleString("en-US") +
           " KWh";
       };
       let intervalID = undefined;
@@ -4584,7 +4520,7 @@
           overwriteActions: false,
         },
       });
-
+      
       scene.add(offices);
 
       const greenboxes = new FeatureLayer({
@@ -4597,8 +4533,8 @@
               type: "fields",
               fieldInfos: [
                 {
-                  fieldName: "INS_Code",
-                  label: "INS Code",
+                  fieldName:"INS_Code",
+                  label:"INS Code"
                 },
                 {
                   fieldName: "Country__UNHCR_",
@@ -4620,100 +4556,100 @@
       });
       greenboxes.visible = false;
       scene.add(greenboxes);
-
+      
       //const simplerenderer ={
-      //type: "simple",
-      //symbol: {
-      //type: "simple-line",
-      //color: "grey",
-      //width: "2px",
-      //style: "dash"
-      //}
-      //};
+              //type: "simple",
+              //symbol: {
+                //type: "simple-line",
+                //color: "grey",
+                //width: "2px",
+                //style: "dash"
+              //}
+            //};
       // add RouteFly feature layer to scene
       //const routeflylayer = new FeatureLayer({
-      //url: "https://services.arcgis.com/qovwaCdMoEzUUFzS/ArcGIS/rest/services/RoutesFly/FeatureServer/0",
-      //elevationInfo: {
-      //mode: "relative-to-ground",
-      //offset: 10
+        //url: "https://services.arcgis.com/qovwaCdMoEzUUFzS/ArcGIS/rest/services/RoutesFly/FeatureServer/0",
+        //elevationInfo: {
+        //mode: "relative-to-ground",
+        //offset: 10
       //}
       //});
       // get paths out route lines and customize
-
+      
       //let featurePaths = [];
       //routeflylayer.queryFeatures().then(function(result) {
-      // symbol of the route line
-      //const symbol = {
-      //type: "simple-line",
-      //color: [128, 128, 128],
-      //width: 4
-      //};
-      //const features = result.features;
-
-      //let graphics = [];
-      //for (let i = 0; i < features.length; i++) {
-      //const polyline = new Polyline({
-      //paths:features[i].geometry.paths[0],
-      //spatialReference: { wkid: 4326 }
+        // symbol of the route line
+        //const symbol = {
+          //type: "simple-line",
+          //color: [128, 128, 128],
+          //width: 4
+        //};
+        //const features = result.features;
+        
+        //let graphics = [];
+        //for (let i = 0; i < features.length; i++) {
+          //const polyline = new Polyline({
+            //paths:features[i].geometry.paths[0],
+            //spatialReference: { wkid: 4326 }
+          //});
+          //const graphic = new Graphic({
+            //geometry: polyline,
+            //symbol: {
+              //type: "simple-line",
+              //color: "grey",
+              //width: "1px"
+            //},
+            //attributes:features[i].attributes,
+          //});
+          //graphics.push(graphic);
+        //}
+        // set Fly Route Feature layer and add to scene.
+        //const flineLayer = new FeatureLayer({
+          //title: "Routes Flights",
+            //objectIdField: "OBJECTID",
+            //fields: [
+              //{
+                //name: "OBJECTID",
+                //alias: "OBJECTID",
+                //type: "oid"
+              //},
+              //{
+                //name: "Number_of",
+                //alias: "Number_of",
+                //type: "string"
+              //}
+            //],
+            //source: graphics,
+            //spatialReference: { wkid: 4326 },
+            //renderer: {
+              //type: "simple",
+              //symbol: {
+                //type: "simple-line",
+                //color: [180,180,180],
+                //width: "2px",
+                //style: "dash"
+              //}
+            //},
+            //popupTemplate: {
+              //title: "Route Flights",
+              //content: [
+                //{
+                  //type: "fields",
+                  //fieldInfos: [
+                    //{
+                      //fieldName: "Number_of",
+                      //label: "NumberOf",
+                    //}
+                  //],
+                //},
+              //],
+              //overwriteActions: false,
+            //},
+          //});
+        //scene.add(flineLayer);
+        //flineLayer.visible =  false;
       //});
-      //const graphic = new Graphic({
-      //geometry: polyline,
-      //symbol: {
-      //type: "simple-line",
-      //color: "grey",
-      //width: "1px"
-      //},
-      //attributes:features[i].attributes,
-      //});
-      //graphics.push(graphic);
-      //}
-      // set Fly Route Feature layer and add to scene.
-      //const flineLayer = new FeatureLayer({
-      //title: "Routes Flights",
-      //objectIdField: "OBJECTID",
-      //fields: [
-      //{
-      //name: "OBJECTID",
-      //alias: "OBJECTID",
-      //type: "oid"
-      //},
-      //{
-      //name: "Number_of",
-      //alias: "Number_of",
-      //type: "string"
-      //}
-      //],
-      //source: graphics,
-      //spatialReference: { wkid: 4326 },
-      //renderer: {
-      //type: "simple",
-      //symbol: {
-      //type: "simple-line",
-      //color: [180,180,180],
-      //width: "2px",
-      //style: "dash"
-      //}
-      //},
-      //popupTemplate: {
-      //title: "Route Flights",
-      //content: [
-      //{
-      //type: "fields",
-      //fieldInfos: [
-      //{
-      //fieldName: "Number_of",
-      //label: "NumberOf",
-      //}
-      //],
-      //},
-      //],
-      //overwriteActions: false,
-      //},
-      //});
-      //scene.add(flineLayer);
-      //flineLayer.visible =  false;
-      //});
-
+      
       const greentheblue = new FeatureLayer({
         url: "https://services.arcgis.com/qovwaCdMoEzUUFzS/ArcGIS/rest/services/GTB2022/FeatureServer/0",
         title: "Greening The Blue 2022",
@@ -4771,92 +4707,92 @@
         },
       });
       //const routesdeparture = new FeatureLayer({
-      //url: "https://services.arcgis.com/qovwaCdMoEzUUFzS/ArcGIS/rest/services/RoutesDeparture/FeatureServer/0",
-      //title: "Departure",
-      //popupTemplate: {
-      //title: "Departure",
-      //content: [
-      //{
-      //type: "fields",
-      //fieldInfos: [
-      //{
-      //fieldName: "Routes",
-      //label: "Routes",
-      //},
-      //{
-      //fieldName: "Departure",
-      //label: "Departure",
-      //},
-      //],
-      //},
-      //],
-      //overwriteActions: false,
-      //},
+        //url: "https://services.arcgis.com/qovwaCdMoEzUUFzS/ArcGIS/rest/services/RoutesDeparture/FeatureServer/0",
+        //title: "Departure",
+        //popupTemplate: {
+          //title: "Departure",
+          //content: [
+            //{
+              //type: "fields",
+              //fieldInfos: [
+                //{
+                  //fieldName: "Routes",
+                  //label: "Routes",
+                //},
+                //{
+                  //fieldName: "Departure",
+                  //label: "Departure",
+                //},
+              //],
+            //},
+          //],
+          //overwriteActions: false,
+        //},
       //});
       //scene.add(routesdeparture);
       //routesdeparture.visible = false;
 
       //const routesarrival = new FeatureLayer({
-      //url: "https://services.arcgis.com/qovwaCdMoEzUUFzS/ArcGIS/rest/services/RoutesArrival/FeatureServer/0",
-      //title: "Arrival",
-      //popupTemplate: {
-      //title: "Arrival",
-      //content: [
-      //{
-      //type: "fields",
-      //fieldInfos: [
-      //{
-      //fieldName: "Routes",
-      //label: "Routes",
-      //},
-      //{
-      //fieldName: "Arrival",
-      //label: "Arrival",
-      //},
-      //],
-      //},
-      //],
-      //overwriteActions: false,
-      //},
+        //url: "https://services.arcgis.com/qovwaCdMoEzUUFzS/ArcGIS/rest/services/RoutesArrival/FeatureServer/0",
+        //title: "Arrival",
+        //popupTemplate: {
+          //title: "Arrival",
+          //content: [
+            //{
+              //type: "fields",
+              //fieldInfos: [
+                //{
+                  //fieldName: "Routes",
+                  //label: "Routes",
+                //},
+                //{
+                  //fieldName: "Arrival",
+                  //label: "Arrival",
+                //},
+              //],
+            //},
+          //],
+          //overwriteActions: false,
+        //},
       //});
       //scene.add(routesarrival);
       //routesarrival.visible = false;
       //const aeroplane = new FeatureLayer({
-      //url: "https://services.arcgis.com/qovwaCdMoEzUUFzS/ArcGIS/rest/services/Aeroplane/FeatureServer/0",
-      //title: "Flights",
-      //elevationInfo: {
-      //mode: "relative-to-ground",
-      //featureExpressionInfo: {
-      //expression: "Geometry($feature).z * 10 + $feature.HEIGHT100"
-      //},
-      //unit: "meters"},
-      //popupTemplate: {
-      //title: "Flights",
-      //content: [
-      //{
-      //type: "fields",
-      //fieldInfos: [
-      //{
-      //fieldName: "Number_of",
-      //label: "Routes",
-      //},
-      //{
-      //fieldName: "Number_o_1",
-      //label: "Number of flights",
-      //},
-      //{
-      //fieldName: "CO2_emitte",
-      //label: "CO2 emitted (tons)",
-      //},
-      //{
-      //fieldName: "Net_Spent",
-      //label: "Net Spent (USD)",
-      //},
-      //],
-      //},
-      //],
-      //overwriteActions: false,
-      //},
+        //url: "https://services.arcgis.com/qovwaCdMoEzUUFzS/ArcGIS/rest/services/Aeroplane/FeatureServer/0",
+        //title: "Flights",
+        //elevationInfo: {
+        //mode: "relative-to-ground",
+        //featureExpressionInfo: {
+          //expression: "Geometry($feature).z * 10 + $feature.HEIGHT100"
+        //},
+        //unit: "meters"},
+        //popupTemplate: {
+          //title: "Flights",
+          //content: [
+            //{
+              //type: "fields",
+              //fieldInfos: [
+                //{
+                  //fieldName: "Number_of",
+                  //label: "Routes",
+                //},
+                //{
+                  //fieldName: "Number_o_1",
+                  //label: "Number of flights",
+                //},
+                //{
+                  //fieldName: "CO2_emitte",
+                  //label: "CO2 emitted (tons)", 
+                //},
+                //{
+                  //fieldName: "Net_Spent",
+                  //label: "Net Spent (USD)", 
+                //},
+              //],
+            //},
+          //],
+          //overwriteActions: false,
+        //},
       //});
       //scene.add(aeroplane);
       //aeroplane.visible = false;
@@ -4865,12 +4801,11 @@
         url: "https://services.arcgis.com/qovwaCdMoEzUUFzS/ArcGIS/rest/services/Fleet_Data/FeatureServer/0",
         title: "Fleet",
         elevationInfo: {
-          mode: "relative-to-ground",
-          featureExpressionInfo: {
-            expression: "Geometry($feature).z * 10 + $feature.HEIGHT100",
-          },
-          unit: "meters",
+        mode: "relative-to-ground",
+        featureExpressionInfo: {
+          expression: "Geometry($feature).z * 10 + $feature.HEIGHT100"
         },
+        unit: "meters"},
         popupTemplate: {
           title: "Fleet",
           content: [
@@ -4887,15 +4822,15 @@
                 },
                 {
                   fieldName: "CO2_Emitted__Kg_",
-                  label: "CO<sub>2</sub> emitted (Kg)",
+                  label: "CO<sub>2</sub> emitted (Kg)", 
                 },
                 {
                   fieldName: "Distance_Travelled__Km_",
-                  label: "Distance Travelled (Km)",
+                  label: "Distance Travelled (Km)", 
                 },
                 {
                   fieldName: "Number_of_Electric_Hybrid_Vehic",
-                  label: "Number of Electric/Hybrid Vehicles",
+                  label: "Number of Electric/Hybrid Vehicles", 
                 },
               ],
             },
@@ -4906,9 +4841,9 @@
       scene.add(FleetData);
       FleetData.visible = false;
 
-      greentheblue.on("click", function (event) {
+      greentheblue.on("click", function(event) {
         filterEvent(event.result.feature.attributes);
-      });
+    });
 
       const searchWidget = new Search({
         view: view,
@@ -4924,7 +4859,7 @@
             name: "UNHCR Offices",
             placeholder: "example: Caracas",
             zoomScale: 500000,
-          },
+          }
         ],
       });
       searchWidget.on("select-result", function (event) {
@@ -4942,11 +4877,11 @@
           event.result.feature.attributes.Location
         );
 
-        total_KWh = data_from_excel.find(
-          (item) =>
-            item['Location'] === event.result.feature.attributes.Location ||
-            event.result.feature.attributes.Location.includes(item['Location'])
-        )['Total KWh Measured (for 1 year)'];
+        total_KWh = locations.find(
+          (location) =>
+            location.location === event.result.feature.attributes.Location ||
+            event.result.feature.attributes.Location.includes(location.location)
+        )?.total_Kwh;
         console.log("Fetched total kwh: ", total_KWh);
         kWhPerSecond = total_KWh / secondsPerYear;
         console.log("kwh per second: ", kWhPerSecond);
@@ -4964,7 +4899,7 @@
         }
         // clearInterval(intervalID);
         co2Element.innerText =
-          event.result.feature.attributes.Total_Co2__tons__emitted;
+          event.result.feature.attributes.Total_GHG_Emissions__Co2_;
         waterElement.innerText = event.result.feature.attributes.Water_Use__m3_;
         wasteElement.innerText =
           event.result.feature.attributes.Total_Waste__Kg_;
@@ -4973,31 +4908,43 @@
         position: "bottom-right",
       });
       searchWidget.on("search-clear", function (event) {
-        view.goTo({
-            scale: 50000000,
-          });
-        total_co2 = 0;
-        total_waste = 0;
-        total_water = 0;
-        total_KWh = 0
+        total_co2 = 0
+        total_waste = 0
+        total_water = 0
+        // total_KWh = 0
         clearInterval(intervalID);
-        updateValuesFromExcel()
+        counterElement.innerText = '2,979,683.35 KWh'
+        for (let i = 0; i < locations.length; i++) {
+          const location = locations[i];
+          if (typeof location.co2 === "number") {
+            total_co2 += location.co2;
+          }
+          if (typeof location.waste === "number") {
+            total_waste += location.waste;
+          }
+          if (typeof location.water === "number") {
+            total_water += location.water;
+          }
+        }
+        co2Element.innerText = total_co2.toLocaleString("en-US");
+        wasteElement.innerText = total_waste.toLocaleString("en-US");
+        waterElement.innerText = total_water.toLocaleString("en-US");
       });
+      
+      searchWidget.on("select-result", function (event) {
+        if (event.source.name != "UNHCR Countries")
+          view.goTo({
+            scale: 500000,
+          });
 
-      // searchWidget.on("select-result", function (event) {
-      //   if (event.source.name != "UNHCR Countries")
-      //     view.goTo({
-      //       scale: 500000,
-      //     });
-
-      //   filterEvent(event.result.feature.attributes);
-      // });
+          filterEvent(event.result.feature.attributes);
+      });
       view.ui.add(searchWidget, "bottom-right", {
         position: "bottom-right",
       });
-      // searchWidget.on("search-clear", function (event) {
-      //   getAmountValue();
-      // });
+      searchWidget.on("search-clear", function (event) {
+        getAmountValue();
+      });
       function shiftCamera(deg) {
         var camera = view.camera.clone();
         camera.position.longitude += deg;
@@ -5022,11 +4969,9 @@
       greenboxes.visibleElements = {
         statusIndicators: false,
         errors: true,
-      };
-      090;
+      };090
       view.ui.add(
-        [
-          new Expand({
+        [new Expand({
             view: view,
             content: layerList,
             group: "top-right",
@@ -5034,7 +4979,7 @@
         ],
         "top-right"
       );
-
+      
       var homebtn = new Home({
         view: view,
       });
