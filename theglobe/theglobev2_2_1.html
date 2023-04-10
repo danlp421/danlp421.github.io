@@ -17,6 +17,12 @@
   <body>
     <div id="viewDiv">
       <p class="buttons-title">UNHCR offices'<br />Environmental<br />Footprint</p>
+      <div id="buttonsair">
+        <a  class="link-button-air" role="button" href="https://experience.arcgis.com/experience/354ee85ab3534861ab5339ca651b18f2/page/Flights/?draft=true">
+          <span>🔗</span>
+          <span>Air Travel</span>
+        </a>
+      </div>
       <div id="buttons">
         <a class="link-button " role="button" href="https://app.powerbi.com/groups/18dd85db-91bd-4741-bf9b-2fa19a245876/reports/d833a112-650a-4a3e-b31f-f6ff7889e243/ReportSection4e62818c4501f1f34249?chromeless=1" target="_blank">
           <span>🔗</span>
@@ -160,16 +166,40 @@
   .buttons-title{
     position: absolute;
     top: 30px;
-    left: 180px;
+    left: 160px;
     font-family: Arial;
     font-size: 25px;
     font-weight: 700;
     line-height: 1.5;
     color: #ffffff;
   }
+   #buttonsair{
+    position: absolute;
+    width: 250px;
+    top: 485px;
+    bottom: 30px;
+    left: 40px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+  .link-button-air{
+    border: 1px solid #00c5ff;
+    width: 100%;
+    padding: 8px 20px;
+    display: flex;
+    justify-content: flex-start;
+    gap: 40px;
+    align-items: center;
+    font-size: 16px;
+    font-family: Arial;
+    color: #00c5ff;
+    cursor: pointer;
+    text-decoration: none;
+  }
   #buttons{
     position: absolute;
-    width: 300px;
+    width: 250px;
     bottom: 30px;
     left: 40px;
     display: flex;
