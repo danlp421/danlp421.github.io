@@ -10,8 +10,19 @@
     crossorigin="anonymous"></script>
   </head>
   <body>
-    <div id="viewDiv" />
-    
+    <div id="viewDiv">
+      <p class="buttons-title">Air Travel</p>
+      <div id="buttonsair">
+        <a  class="link-button-air" role="button" href="https://experience.arcgis.com/experience/354ee85ab3534861ab5339ca651b18f2/?draft=true">
+          <span> <img 
+            src="https://www.arcgis.com/sharing/rest/content/items/354ee85ab3534861ab5339ca651b18f2/resources/images/widget_524/1680033332381.png" 
+            alt="vinculo"
+            width="17px"
+            height="17px">
+          </span>
+          <span>Back</span>
+        </a>
+      </div>
     <div class="overlay">
       <div>
         <span id="play" class="button esri-icon-play" style="display: block;" />
@@ -19,7 +30,6 @@
       <div>
         <span id="pause" class="button esri-icon-pause" style="display: none;" />
       </div>
-      <div id="label">Heading: 0&deg;</div>
     </div>
   </body>
 </html>
@@ -43,6 +53,39 @@ body,
 body {
   background: rgb(0, 0, 0)
 }
+.buttons-title{
+    position: absolute;
+    top: 30px;
+    left: 145px;
+    font-family: Arial;
+    font-size: 25px;
+    font-weight: 700;
+    line-height: 1.5;
+    color: #ffffff;
+  }
+   #buttonsair{
+    position: absolute;
+    width: 181px;
+    bottom: 50px;
+    left: 40px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+  .link-button-air{
+    border: 1px solid #00c5ff;
+    width: 100%;
+    padding: 8px 20px;
+    display: flex;
+    justify-content: flex-start;
+    gap: 40px;
+    align-items: center;
+    font-size: 16px;
+    font-family: Arial;
+    color: #00c5ff;
+    cursor: pointer;
+    text-decoration: none;
+  }
   .esri-widget__table {
     color: #ffffff;
   }
