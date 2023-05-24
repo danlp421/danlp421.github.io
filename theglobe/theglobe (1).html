@@ -16,18 +16,6 @@
   </head>
   <body>
     <div id="viewDiv">
-      <p class="buttons-title">UNHCR offices'<br />Environmental<br />Footprint</p>
-      <div id="buttonsair">
-        <a  class="link-button-air" role="button" href="https://experience.arcgis.com/experience/354ee85ab3534861ab5339ca651b18f2/page/Flights/?draft=true">
-          <span> <img 
-            src="https://www.arcgis.com/sharing/rest/content/items/354ee85ab3534861ab5339ca651b18f2/resources/images/widget_524/1680033332381.png" 
-            alt="vinculo"
-            width="17px"
-            height="17px">
-          </span>
-          <span>Air Travel</span>
-        </a>
-      </div>
       <div id="buttons">
         <a class="link-button " role="button" href="https://app.powerbi.com/groups/18dd85db-91bd-4741-bf9b-2fa19a245876/reports/d833a112-650a-4a3e-b31f-f6ff7889e243/ReportSection4e62818c4501f1f34249?chromeless=1" target="_blank">
           <span>🔗</span>
@@ -70,7 +58,7 @@
             />
             <h2 id="co2" class="powerinfotext">0</h2>
           </div>
-          <p class="memotext">(Tons of CO<sub>2</sub>&nbsp;emitted)</p>
+          <p class="memotext">(Kg of CO<sub>2</sub>&nbsp;emitted)</p>
         </div>
         <div id="stat">
           <div class="container powerinfo">
@@ -168,43 +156,10 @@
     height: 100%;
     flex: 1;
   }
-  .buttons-title{
-    position: absolute;
-    top: 6px;
-    left: 160px;
-    font-family: Arial;
-    font-size: 25px;
-    font-weight: 700;
-    line-height: 1.5;
-    color: #ffffff;
-  }
-   #buttonsair{
-    position: absolute;
-    width: 250px;
-    bottom: 190px;
-    left: 40px;
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-  }
-  .link-button-air{
-    border: 1px solid #00c5ff;
-    width: 100%;
-    padding: 8px 20px;
-    display: flex;
-    justify-content: flex-start;
-    gap: 40px;
-    align-items: center;
-    font-size: 14px;
-    font-family: Arial;
-    color: #00c5ff;
-    cursor: pointer;
-    text-decoration: none;
-  }
   #buttons{
     position: absolute;
-    width: 250px;
-    bottom: 35px;
+    width: 300px;
+    bottom: 30px;
     left: 40px;
     display: flex;
     flex-direction: column;
@@ -218,8 +173,7 @@
     justify-content: flex-start;
     gap: 40px;
     align-items: center;
-    font-size: 14px;
-    font-family: Arial;
+    font-size: 16px;
     color: white;
     cursor: pointer;
     text-decoration: none;
@@ -279,9 +233,8 @@
   }
   .info-icon {
     float: left;
-    margin-bottom: 20%;
+    margin-bottom: 20px;
     flex: 1;
-    width: 15%;
   }
   .esri-widget__table {
     color: #ffffff;
@@ -345,14 +298,10 @@
   .esri-icon-play:before {
     content: "";
     color: white;
-    position: absolute;
-    left:0px;
   }
   .esri-icon-pause:before {
     content: "";
     color: white;
-    position: absolute;
-    left:0px;
   }
   .esri-widget {
     font-size: 12.4px;
@@ -384,7 +333,7 @@
     left: 20px;
   }
   .esri-ui-bottom-right {
-    bottom: 5px;
+    bottom: 20px;
     right: 20px;
   }
   .esri-layer-list__item-toggle {
@@ -608,16 +557,18 @@
           }
         }
         total_co2 = total_co2/2
-        co2Element.innerText = Math.trunc(54944).toLocaleString("en-US");
-        wasteElement.innerText = Math.trunc(total_waste).toLocaleString("en-US");
-        waterElement.innerText = Math.trunc(total_water).toLocaleString("en-US");
-        counterElement.innerText = Math.trunc(total_KWh).toLocaleString("en-US") + " KWh";
+        co2Element.innerText = total_co2.toLocaleString("en-US");
+        wasteElement.innerText = total_waste.toLocaleString("en-US");
+        waterElement.innerText = total_water.toLocaleString("en-US");
+        counterElement.innerText = total_KWh.toLocaleString("en-US") + " KWh";
 
         // calculating counter value
         kWhPerSecond = total_KWh / secondsPerYear;
         counterStartingPoint = kWhPerSecond * secondsUpTONow;
       };
+      console.log('------------CO2 before: ', total_co2)
       updateValuesFromExcel();
+      console.log('------------CO2 after: ', total_co2)
       if (counterStartingPoint) {
         counterElement.innerText = counterStartingPoint.toFixed(2) + " KWh";
         intervalID = setInterval(updateCounter, 1000);
@@ -843,7 +794,7 @@
       //});
 
       const greentheblue = new FeatureLayer({
-        url: "https://services.arcgis.com/qovwaCdMoEzUUFzS/arcgis/rest/services/GTB2022/FeatureServer/layers",
+        url: "https://services.arcgis.com/qovwaCdMoEzUUFzS/ArcGIS/rest/services/GTB2022/FeatureServer/0",
         title: "Greening The Blue 2022",
         popupTemplate: {
           title: "Greening The Blue 2022",
@@ -990,7 +941,7 @@
       //aeroplane.visible = false;
 
       const FleetData = new FeatureLayer({
-        url: "https://services3.arcgis.com/80SCmgj6pZGiNLhd/ArcGIS/rest/services/FleetData/FeatureServer/0",
+        url: "https://services.arcgis.com/qovwaCdMoEzUUFzS/ArcGIS/rest/services/Fleet_Data/FeatureServer/0",
         title: "Fleet",
         elevationInfo: {
           mode: "relative-to-ground",
@@ -1010,7 +961,7 @@
                   label: "Office",
                 },
                 {
-                  fieldName: "Vehicles",
+                  fieldName: "Number_of_Vehicles",
                   label: "Number of Vehicles",
                 },
                 {
@@ -1022,7 +973,7 @@
                   label: "Distance Travelled (Km)",
                 },
                 {
-                  fieldName: "Electric_Hybrid_Vehicles",
+                  fieldName: "Number_of_Electric_Hybrid_Vehic",
                   label: "Number of Electric/Hybrid Vehicles",
                 },
               ],
