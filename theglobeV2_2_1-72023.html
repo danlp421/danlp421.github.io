@@ -31,7 +31,7 @@
       <div id="buttons">
         <a class="link-button " role="button" href="https://app.powerbi.com/groups/18dd85db-91bd-4741-bf9b-2fa19a245876/reports/d833a112-650a-4a3e-b31f-f6ff7889e243/ReportSection4e62818c4501f1f34249?chromeless=1" target="_blank">
           <span>🔗</span>
-          <span>Green Boxe dashboard</span>
+          <span>Green Box dashboard</span>
         </a>
         <a class="link-button " role="button" href="https://app.powerbi.com/groups/18dd85db-91bd-4741-bf9b-2fa19a245876/reports/e8db98c7-df84-41aa-8478-c6cedfcecc70/ReportSection?chromeless=1" target="_blank">
           <span>🔗</span>
@@ -64,8 +64,8 @@
             <img
               src="CO2.png"
               class="info-icon"
-              max-width: 100%;
-              height: auto;
+              width="40px"
+              height="40px"
               alt="co2"
             />
             <h2 id="co2" class="powerinfotext">0</h2>
@@ -77,8 +77,8 @@
             <img
               src="water.png"
               class="info-icon"
-              max-width: 100%;
-              height: auto;
+              width="40px"
+              height="40px"
               alt="co2"
             />
             <h2 id="water" class="powerinfotext">0</h2>
@@ -90,8 +90,8 @@
             <img
               src="waste.png"
               class="info-icon"
-              max-width: 100%;
-              height: auto;
+              width="40px"
+              height="40px"
               alt="co2"
             />
             <h2 id="waste" class="powerinfotext">0</h2>
@@ -281,7 +281,7 @@
     float: left;
     margin-bottom: 20%;
     flex: 1;
-    width: 22%;
+    width: 15%;
   }
   .esri-widget__table {
     color: #ffffff;
@@ -625,9 +625,6 @@
         counterElement.innerText = "No KWh found";
       }
 
-      let inactivityTimeout;
-      
-
       // map components
       //esriConfig.apiKey ="AAPK853e389eacab4000b8168009a957884eAeNxkMsT5xLndSZFhHgao-ynp074HaJnWU6CfSjbF8QQuZc5bL4FoHut1NkoYGYU";
       var scene = new Map({
@@ -715,6 +712,7 @@
           overwriteActions: false,
         },
       });
+
       scene.add(offices);
 
       const greenboxes = new FeatureLayer({
@@ -1040,30 +1038,7 @@
         filterEvent(event.result.feature.attributes);
       });
 
-      let searchWidget;
-
-      function resetInactivityTimeout(){
-        clearTimeout(inactivityTimeout)
-        inactivityTimeout = setTimeout(handleInactive, 10000)
-      }
-      function handleInactive(){
-        greenboxes.visible = false
-        greentheblue.visible = false
-        FleetData.visible = false
-        searchWidget.clear();
-        view.goTo({
-          scale: 50000000,
-        });
-        // clearInterval(intervalID);
-      }
-
-      document.addEventListener('mousemove', resetInactivityTimeout)
-      document.addEventListener('mousedown', resetInactivityTimeout)
-      document.addEventListener('keydown', resetInactivityTimeout)
-
-      resetInactivityTimeout()
-
-      searchWidget = new Search({
+      const searchWidget = new Search({
         view: view,
         allPlaceholder: "UNHCR",
         includeDefaultSources: false,
