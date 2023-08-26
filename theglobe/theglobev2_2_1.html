@@ -681,7 +681,7 @@
       rotate();
 
       const offices = new FeatureLayer({
-        url: "https://services3.arcgis.com/80SCmgj6pZGiNLhd/ArcGIS/rest/services/Offices_v4/FeatureServer/0",
+        url: "https://services.arcgis.com/qovwaCdMoEzUUFzS/ArcGIS/rest/services/Offices_v4_2023/FeatureServer/0",
         title: "UNHCR Offices",
         popupTemplate: {
           title: "UNHCR Offices",
@@ -730,7 +730,7 @@
       scene.add(offices);
 
       const greenboxes = new FeatureLayer({
-        url: "https://services3.arcgis.com/80SCmgj6pZGiNLhd/ArcGIS/rest/services/GreenBoxes_v4/FeatureServer/0",
+        url: "https://services.arcgis.com/qovwaCdMoEzUUFzS/ArcGIS/rest/services/GreenBoxes_v4/FeatureServer/0",
         title: "Green Boxes",
         popupTemplate: {
           title: "Green Boxes installed",
@@ -739,19 +739,19 @@
               type: "fields",
               fieldInfos: [
                 {
-                  fieldName: "Office__Building_code_",
+                  fieldName: "INS_Code",
                   label: "INS Code",
                 },
                 {
-                  fieldName: "Country_Name",
+                  fieldName: "Country__UNHCR_",
                   label: "Country",
                 },
                 {
-                  fieldName: "Location_Name",
+                  fieldName: "Location",
                   label: "Location",
                 },
                 {
-                  fieldName: "KWH__Greenboxes_",
+                  fieldName: "Total_KWh_Measured__Oct_Dec2022",
                   label: "KWh measured in 2022",
                 },
               ],
@@ -857,7 +857,7 @@
       //});
 
       const greentheblue = new FeatureLayer({
-        url: "https://services3.arcgis.com/80SCmgj6pZGiNLhd/ArcGIS/rest/services/GreeningTheBlue_v4/FeatureServer/0",
+        url: "https://services.arcgis.com/qovwaCdMoEzUUFzS/ArcGIS/rest/services/GreeningTheBlue_v4/FeatureServer/0",
         title: "Greening The Blue 2023",
         popupTemplate: {
           title: "Greening The Blue 2023",
@@ -866,15 +866,15 @@
               type: "fields",
               fieldInfos: [
                 {
-                  fieldName: "Country_Name",
+                  fieldName: "Country__UNHCR_",
                   label: "Country",
                 },
                 {
-                  fieldName: "Location_Name",
+                  fieldName: "Location",
                   label: "Location",
                 },
                 {
-                  fieldName: "Total_CO2__tons_",
+                  fieldName: "Total_Co2__tons__emitted",
                   label: "CO<sub>2</sub> emitted (tons)",
                 },
                 //{
@@ -882,7 +882,7 @@
                   //label: "Water used (m³)",
                 //},
                 {
-                  fieldName: "Total_Waste_KG",
+                  fieldName: "Total_Waste__Kg_",
                   label: "Waste generated (Kg)",
                 },
               ],
