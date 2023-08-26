@@ -694,11 +694,11 @@
                   label: "Office Code",
                 },
                 {
-                  fieldName: "Country_Name",
+                  fieldName: "Country__UNHCR_",
                   label: "Country",
                 },
                 {
-                  fieldName: "Location_Name",
+                  fieldName: "Location",
                   label: "Location",
                 },
                 {
@@ -714,11 +714,11 @@
                   label: "HR Personl",
                 },
                 {
-                  fieldName: "Greenboxes",
+                  fieldName: "Green",
                   label: "Green Boxes",
                 },
                 {
-                  fieldName: "Greening_the_Blue_2023",
+                  fieldName: "Greening",
                   label: "Greening the Blue 2023",
                 },
               ],
@@ -1087,7 +1087,7 @@
             exactMatch: false,
             outFields: ["*"],
             name: "UNHCR Offices",
-            placeholder: "example: Caracas",
+            placeholder: "Example: Caracas",
             zoomScale: 500000,
           },
         ],
@@ -1113,22 +1113,22 @@
             event.result.feature.attributes.Location.includes(item["Location"])
         );
         total_KWh = selectedLocation["Total KWh Measured (for 1 year)"];
-        // console.log("Fetched total kwh: ", total_KWh);
+         console.log("Fetched total kwh: ", total_KWh);
         kWhPerSecond = selectedLocation["KWh per second"];
-        // console.log("kwh per second: ", kWhPerSecond);
-        // console.log("seconds up to now: ", secondsUpTONow);
+         console.log("kwh per second: ", kWhPerSecond);
+         console.log("seconds up to now: ", secondsUpTONow);
         counterStartingPoint = kWhPerSecond * secondsUpTONow;
-        // console.log("Counter Starting Point: ", counterStartingPoint);
+         console.log("Counter Starting Point: ", counterStartingPoint);
 
-        // document.getElementById("office").innerText =
-        //   event.result.feature.attributes.Location;
+         document.getElementById("office").innerText =
+           event.result.feature.attributes.Location;
         if (counterStartingPoint) {
           counterElement.innerText = counterStartingPoint.toFixed(2) + " KWh";
           intervalID = setInterval(updateCounter, 1000);
         } else {
           counterElement.innerText = "No KWh found";
         }
-        // clearInterval(intervalID);
+         clearInterval(intervalID);
         co2Element.innerText =
           event.result.feature.attributes.Total_Co2__tons__emitted;
         waterElement.innerText = event.result.feature.attributes.Water_Use__m3_;
