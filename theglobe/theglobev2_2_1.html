@@ -681,7 +681,7 @@
       rotate();
 
       const offices = new FeatureLayer({
-        url: "https://services.arcgis.com/qovwaCdMoEzUUFzS/ArcGIS/rest/services/UNHCROffices/FeatureServer/0",
+        url: "https://services3.arcgis.com/80SCmgj6pZGiNLhd/ArcGIS/rest/services/Offices_v4/FeatureServer/0",
         title: "UNHCR Offices",
         popupTemplate: {
           title: "UNHCR Offices",
@@ -689,25 +689,37 @@
             {
               type: "fields",
               fieldInfos: [
+               {
+                  fieldName: "Office__Building_code_",
+                  label: "Office Code",
+                },
                 {
-                  fieldName: "Country__UNHCR_",
+                  fieldName: "Country_Name",
                   label: "Country",
                 },
                 {
-                  fieldName: "Location",
+                  fieldName: "Location_Name",
                   label: "Location",
                 },
                 {
-                  fieldName: "Office_type",
+                  fieldName: "Property_Type",
                   label: "Office type",
                 },
                 {
-                  fieldName: "Green",
+                  fieldName: "Gross_Area__m2_",
+                  label: "Gross Area (m2)",
+                },
+                {
+                  fieldName: "Headcount__HR___UNIFIER_",
+                  label: "HR Personl",
+                },
+                {
+                  fieldName: "Greenboxes",
                   label: "Green Boxes",
                 },
                 {
-                  fieldName: "Greening",
-                  label: "Greening the Blue 2022",
+                  fieldName: "Greening_the_Blue_2023",
+                  label: "Greening the Blue 2023",
                 },
               ],
             },
@@ -718,7 +730,7 @@
       scene.add(offices);
 
       const greenboxes = new FeatureLayer({
-        url: "https://services.arcgis.com/qovwaCdMoEzUUFzS/ArcGIS/rest/services/GreenBoxes/FeatureServer/0",
+        url: "https://services3.arcgis.com/80SCmgj6pZGiNLhd/ArcGIS/rest/services/GreenBoxes_v4/FeatureServer/0",
         title: "Green Boxes",
         popupTemplate: {
           title: "Green Boxes installed",
@@ -727,19 +739,19 @@
               type: "fields",
               fieldInfos: [
                 {
-                  fieldName: "INS_Code",
+                  fieldName: "Office__Building_code_",
                   label: "INS Code",
                 },
                 {
-                  fieldName: "Country__UNHCR_",
+                  fieldName: "Country_Name",
                   label: "Country",
                 },
                 {
-                  fieldName: "Location",
+                  fieldName: "Location_Name",
                   label: "Location",
                 },
                 {
-                  fieldName: "Total_KWh_Measured__Oct_Dec2022",
+                  fieldName: "KWH__Greenboxes_",
                   label: "KWh measured in 2022",
                 },
               ],
@@ -845,32 +857,32 @@
       //});
 
       const greentheblue = new FeatureLayer({
-        url: "https://services.arcgis.com/qovwaCdMoEzUUFzS/arcgis/rest/services/GTB2022/FeatureServer/layers",
-        title: "Greening The Blue 2022",
+        url: "https://services3.arcgis.com/80SCmgj6pZGiNLhd/ArcGIS/rest/services/GreeningTheBlue_v4/FeatureServer/0",
+        title: "Greening The Blue 2023",
         popupTemplate: {
-          title: "Greening The Blue 2022",
+          title: "Greening The Blue 2023",
           content: [
             {
               type: "fields",
               fieldInfos: [
                 {
-                  fieldName: "Country__UNHCR_",
+                  fieldName: "Country_Name",
                   label: "Country",
                 },
                 {
-                  fieldName: "Location",
+                  fieldName: "Location_Name",
                   label: "Location",
                 },
                 {
-                  fieldName: "Total_Co2__tons__emitted",
-                  label: "CO<sub>2</sub> emitted (Kg)",
+                  fieldName: "Total_CO2__tons_",
+                  label: "CO<sub>2</sub> emitted (tons)",
                 },
+                //{
+                  //fieldName: "Water_Use__m3_",
+                  //label: "Water used (m³)",
+                //},
                 {
-                  fieldName: "Water_Use__m3_",
-                  label: "Water used (m³)",
-                },
-                {
-                  fieldName: "Total_Waste__Kg_",
+                  fieldName: "Total_Waste_KG",
                   label: "Waste generated (Kg)",
                 },
               ],
