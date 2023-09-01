@@ -58,7 +58,7 @@
         <p class="memotext">Estimated Offices Power Consumption based on 2022's greenboxes' readings</p>
       </div>
       <div id="blueStats">
-        <h2 class="paneltitle">Greening The Blue 2022</h2>
+        <h2 class="paneltitle">Greening The Blue 2023</h2>
         <div id="stat">
           <div class="container">
             <img
@@ -70,7 +70,7 @@
             />
             <h2 id="co2" class="powerinfotext">0</h2>
           </div>
-          <p class="memotext">(Tons of CO<sub>2</sub>&nbsp;emitted)</p>
+          <p class="memotext">Total CO<sub>2</sub>&nbsp;(tons)</p>
         </div>
         <div id="stat">
           <div class="container powerinfo">
@@ -83,7 +83,7 @@
             />
             <h2 id="water" class="powerinfotext">0</h2>
           </div>
-          <p class="memotext">(m³&nbsp;of Water used)</p>
+          <p class="memotext">Water used (m3)</p>
         </div>
         <div id="stat">
           <div class="container powerinfo">
@@ -96,7 +96,7 @@
             />
             <h2 id="waste" class="powerinfotext">0</h2>
           </div>
-          <p class="memotext">(Kg of waste generated)</p>
+          <p class="memotext">Waste generated (kg)</p>
         </div>
       </div>
     </div>
@@ -510,7 +510,7 @@
           console.log("fetching excel");
           // if 24 hours spent, fetch exel
           fetch(
-            "https://unhcr.maps.arcgis.com/sharing/rest/content/items/303714cd9b1e4541b7263284dbdd5a8a/data"
+            "https://unhcr.maps.arcgis.com/sharing/rest/content/items/6ed26eb309924691adef4f46783f6849/data"
           )
             .then((response) => response.arrayBuffer())
             .then((data) => {
@@ -559,7 +559,7 @@
       let total_waste = 0;
       let total_water = 0;
       let total_KWh = 0;
-      let secondsPerYear = 0;
+      const secondsPerYear = 31563;
       let kWhPerSecond = 0;
       const secondsPerDay = 86400;
       const secondsUpTONow = getDayOfYear() * secondsPerDay;
@@ -578,16 +578,13 @@
         total_waste = 0;
         total_water = 0;
         total_KWh = 0;
-        secondsPerYear = 0;
         kWhPerSecond = 0;
         for (let i = 0; i < data_from_excel?.length; i++) {
           const data = data_from_excel[i];
-          const kwh = data["Total KWh Measured (for 1 year)"];
-          const co2 = data["Total Co2 (tons) emitted"];
-          const water = data["Water Use (m3)"];
-          const waste = data["Total Waste (Kg)"];
-          const secondsInYear = data["Seconds in one year"];
-          const KWhPerSec = data["KWh per second"];
+          const kwh = data["KWH (Greenboxes)"];
+          const co2 = data["Total CO2 (tons)"];
+          const water = data["Water used (m3)"];
+          const waste = data["Waste generated KG"];
           if (typeof co2 === "number") {
             total_co2 += co2;
           }
@@ -600,15 +597,10 @@
           if (typeof kwh === "number") {
             total_KWh += kwh;
           }
-          if (typeof secondsInYear === "number") {
-            secondsPerYear = secondsInYear;
-          }
-          if (typeof KWhPerSec === "number") {
-            KWhPerSecond = KWhPerSec;
-          }
         }
+        console.log('+++++++++total waster: ', total_waste)
         total_co2 = total_co2/2
-        co2Element.innerText = Math.trunc(54944).toLocaleString("en-US");
+        co2Element.innerText = Math.trunc(total_co2).toLocaleString("en-US");
         wasteElement.innerText = Math.trunc(total_waste).toLocaleString("en-US");
         waterElement.innerText = Math.trunc(total_water).toLocaleString("en-US");
         counterElement.innerText = Math.trunc(total_KWh).toLocaleString("en-US") + " KWh";
@@ -681,7 +673,7 @@
       rotate();
 
       const offices = new FeatureLayer({
-        url: "https://services.arcgis.com/qovwaCdMoEzUUFzS/ArcGIS/rest/services/Offices_v4_2023/FeatureServer/0",
+        url: "https://services.arcgis.com/qovwaCdMoEzUUFzS/ArcGIS/rest/services/Offices_v4_1/FeatureServer/0",
         title: "UNHCR Offices",
         popupTemplate: {
           title: "UNHCR Offices",
@@ -690,15 +682,15 @@
               type: "fields",
               fieldInfos: [
                 {
-                  fieldName: "Country__UNHCR_",
+                  fieldName: "Country_Name",
                   label: "Country",
                 },
                 {
-                  fieldName: "Location",
+                  fieldName: "Location_Name",
                   label: "Location",
                 },
                 {
-                  fieldName: "INS_Code",
+                  fieldName: "Office__Building_code_",
                   label: "Building Code",
                 },
                 {
@@ -730,7 +722,7 @@
       scene.add(offices);
 
       const greenboxes = new FeatureLayer({
-        url: "https://services.arcgis.com/qovwaCdMoEzUUFzS/ArcGIS/rest/services/GreenBoxes_v4/FeatureServer/0",
+        url: "https://services.arcgis.com/qovwaCdMoEzUUFzS/ArcGIS/rest/services/GreenBoxes_1/FeatureServer/0",
         title: "Green Boxes",
         popupTemplate: {
           title: "Green Boxes installed",
@@ -739,19 +731,19 @@
               type: "fields",
               fieldInfos: [
                 {
-                  fieldName: "INS_Code",
+                  fieldName: "Office__Building_code_",
                   label: "Building Code"
                 },
                 {
-                  fieldName: "Country__UNHCR_",
+                  fieldName: "Country_Name",
                   label: "Country",
                 },
                 {
-                  fieldName: "Location",
+                  fieldName: "Location_Name",
                   label: "Location",
                 },
                 {
-                  fieldName: "Total_KWh_Measured__Oct_Dec2022",
+                  fieldName: "KWH__Greenboxes_",
                   label: "KWh measured in 2023",
                 },
               ],
@@ -857,7 +849,7 @@
       //});
 
       const greentheblue = new FeatureLayer({
-        url: "https://services.arcgis.com/qovwaCdMoEzUUFzS/ArcGIS/rest/services/GreeningTheBlue_v4/FeatureServer/0",
+        url: "https://services.arcgis.com/qovwaCdMoEzUUFzS/ArcGIS/rest/services/GreeningTheBlue_1/FeatureServer/0",
         title: "Greening The Blue 2023",
         popupTemplate: {
           title: "Greening The Blue 2023",
@@ -866,24 +858,28 @@
               type: "fields",
               fieldInfos: [
                 {
-                  fieldName: "Country__UNHCR_",
+                  fieldName: "Country_Name",
                   label: "Country",
                 },
                 {
-                  fieldName: "Location",
+                  fieldName: "Location_Name",
                   label: "Location",
                 },
                 {
-                  fieldName: "Total_Co2__tons__emitted",
+                  fieldName: "Total_CO2__tons_",
                   label: "CO<sub>2</sub> emitted (tons)",
                 },
-                //{
-                  //fieldName: "Water_Use__m3_",
-                  //label: "Water used (m³)",
-                //},
                 {
-                  fieldName: "Total_Waste__Kg_",
+                  fieldName: "Water_used__m3_",
+                  label: "Water used (m³)",
+                },
+                {
+                  fieldName: "Waste_generated_KG",
                   label: "Waste generated (Kg)",
+                },
+                {
+                  fieldName: "Water_recycled__m3_",
+                  label: "Waste Recycled (m³)",
                 },
               ],
             },
@@ -1056,7 +1052,7 @@
 
       function resetInactivityTimeout(){
         clearTimeout(inactivityTimeout)
-        inactivityTimeout = setTimeout(handleInactive, 10000)
+        inactivityTimeout = setTimeout(handleInactive, 15000)
       }
       function handleInactive(){
         greenboxes.visible = false
@@ -1104,22 +1100,25 @@
           });
         console.log(
           "YOu searched for: ",
-          event.result.feature.attributes.Location
+          event.result.feature.attributes
         );
 
         const selectedLocation = data_from_excel.find(
           (item) =>
-            item["Location"] === event.result.feature.attributes.Location ||
-            event.result.feature.attributes.Location.includes(item["Location"])
+            item["Location Name"] === event.result.feature.attributes.Location ||
+            event.result.feature.attributes.Location.includes(item["Location Name"])
         );
-        total_KWh = selectedLocation["Total KWh Measured (for 1 year)"];
+        console.log("=============selected location: ", selectedLocation)
+        total_KWh = selectedLocation["KWH (Greenboxes)"];
          // console.log("Fetched total kwh: ", total_KWh);
-        kWhPerSecond = selectedLocation["KWh per second"];
+        kWhPerSecond = total_KWh/secondsPerYear
          // console.log("kwh per second: ", kWhPerSecond);
          // console.log("seconds up to now: ", secondsUpTONow);
         counterStartingPoint = kWhPerSecond * secondsUpTONow;
          // console.log("Counter Starting Point: ", counterStartingPoint);
-
+        console.log("++++++++++++++KWH: ", total_KWh)
+        console.log("++++++++++++++KWHPersecond: ", total_KWh/secondsPerYear)
+        console.log("++++++++++++++seconds up to now: ", secondsUpTONow)
          // document.getElementById("office").innerText =
           // event.result.feature.attributes.Location;
         if (counterStartingPoint) {
@@ -1129,11 +1128,9 @@
           counterElement.innerText = "No KWh found";
         }
         // clearInterval(intervalID);
-        co2Element.innerText =
-          event.result.feature.attributes.Total_Co2__tons__emitted;
-        waterElement.innerText = event.result.feature.attributes.Water_Use__m3_;
-        wasteElement.innerText =
-          event.result.feature.attributes.Total_Waste__Kg_;
+        co2Element.innerText = Math.trunc(selectedLocation["Total CO2 (tons)"]).toLocaleString("en-US");
+        waterElement.innerText = Math.trunc(selectedLocation["Water used (m3)"]).toLocaleString("en-US");
+        wasteElement.innerText = Math.trunc(selectedLocation["Waste generated KG"]).toLocaleString("en-US");
       });
       view.ui.add(searchWidget, "bottom-right", {
         position: "bottom-right",
