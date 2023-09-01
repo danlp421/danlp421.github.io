@@ -849,7 +849,7 @@
       //});
 
       const greentheblue = new FeatureLayer({
-        url: "https://services.arcgis.com/qovwaCdMoEzUUFzS/ArcGIS/rest/services/GreeningTheBlue_1/FeatureServer/0",
+        url: "https://services.arcgis.com/qovwaCdMoEzUUFzS/ArcGIS/rest/services/GreeningTheBlue_v4/FeatureServer/0",
         title: "Greening The Blue 2023",
         popupTemplate: {
           title: "Greening The Blue 2023",
@@ -858,29 +858,29 @@
               type: "fields",
               fieldInfos: [
                 {
-                  fieldName: "Country_Name",
+                  fieldName: "Country__UNHCR_",
                   label: "Country",
                 },
                 {
-                  fieldName: "Location_Name",
+                  fieldName: "Location",
                   label: "Location",
                 },
                 {
-                  fieldName: "Total_CO2__tons_",
+                  fieldName: "Total_Co2__tons__emitted",
                   label: "CO<sub>2</sub> emitted (tons)",
                 },
                 {
                   fieldName: "Water_used__m3_",
                   label: "Water used (m³)",
                 },
-                {
-                  fieldName: "Waste_generated_KG",
-                  label: "Waste generated (Kg)",
-                },
-                {
-                  fieldName: "Water_recycled__m3_",
-                  label: "Waste Recycled (m³)",
-                },
+                //{
+                  //fieldName: "Total_Waste__Kg_",
+                  //label: "Waste generated (Kg)",
+                //},
+                //{
+                  //fieldName: "Water_recycled__m3_",
+                  //label: "Waste Recycled (m³)",
+                //},
               ],
             },
           ],
