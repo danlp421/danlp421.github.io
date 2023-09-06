@@ -28,6 +28,17 @@
           <span>Air Travel</span>
         </a>
       </div>
+      <div id="buttonsfleet">
+        <a  class="link-button-fleet" role="button" href="https://experience.arcgis.com/experience/354ee85ab3534861ab5339ca651b18f2/page/Flights/?draft=true">
+          <span> <img 
+            src="https://www.arcgis.com/sharing/rest/content/items/354ee85ab3534861ab5339ca651b18f2/resources/images/widget_524/1680033332381.png" 
+            alt="vinculo"
+            width="17px"
+            height="17px">
+          </span>
+          <span>Fleet</span>
+        </a>
+      </div>
       <div id="buttons">
         <a class="link-button " role="button" href="https://app.powerbi.com/groups/18dd85db-91bd-4741-bf9b-2fa19a245876/reports/d833a112-650a-4a3e-b31f-f6ff7889e243/ReportSection4e62818c4501f1f34249?chromeless=1" target="_self">
           <span>🔗</span>
@@ -184,13 +195,36 @@
    #buttonsair{
     position: absolute;
     width: 250px;
-    bottom: 190px;
+    bottom: 240px;
     left: 40px;
     display: flex;
     flex-direction: column;
     gap: 15px;
   }
   .link-button-air{
+    border: 1px solid #00c5ff;
+    width: 100%;
+    padding: 8px 20px;
+    display: flex;
+    justify-content: flex-start;
+    gap: 40px;
+    align-items: center;
+    font-size: 14px;
+    font-family: Arial;
+    color: #00c5ff;
+    cursor: pointer;
+    text-decoration: none;
+  }
+  #buttonsfleet{
+    position: absolute;
+    width: 250px;
+    bottom: 190px;
+    left: 40px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+  .link-button-fleet{
     border: 1px solid #00c5ff;
     width: 100%;
     padding: 8px 20px;
