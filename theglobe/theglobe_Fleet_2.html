@@ -11,18 +11,6 @@
   </head>
   <body>
     <div id="viewDiv">
-      <p class="buttons-title">Fleet</p>
-      <div id="buttonsfleet">
-        <a  class="link-button-fleet" role="button" href="https://experience.arcgis.com/experience/354ee85ab3534861ab5339ca651b18f2/page/The-Globe/?draft=true">
-          <span> <img 
-            src="https://www.arcgis.com/sharing/rest/content/items/354ee85ab3534861ab5339ca651b18f2/resources/images/widget_524/1680033332381.png" 
-            alt="vinculo"
-            width="17px"
-            height="17px">
-          </span>
-          <span>Back</span>
-        </a>
-      </div>
     <div class="overlay">
       <div>
         <span id="play" class="button esri-icon-play" style="display: block;" />
@@ -53,39 +41,6 @@ body,
 body {
   background: rgb(0, 0, 0)
 }
-.buttons-title{
-    position: absolute;
-    top: 6px;
-    left: 145px;
-    font-family: Arial;
-    font-size: 25px;
-    font-weight: 700;
-    line-height: 1.5;
-    color: #ffffff;
-  }
-  #buttonsfleet{
-    position: absolute;
-    width: 181px;
-    bottom: 50px;
-    left: 40px;
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-  }
-  .link-button-fleet{
-    border: 1px solid #00c5ff;
-    width: 100%;
-    padding: 8px 20px;
-    display: flex;
-    justify-content: flex-start;
-    gap: 40px;
-    align-items: center;
-    font-size: 16px;
-    font-family: Arial;
-    color: #00c5ff;
-    cursor: pointer;
-    text-decoration: none;
-  }
   .esri-widget__table {
     color: #ffffff;
   }
@@ -286,7 +241,7 @@ body {
   }
 </style>
 <script>
-   $(document).ready(function () {
+  $(document).ready(function () {
     require([
       "esri/config",
       "esri/views/SceneView",
@@ -303,8 +258,7 @@ body {
       "esri/geometry/Polyline", 
       "esri/Graphic"
     ], function (esriConfig,SceneView, Map, Expand, BasemapGallery, FeatureLayer, LayerList, Home, Legend,UniqueValueRenderer, Search, ListItem,
-     Polyline, Graphic) 
-     {
+     Polyline, Graphic) {
       //esriConfig.apiKey ="AAPK853e389eacab4000b8168009a957884eAeNxkMsT5xLndSZFhHgao-ynp074HaJnWU6CfSjbF8QQuZc5bL4FoHut1NkoYGYU";
       var scene = new Map({
         basemap: "hybrid",
@@ -322,6 +276,18 @@ body {
           tilt: 0.16,
         },
       });
+      //var basemapGallery = new BasemapGallery({
+        //view: view,
+        //container: document.createElement("div"),
+      //});
+      //var bgExpand = new Expand({
+        //view: view,
+        //content: basemapGallery,
+      //});
+      //view.ui.add(bgExpand, "top-left");
+      //view.watch("camera.position.longitude", (longitude) => {
+        //label.innerHTML = `Longitude: ${longitude.toFixed(1)}&deg;`;
+      //});
       view.ui.add(play, "top-left");
       view.ui.add(pause, "top-left");
       let abort = false;
@@ -345,6 +311,155 @@ body {
       };
       rotate();
       let intervalID = undefined;
+ 
+
+      // get paths out route lines and customize
+      
+      const graphics = [];
+      routeflylayer.queryFeatures().then(function(result) {
+        // symbol of the route line. you can customize the color of fly route with rgb value.
+        const features = result.features;
+        for (let i = 0; i < features.length; i++) {
+          const polyline = new Polyline({
+            paths:features[i].geometry.paths[0],
+            spatialReference: { wkid: 4326 }
+          });
+          const graphic = new Graphic({
+            geometry: polyline,
+            symbol: {
+              type: "simple-line",
+              color: "grey",
+              width: "1px"
+            },
+            attributes:features[i].attributes,
+          });
+          graphics.push(graphic);
+        }
+        const flineLayer = new FeatureLayer({
+          title: "Routes Flights",
+            objectIdField: "OBJECTID",
+            id: "routeLayer",
+            fields: [
+              {
+                name: "OBJECTID",
+                alias: "OBJECTID",
+                type: "oid"
+              },
+              {
+                name: "Number_of",
+                alias: "Routes Flights",
+                type: "string"
+              }
+            ],
+            source: graphics,
+            spatialReference: { wkid: 4326 },
+            renderer: {
+              type: "simple",
+              symbol: {
+                type: "simple-line",
+                color: [180,180,180],
+                width: "2px",
+                style: "dash"
+              }
+            },
+            popupTemplate: {
+              title: "Route Flights",
+              content: [
+                {
+                  type: "fields",
+                  fieldInfos: [
+                    {
+                      fieldName: "Number_of",
+                      label: "Routes Flights",
+                    }
+                  ],
+                },
+              ],
+              overwriteActions: false,
+            },
+          });
+        //scene.add(flineLayer);
+
+        //const searchWidget = new Search({
+        //view: view,
+        //allPlaceholder: "UNHCR",
+        //includeDefaultSources: false,
+        //sources: [
+          //{
+            //layer: offices,
+            //searchFields: ["Location"],
+            //displayField: "Location",
+            //exactMatch: false,
+            //outFields: ["*"],
+           // name: "UNHCR Offices",
+            //placeholder: "example: Caracas",
+            //zoomScale: 500000,
+          //},
+          //{layer: Countries,
+            //searchFields: ["COUNTRYAFF"],
+            //displayField: "COUNTRYAFF",
+            //exactMatch: true,
+            //outFields: ["*"],
+            //name: "UNHCR Countries",
+            //placeholder: "example: Colombia"
+          //},
+          //{
+            //layer: flineLayer,
+            //searchFields: ["Number_of"],
+            //displayField: "Number_of",
+            //exactMatch: false,
+            //outFields: ["*"],
+            //name: "Routes",
+            //placeholder: "example: Abidjan, Addis Ababa",
+            //zoomScale: 500000,
+          //},
+        //],
+      //});
+      view.ui.add(searchWidget, "bottom-right", {
+        position: "bottom-right",
+      });
+        //flineLayer.visible =  true;
+      });
+      
+      // set Fly Route Feature layer and add to scene.
+      
+      //const greentheblue = new FeatureLayer({
+        //url: "https://services.arcgis.com/qovwaCdMoEzUUFzS/ArcGIS/rest/services/Greening_The_Blue_2022/FeatureServer/0",
+        //popupTemplate: {
+          //title: "Greening The Blue 2022",
+          //content: [
+            //{
+              //type: "fields",
+              //fieldInfos: [
+                //{
+                  //fieldName: "Country__UNHCR_",
+                  //label: "Country",
+                //},
+                //{
+                  //fieldName: "Location",
+                  //label: "Location",
+                //},
+                //{
+                  //fieldName: "Total_GHG_Emissions__Co2_",
+                  //label: "Total CO2 (Ton)",
+                //},
+                //{
+                  //fieldName: "Total_Waste__Kg_",
+                  //label: "Total Waste (Kg)",
+                //},
+                //{
+                  //fieldName: "Water_Use__m3_",
+                  //label: "Water use (m³)",
+                //},
+              //],
+            //},
+          //],
+          //overwriteActions: false,
+        //},
+      //});
+      //scene.add(greentheblue);
+
+      //greentheblue.visible = false;
       const Countries = new FeatureLayer({
         url: "https://services.arcgis.com/P3ePLMYs2RVChkJx/ArcGIS/rest/services/World_Countries_(Generalized)/FeatureServer/0",
         popupTemplate: {
@@ -365,7 +480,7 @@ body {
       });
   
       const FleetData = new FeatureLayer({
-        url: "https://services.arcgis.com/qovwaCdMoEzUUFzS/ArcGIS/rest/services/Fleet_2023/FeatureServer/0",
+        url: "https://services.arcgis.com/qovwaCdMoEzUUFzS/ArcGIS/rest/services/Fleet_Data/FeatureServer/0",
         title: "Fleet",
         elevationInfo: {
         mode: "relative-to-ground",
@@ -380,23 +495,23 @@ body {
               type: "fields",
               fieldInfos: [
                 {
-                  fieldName: "Location",
-                  label: "Location",
+                  fieldName: "Office",
+                  label: "Office",
                 },
                 {
-                  fieldName: "F__vehicles",
+                  fieldName: "Number_of_Vehicles",
                   label: "Number of Vehicles",
                },
                 {
-                  fieldName: "Fleet_Emissions_t_CO2",
-                  label: "CO<sub>2</sub> emitted (Tons)", 
+                  fieldName: "CO2_Emitted__Kg_",
+                  label: "CO<sub>2</sub> emitted (Kg)", 
                 },
                 {
-                  fieldName: "Total_KM_Traveled__Est__",
+                  fieldName: "Distance_Travelled__Km_",
                   label: "Distance Travelled (Km)", 
                 },
                 {
-                  fieldName: "F__hybrid_Electric_vehicles",
+                  fieldName: "Number_of_Electric_Hybrid_Vehic",
                   label: "Number of Electric/Hybrid Vehicles", 
                 },
               ],
@@ -406,6 +521,46 @@ body {
         },
       });
       scene.add(FleetData);
+      //FleetData.visible = false;
+
+      // const searchWidget = new Search({
+      //   view: view,
+      //   allPlaceholder: "UNHCR",
+      //   includeDefaultSources: false,
+      //   sources: [
+      //     //{
+      //       //layer: offices,
+      //       //searchFields: ["Location"],
+      //       //displayField: "Location",
+      //       //exactMatch: false,
+      //       //outFields: ["*"],
+      //      // name: "UNHCR Offices",
+      //       //placeholder: "example: Caracas",
+      //       //zoomScale: 500000,
+      //     //},
+      //     //{layer: Countries,
+      //       //searchFields: ["COUNTRYAFF"],
+      //       //displayField: "COUNTRYAFF",
+      //       //exactMatch: true,
+      //       //outFields: ["*"],
+      //       //name: "UNHCR Countries",
+      //       //placeholder: "example: Colombia"
+      //     //},
+      //     {
+      //       layer: scene.findLayerById("routeLayer"),
+      //       searchFields: ["Number_of"],
+      //       displayField: "Routes",
+      //       exactMatch: false,
+      //       outFields: ["*"],
+      //       name: "Routes",
+      //       placeholder: "example: Abidjan, Addis Ababa",
+      //       zoomScale: 500000,
+      //     },
+      //   ],
+      // });
+      // view.ui.add(searchWidget, "bottom-right", {
+      //   position: "bottom-right",
+      // });
       function shiftCamera(deg) {
         var camera = view.camera.clone();
         camera.position.longitude += deg;
@@ -426,27 +581,6 @@ body {
           }
         },
       });
-
-      searchWidget = new Search({
-        view: view,
-        allPlaceholder: "UNHCR",
-        includeDefaultSources: false,
-        sources: [
-          {
-            layer: FleetData,
-            searchFields: ["Location"],
-            displayField: "Location",
-            exactMatch: false,
-            outFields: ["*"],
-            name: "UNHCR Offices",
-            placeholder: "Example: Caracas",
-            zoomScale: 5000,
-          },
-        ],
-      });
-
-
-      
       // logo image add
       var imageDiv = document.createElement("div");
       imageDiv.style.position = "absolute";
@@ -458,16 +592,6 @@ body {
       imageDiv.style.backgroundSize = "cover";
       var mapContainer = document.getElementById("viewDiv"); // replace with your map container element
       mapContainer.appendChild(imageDiv);
-
-      view.ui.add(searchWidget, "bottom-right", {
-        position: "bottom-right",
-      });
-
-      function shiftCamera(deg) {
-        var camera = view.camera.clone();
-        camera.position.longitude += deg;
-        return camera;
-      }
 
       view.ui.add(
         [new Expand({
@@ -483,6 +607,6 @@ body {
         view: view,
       });
       view.ui.add(homebtn, "top-right");
-     });
     });
+  });
 </script>
