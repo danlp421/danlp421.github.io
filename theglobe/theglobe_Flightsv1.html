@@ -29,7 +29,7 @@
             <div id="stat">
               <div class="container">
                 <img
-                  src="CO2.png"
+                  src="flight icon co2.png"
                   class="info-icon"
                   max-width: 20px;
                   height: 20px;
@@ -42,20 +42,7 @@
             <div id="stat">
               <div class="container powerinfo">
                 <img
-                  src="Avion_km.png"
-                  class="info-icon"
-                  max-width: 1px;
-                  height: 1px;
-                  alt="co2"
-                />
-                <h2 id="water" class="powerinfotext">47,235,568.22</h2>
-              </div>
-              <p class="memotext">Km travelled</p>
-            </div>
-            <div id="stat">
-              <div class="container powerinfo">
-                <img
-                  src="Avion_Tikets.png"
+                  src="tickets flight.png"
                   class="info-icon"
                   max-width: 1px;
                   height: 1px;
@@ -566,8 +553,8 @@ body {
               type: "simple",
               symbol: {
                 type: "simple-line",
-                color: "grey",
-                width: "2px",
+                color: "white",
+                width: "1px",
                 style: "dash"
               }
             };
@@ -581,8 +568,8 @@ body {
               type: "simple",
               symbol: {
                 type: "simple-line",
-                color: [180,180,180],
-                width: "2px",
+                color: [255,255,255],
+                width: "1px",
                 style: "dash"
               }
             },
@@ -618,7 +605,7 @@ body {
             geometry: polyline,
             symbol: {
               type: "simple-line",
-              color: "grey",
+              color: "white",
               width: "1px"
             },
             attributes:features[i].attributes,
@@ -647,8 +634,8 @@ body {
               type: "simple",
               symbol: {
                 type: "simple-line",
-                color: [180,180,180],
-                width: "2px",
+                color: [255,255,255],
+                width: "1px",
                 style: "dash"
               }
             },
@@ -802,6 +789,7 @@ body {
           overwriteActions: false,
         },
       });
+      routesdeparture.visible = false;
       scene.add(routesdeparture);
       //routesdeparture.visible = true;
 
@@ -840,6 +828,7 @@ body {
           overwriteActions: false,
         },
       });
+      routesarrival.visible = false;
       scene.add(routesarrival);
       //routesarrival.visible = true;
 
