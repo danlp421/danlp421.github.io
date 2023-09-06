@@ -29,15 +29,15 @@
         </a>
       </div>
       <div id="buttons">
-        <a class="link-button " role="button" href="https://app.powerbi.com/groups/18dd85db-91bd-4741-bf9b-2fa19a245876/reports/d833a112-650a-4a3e-b31f-f6ff7889e243/ReportSection4e62818c4501f1f34249?chromeless=1" target="_blank">
+        <a class="link-button " role="button" href="https://app.powerbi.com/groups/18dd85db-91bd-4741-bf9b-2fa19a245876/reports/d833a112-650a-4a3e-b31f-f6ff7889e243/ReportSection4e62818c4501f1f34249?chromeless=1" target="_self">
           <span>🔗</span>
           <span>Green Box dashboard</span>
         </a>
-        <a class="link-button " role="button" href="https://app.powerbi.com/groups/18dd85db-91bd-4741-bf9b-2fa19a245876/reports/e8db98c7-df84-41aa-8478-c6cedfcecc70/ReportSection?chromeless=1" target="_blank">
+        <a class="link-button " role="button" href="https://app.powerbi.com/groups/18dd85db-91bd-4741-bf9b-2fa19a245876/reports/e8db98c7-df84-41aa-8478-c6cedfcecc70/ReportSection?chromeless=1" target="_self">
           <span>🔗</span>
           <span>Greening the Blue</span>
         </a>
-        <a class="link-button " role="button" href="https://experience.arcgis.com/experience/015b4153a8e94201aa90f615ebc2eb40/page/Teams-2/?draft=true" target="_blank">
+        <a class="link-button " role="button" href="https://experience.arcgis.com/experience/015b4153a8e94201aa90f615ebc2eb40/page/Teams-2/?draft=true" target="_self">
           <span>🔗</span>
           <span>Meet the Team</span>
         </a>
@@ -49,7 +49,7 @@
           Estimated <span id="office">Offices</span> Power Consumption
         </h2>
         <div class="container powerinfo">
-          <img src="power c.png" width="40px" height="40px" class="info-icon" />
+          <img src="power c.png" width="50px" height="50px" class="info-icon" />
           <div class="valueofindex">
             <h2 id="totalPowerConsumption" class="powerinfotext">0 KWh</h2>
           </div>
@@ -706,11 +706,11 @@
                   label: "HR Personl",
                 },
                 {
-                  fieldName: "Green",
+                  fieldName: "Greenboxes",
                   label: "Green Boxes",
                 },
                 {
-                  fieldName: "Greening",
+                  fieldName: "Greening_the_Blue_2023",
                   label: "Greening the Blue 2023",
                 },
               ],
@@ -739,7 +739,7 @@
                   label: "Country",
                 },
                 {
-                  fieldName: "Location_Name",
+                  fieldName: "Location",
                   label: "Location",
                 },
                 {
@@ -858,11 +858,11 @@
               type: "fields",
               fieldInfos: [
                 {
-                  fieldName: "Country_Name",
+                  fieldName: "Office__Building_code_",
                   label: "Country",
                 },
                 {
-                  fieldName: "Location_Name",
+                  fieldName: "Location",
                   label: "Location",
                 },
                 {
@@ -874,12 +874,8 @@
                   label: "Water used (m³)",
                 },
                 {
-                  fieldName: "Waste_generated_Kg_2 ",
+                  fieldName: "Waste_generated_Kg_2",
                   label: "Waste generated (Kg)",
-                },
-                {
-                  fieldName: "Water_recycled__m3_2",
-                  label: "Waste Recycled (m³)",
                 },
               ],
             },
@@ -1059,9 +1055,11 @@
         greentheblue.visible = false
         FleetData.visible = false
         searchWidget.clear();
+        expandWidget.collapse();
         view.goTo({
           scale: 50000000,
         });
+        view.popup.close()
         // clearInterval(intervalID);
       }
 
@@ -1188,16 +1186,12 @@
         statusIndicators: false,
         errors: true,
       };
-      view.ui.add(
-        [
-          new Expand({
+      var expandWidget = new Expand({
             view: view,
             content: layerList,
             group: "top-right",
-          }),
-        ],
-        "top-right"
-      );
+          })
+      view.ui.add(expandWidget,"top-right");
 
       var homebtn = new Home({
         view: view,
