@@ -1,0 +1,841 @@
+<html>
+  <head>
+    <meta name="author" content="Daniel Leon">
+    <meta name="viewport"content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://js.arcgis.com/4.25/esri/themes/light/main.css" />
+    <script src="https://js.arcgis.com/4.25/"></script>
+    <script
+    src="https://code.jquery.com/jquery-3.6.1.min.js"
+    integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ="
+    crossorigin="anonymous"></script>
+  </head>
+  <body>
+    <div id="viewDiv">
+    <div class="overlay">
+      <div>
+        <span id="play" class="button esri-icon-play" style="display: block;" />
+      </div>
+      <div>
+        <span id="pause" class="button esri-icon-pause" style="display: none;" />
+      </div>
+    </div>
+  </body>
+</html>
+<style>
+html,
+body,
+#viewDiv {
+    padding: 0;
+    margin: 0;
+    height: 100%;
+    flex: 1;
+  }
+.overlay {
+  position: absolute;
+  width: 50%;
+  bottom: 50px;
+  left: 0px;
+  background-color: rgba(80, 80, 80, 0);
+  text-align: center;
+  font-family: "Avenir Next","Helvetica Neue",Helvetica,Arial,sans-serif;}
+body {
+  background: rgb(0, 0, 0)
+}
+  .esri-widget__table {
+    color: #ffffff;
+  }
+  .esri-widget--button {
+    color: #ffffff;
+  }
+  .esri-widget__heading {
+    color: #f8f8f8;
+    font-weight: 600;
+    margin: 0 0 0.5rem 0;
+  }
+  .esri-widget--button {
+    font-size: 14px;
+    background-color: #141414;
+    color: #141414;
+  }
+  .esri-widget {
+    box-sizing: border-box;
+    color: #141414;
+    font-size: 14px;
+    font-family: "Avenir Next", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    line-height: 1.3em;
+    background-color: #141414;
+  }
+  .esri-widget {
+    box-sizing: border-box;
+    color: #141414;
+    font-size: 14px;
+    font-family: "Avenir Next", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    line-height: 1.3em;
+    background-color: #141414;
+  }
+  .button {
+    cursor: pointer;
+    font-size: 30pt !important;
+    font-weight: bold !important;
+    color: #f5f1f1;
+  }
+  .esri-icon-play:before {
+    content: "";
+    color: white;
+    position: absolute;
+    left:0px;
+  }
+  .esri-icon-pause:before {
+    content: "";
+    color: white;
+    position: absolute;
+    left:0px;
+  }
+  .overlay {
+    position: absolute;
+    width: 50%;
+    bottom: 50px;
+    left: 0px;
+    background-color: rgba(80, 80, 80, 0);
+    text-align: center;
+    font-family: "Avenir Next", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  }
+  #viewDiv canvas {
+    filter: saturate(1.2) drop-shadow(0 0 20px rgba(255, 255, 255, 0));
+  }
+  .button {
+    cursor: pointer;
+    font-size: 30pt !important;
+    font-weight: bold !important;
+    color: rgb(5, 4, 4);
+  }
+  .button:hover,
+  #label {
+    color: rgb(0, 0, 0);
+  }
+  .button,
+  #label {
+    margin: 10px;
+  }
+  .esri-widget {
+    font-size: 12.4px;
+  }
+  .esri-popup__button {
+    border-radius: 1px;
+    padding: 4px 5px;
+    margin: 1px 0;
+  }
+  .esri-layer-list__item {
+    background-color: #000000;
+    color: white;
+  }
+  .esri-layer-list__item-container {
+    padding: 8px 4px 8px 8px;
+  }
+  .esri-view-height-small .esri-ui-corner .esri-component.esri-widget--panel {
+    max-height: 300px;
+  }
+  .esri-ui-corner .esri-component.esri-widget--panel {
+    width: 180px;
+  }
+  .esri-layer-list__item-toggle {
+    color: #ffffff;
+  }
+  .esri-layer-list__item-toggle {
+    color: #f8f8f8;
+  }
+  .esri-widget--button {
+    color: #ffffff;
+  }
+  .esri-feature__content-element {
+    padding: 0 1px 2px;
+  }
+  .esri-legend__service {
+    padding: 6px 6px;
+  }
+  h3.esri-widget__heading,
+  h4.esri-widget__heading,
+  h5.esri-widget__heading,
+  h6.esri-widget__heading {
+    font-size: 12px;
+  }
+  .esri-legend__layer {
+    margin-left: 1px;
+  }
+  .esri-legend__layer-cell--symbols {
+    min-width: 8px;
+  }
+  .esri-legend__layer-cell {
+    padding: 0px 0;
+  }
+  .esri-widget__heading {
+    margin: 0 0 0.1rem 0;
+  }
+  .esri-ui-corner-container{
+    inset: 20px 20px 35px;
+  }
+  /* Here you configure the margins for the map buttons. you can customize the margin value of top-right, top-left*/
+  .esri-ui-top-right{
+    top:100px;
+    right:10px;
+  }
+  .esri-ui-top-left{
+    top:20px;
+    left:20px;
+  }
+  .esri-ui-bottom-right{
+    bottom:20px;
+    right:20px;
+  }
+
+  h2.esri-widget__heading {
+    font-weight: 500;
+    font-size: 14px;
+  }
+  .esri-legend__layer-table {
+    width: 80%;
+    margin-bottom: 5px;
+  }
+  .esri-popup__main-container {
+    width: 30%;
+    max-height: 40%;
+  }
+  .esri-view-surface--inset-outline:focus::after {
+    outline: none !important;
+  }
+  .esri-layer-list__item-title {
+    line-height: 0.9em;
+  }
+  .esri-widget__table {
+    line-height: 0.8em;
+  }
+  .esri-view-width-large .esri-popup__main-container {
+    width: 300px;
+  }
+  .esri-widget__table tr td {
+    width: 30%;
+  }
+  .esri-widget__table tr th {
+    width: 30%;
+  }
+  .esri-widget__table tr td,
+  .esri-widget__table tr th {
+    padding: 0.2em 0.3em;
+    font-size: 12px;
+    font-weight: 300;
+  }
+  .esri-feature__content-element:last-child {
+    margin-bottom: 0;
+  }
+  .esri-view-height-less-than-medium .esri-popup__main-container {
+    max-height: 300px;
+  }
+  .esri-view-width-xlarge .esri-popup__main-container {
+    width: 320px;
+  }
+  .esri-ui-corner .esri-expand .esri-widget--panel,
+  .esri-ui-corner .esri-expand .esri-widget--panel-height-only,
+  .esri-ui-corner .esri-component > .esri-widget--panel,
+  .esri-ui-corner .esri-component.esri-widget--panel {
+    width: 230px;
+  }
+</style>
+<script>
+  $(document).ready(function () {
+    require([
+      "esri/config",
+      "esri/views/SceneView",
+      "esri/Map",
+      "esri/widgets/Expand",
+      "esri/widgets/BasemapGallery",
+      "esri/layers/FeatureLayer",
+      "esri/widgets/LayerList",
+      "esri/widgets/Home",
+      "esri/widgets/Legend",
+      "esri/renderers/UniqueValueRenderer",
+      "esri/widgets/Search",
+      "esri/widgets/LayerList/ListItem",
+      "esri/geometry/Polyline", 
+      "esri/Graphic"
+    ], function (esriConfig,SceneView, Map, Expand, BasemapGallery, FeatureLayer, LayerList, Home, Legend,UniqueValueRenderer, Search, ListItem,
+     Polyline, Graphic) {
+      //esriConfig.apiKey ="AAPK853e389eacab4000b8168009a957884eAeNxkMsT5xLndSZFhHgao-ynp074HaJnWU6CfSjbF8QQuZc5bL4FoHut1NkoYGYU";
+      var scene = new Map({
+        basemap: "hybrid",
+        ground: "world-elevation",
+      });
+      var view = new SceneView({
+        container: "viewDiv",
+        map: scene,
+        alphaCompositingEnabled: true,
+        qualityProfile: "high",
+        camera: {
+          //Here you can set the size of the globe in the user view. modify the z value of position. if it is higher value, the size of globe will be smaller.
+          position: [0.0, 14.398459, 30000000.0],
+          heading: 0.0,
+          tilt: 0.16,
+        },
+      });
+      //var basemapGallery = new BasemapGallery({
+        //view: view,
+        //container: document.createElement("div"),
+      //});
+      //var bgExpand = new Expand({
+        //view: view,
+        //content: basemapGallery,
+      //});
+      //view.ui.add(bgExpand, "top-left");
+      //view.watch("camera.position.longitude", (longitude) => {
+        //label.innerHTML = `Longitude: ${longitude.toFixed(1)}&deg;`;
+      //});
+      view.ui.add(play, "top-left");
+      view.ui.add(pause, "top-left");
+      let abort = false;
+      function rotate() {
+        if (!view.interacting && !abort) {
+          play.style.display = "none";
+          pause.style.display = "block";
+          const camera = view.camera.clone();
+          camera.position.longitude -= 0.2;
+          view.goTo(camera, { animate: false });
+          requestAnimationFrame(rotate);
+        } else {
+          abort = false;
+          play.style.display = "block";
+          pause.style.display = "none";
+        }
+      }
+      play.onclick = rotate;
+      pause.onclick = function () {
+        abort = true;
+      };
+      rotate();
+      let intervalID = undefined;
+
+      //const offices = new FeatureLayer({
+        //url: "https://services.arcgis.com/qovwaCdMoEzUUFzS/ArcGIS/rest/services/UNHCROffices/FeatureServer/0",
+        //title: "UNHCR Offices",
+        //popupTemplate: {
+          //title: "UNHCR Offices",
+          //content: [
+            //{
+              //type: "fields",
+              //fieldInfos: [
+                //{
+                  //fieldName: "Country__UNHCR_",
+                  //label: "Country",
+                //},
+                //{
+                  //fieldName: "Location",
+                  //label: "Location",
+                //},
+                //{
+                  //fieldName: "Office_type",
+                  //label: "Office type",
+                //},
+                //{
+                  //fieldName: "Green",
+                  //label: "Green Boxes",
+                //},
+                //{
+                  //fieldName: "Greening",
+                  //label: "Greening the Blue 2022",
+                //},
+              //],
+            //},
+          //],
+          //overwriteActions: false,
+        //},
+      //});
+      //scene.add(offices);
+
+      //const greenboxes = new FeatureLayer({
+        //url: "https://services.arcgis.com/qovwaCdMoEzUUFzS/ArcGIS/rest/services/GreenBoxes/FeatureServer/0",
+        //title: "Green Boxes",
+        //popupTemplate: {
+          //title: "Green Boxes installed",
+          //content: [
+            //{
+              //type: "fields",
+              //fieldInfos: [
+                //{
+                  //fieldName:"INS_Code",
+                  //label:"INS Code"
+                //},
+                //{
+                  //fieldName: "Country__UNHCR_",
+                  //label: "Country",
+                //},
+                //{
+                  //fieldName: "Location",
+                  //label: "Location",
+                //},
+                //{
+                  //fieldName: "Total_KWh_Measured__Oct_Dec2022",
+                  //label: "Total KWh Measured in 2022",
+                //},
+              //],
+            //},
+          //,
+          //overwriteActions: false,
+        //},
+      //});
+      //greenboxes.visible = false;
+      //scene.add(greenboxes);
+      
+      const simplerenderer ={
+              type: "simple",
+              symbol: {
+                type: "simple-line",
+                color: "grey",
+                width: "2px",
+                style: "dash"
+              }
+            };
+      // add RouteFly feature layer to scene
+      const routeflylayer = new FeatureLayer({
+        url: "https://services.arcgis.com/qovwaCdMoEzUUFzS/ArcGIS/rest/services/RoutesFly/FeatureServer/0",
+        elevationInfo: {
+        mode: "relative-to-ground",
+        offset: 10,
+        renderer: {
+              type: "simple",
+              symbol: {
+                type: "simple-line",
+                color: [180,180,180],
+                width: "2px",
+                style: "dash"
+              }
+            },
+            popupTemplate: {
+              title: "Route Flights",
+              content: [
+                {
+                  type: "fields",
+                  fieldInfos: [
+                    {
+                      fieldName: "Number_of",
+                      label: "Routes Flights",
+                    }
+                  ],
+                },
+              ],
+              overwriteActions: false,
+            },
+      }
+      });
+      // get paths out route lines and customize
+      
+      const graphics = [];
+      routeflylayer.queryFeatures().then(function(result) {
+        // symbol of the route line. you can customize the color of fly route with rgb value.
+        const features = result.features;
+        for (let i = 0; i < features.length; i++) {
+          const polyline = new Polyline({
+            paths:features[i].geometry.paths[0],
+            spatialReference: { wkid: 4326 }
+          });
+          const graphic = new Graphic({
+            geometry: polyline,
+            symbol: {
+              type: "simple-line",
+              color: "grey",
+              width: "1px"
+            },
+            attributes:features[i].attributes,
+          });
+          graphics.push(graphic);
+        }
+        const flineLayer = new FeatureLayer({
+          title: "Routes Flights",
+            objectIdField: "OBJECTID",
+            id: "routeLayer",
+            fields: [
+              {
+                name: "OBJECTID",
+                alias: "OBJECTID",
+                type: "oid"
+              },
+              {
+                name: "Number_of",
+                alias: "Routes Flights",
+                type: "string"
+              }
+            ],
+            source: graphics,
+            spatialReference: { wkid: 4326 },
+            renderer: {
+              type: "simple",
+              symbol: {
+                type: "simple-line",
+                color: [180,180,180],
+                width: "2px",
+                style: "dash"
+              }
+            },
+            popupTemplate: {
+              title: "Route Flights",
+              content: [
+                {
+                  type: "fields",
+                  fieldInfos: [
+                    {
+                      fieldName: "Number_of",
+                      label: "Routes Flights",
+                    }
+                  ],
+                },
+              ],
+              overwriteActions: false,
+            },
+          });
+        scene.add(flineLayer);
+        const searchWidget = new Search({
+        view: view,
+        allPlaceholder: "UNHCR",
+        includeDefaultSources: false,
+        sources: [
+          //{
+            //layer: offices,
+            //searchFields: ["Location"],
+            //displayField: "Location",
+            //exactMatch: false,
+            //outFields: ["*"],
+           // name: "UNHCR Offices",
+            //placeholder: "example: Caracas",
+            //zoomScale: 500000,
+          //},
+          //{layer: Countries,
+            //searchFields: ["COUNTRYAFF"],
+            //displayField: "COUNTRYAFF",
+            //exactMatch: true,
+            //outFields: ["*"],
+            //name: "UNHCR Countries",
+            //placeholder: "example: Colombia"
+          //},
+          {
+            layer: flineLayer,
+            searchFields: ["Number_of"],
+            displayField: "Number_of",
+            exactMatch: false,
+            outFields: ["*"],
+            name: "Routes",
+            placeholder: "example: Abidjan, Addis Ababa",
+            zoomScale: 500000,
+          },
+        ],
+      });
+      view.ui.add(searchWidget, "bottom-right", {
+        position: "bottom-right",
+      });
+        //flineLayer.visible =  true;
+      });
+      
+      // set Fly Route Feature layer and add to scene.
+      
+      //const greentheblue = new FeatureLayer({
+        //url: "https://services.arcgis.com/qovwaCdMoEzUUFzS/ArcGIS/rest/services/Greening_The_Blue_2022/FeatureServer/0",
+        //popupTemplate: {
+          //title: "Greening The Blue 2022",
+          //content: [
+            //{
+              //type: "fields",
+              //fieldInfos: [
+                //{
+                  //fieldName: "Country__UNHCR_",
+                  //label: "Country",
+                //},
+                //{
+                  //fieldName: "Location",
+                  //label: "Location",
+                //},
+                //{
+                  //fieldName: "Total_GHG_Emissions__Co2_",
+                  //label: "Total CO2 (Ton)",
+                //},
+                //{
+                  //fieldName: "Total_Waste__Kg_",
+                  //label: "Total Waste (Kg)",
+                //},
+                //{
+                  //fieldName: "Water_Use__m3_",
+                  //label: "Water use (m³)",
+                //},
+              //],
+            //},
+          //],
+          //overwriteActions: false,
+        //},
+      //});
+      //scene.add(greentheblue);
+
+      //greentheblue.visible = false;
+      const Countries = new FeatureLayer({
+        url: "https://services.arcgis.com/P3ePLMYs2RVChkJx/ArcGIS/rest/services/World_Countries_(Generalized)/FeatureServer/0",
+        popupTemplate: {
+          title: "UNHCR Countries",
+          content: [
+            {
+              type: "fields",
+              fieldInfos: [
+                {
+                  fieldName: "COUNTRYAFF",
+                  label: "COUNTRY",
+                },
+              ],
+            },
+          ],
+          overwriteActions: false,
+        },
+      });
+      const routesdeparture = new FeatureLayer({
+        url: "https://services.arcgis.com/qovwaCdMoEzUUFzS/ArcGIS/rest/services/RoutesDeparture/FeatureServer/0",
+        title: "Departure",
+        popupTemplate: {
+          title: "Departure",
+          content: [
+            {
+              type: "fields",
+              fieldInfos: [
+                {
+                  fieldName: "Departure",
+                  label: "Departure",
+                },
+                //{
+                  //fieldName: "Arrival",
+                  //label: "Arrival",
+                //},
+                {
+                  fieldName: "Number_o_1",
+                  label: "Number of flights",
+                },
+                {
+                  fieldName: "CO2_emitte",
+                  label: "CO<sub>2</sub> emitted (tons)",
+                },
+                {
+                  fieldName: "Net_Spent",
+                  label: "Net Spent (USD)",
+                },
+              ],
+            },
+          ],
+          overwriteActions: false,
+        },
+      });
+      scene.add(routesdeparture);
+      //routesdeparture.visible = true;
+
+      const routesarrival = new FeatureLayer({
+        url: "https://services.arcgis.com/qovwaCdMoEzUUFzS/ArcGIS/rest/services/RoutesArrival/FeatureServer/0",
+        title: "Arrival",
+        popupTemplate: {
+          title: "Arrival",
+          content: [
+            {
+              type: "fields",
+              fieldInfos: [
+                {
+                  fieldName: "Arrival",
+                  label: "Arrival",
+                },
+                //{
+                  //fieldName: "Departure",
+                  //label: "Departure",
+                //},
+                {
+                  fieldName: "Number_o_1",
+                  label: "Number of flights",
+                },
+                {
+                  fieldName: "CO2_emitte",
+                  label: "CO<sub>2</sub> emitted (tons)",
+                },
+                {
+                  fieldName: "Net_Spent",
+                  label: "Net Spent (USD)",
+                },
+              ],
+            },
+          ],
+          overwriteActions: false,
+        },
+      });
+      scene.add(routesarrival);
+      //routesarrival.visible = true;
+
+      const aeroplane = new FeatureLayer({
+        url: "https://services.arcgis.com/qovwaCdMoEzUUFzS/ArcGIS/rest/services/Aeroplane/FeatureServer/0",
+        title: "Flights",
+        elevationInfo: {
+        mode: "relative-to-ground",
+        featureExpressionInfo: {
+          expression: "Geometry($feature).z * 10 + $feature.HEIGHT100"
+        },
+        unit: "meters"},
+        popupTemplate: {
+          title: "Flights",
+          content: [
+            {
+              type: "fields",
+              fieldInfos: [
+                {
+                  fieldName: "Departure ",
+                  label: "Departure ",
+                },
+                {
+                  fieldName: "Arrival ",
+                  label: "Arrival",
+                },
+                {
+                  fieldName: "Number_of_flights_1",
+                  label: "Number of flights",
+                },
+                {
+                  fieldName: "CO2_emitted__tons_",
+                  label: "CO<sub>2</sub> emitted (Tons)", 
+                },
+                {
+                  fieldName: "Net_Spent__USD_",
+                  label: "Net Spent (USD)", 
+                },
+              ],
+            },
+          ],
+          overwriteActions: false,
+        },
+      });
+      scene.add(aeroplane);
+      //aeroplane.visible = true;
+
+      //const FleetData = new FeatureLayer({
+        //url: "https://services.arcgis.com/qovwaCdMoEzUUFzS/ArcGIS/rest/services/Fleet_Data/FeatureServer/0",
+        //title: "Fleet",
+        //elevationInfo: {
+        //mode: "relative-to-ground",
+        //featureExpressionInfo: {
+          //expression: "Geometry($feature).z * 10 + $feature.HEIGHT100"
+        //},
+        //unit: "meters"},
+        //popupTemplate: {
+          //title: "Fleet",
+          //content: [
+            //{
+              //type: "fields",
+              //fieldInfos: [
+                //{
+                  //fieldName: "Office",
+                  //label: "Office",
+                //},
+                //{
+                  //fieldName: "Number_of_Vehicles",
+                  //label: "Number of Vehicles",
+               //},
+                //{
+                  //fieldName: "CO2_Emitted__Kg_",
+                  //label: "CO<sub>2</sub> emitted (Kg)", 
+                //},
+                //{
+                  //fieldName: "Distance_Travelled__Km_",
+                  //label: "Distance Travelled (Km)", 
+                //},
+                //{
+                  //fieldName: "Number_of_Electric_Hybrid_Vehic",
+                  //label: "Number of Electric/Hybrid Vehicles", 
+                //},
+              //],
+            //},
+          //],
+          //overwriteActions: false,
+        //},
+      //});
+      //scene.add(FleetData);
+      //FleetData.visible = false;
+
+      // const searchWidget = new Search({
+      //   view: view,
+      //   allPlaceholder: "UNHCR",
+      //   includeDefaultSources: false,
+      //   sources: [
+      //     //{
+      //       //layer: offices,
+      //       //searchFields: ["Location"],
+      //       //displayField: "Location",
+      //       //exactMatch: false,
+      //       //outFields: ["*"],
+      //      // name: "UNHCR Offices",
+      //       //placeholder: "example: Caracas",
+      //       //zoomScale: 500000,
+      //     //},
+      //     //{layer: Countries,
+      //       //searchFields: ["COUNTRYAFF"],
+      //       //displayField: "COUNTRYAFF",
+      //       //exactMatch: true,
+      //       //outFields: ["*"],
+      //       //name: "UNHCR Countries",
+      //       //placeholder: "example: Colombia"
+      //     //},
+      //     {
+      //       layer: scene.findLayerById("routeLayer"),
+      //       searchFields: ["Number_of"],
+      //       displayField: "Routes",
+      //       exactMatch: false,
+      //       outFields: ["*"],
+      //       name: "Routes",
+      //       placeholder: "example: Abidjan, Addis Ababa",
+      //       zoomScale: 500000,
+      //     },
+      //   ],
+      // });
+      // view.ui.add(searchWidget, "bottom-right", {
+      //   position: "bottom-right",
+      // });
+      function shiftCamera(deg) {
+        var camera = view.camera.clone();
+        camera.position.longitude += deg;
+        return camera;
+      }
+      // Add a legend instance to the panel of a
+      // ListItem in a LayerList instance
+      const layerList = new LayerList({
+        view: view,
+        listItemCreatedFunction: (event) => {
+          const item = event.item;
+          if (item.layer.type != "group") {
+            // don't show legend twice
+            item.panel = {
+              content: "legend",
+              open: true,
+            };
+          }
+        },
+      });
+      // logo image add
+      var imageDiv = document.createElement("div");
+      imageDiv.style.position = "absolute";
+      imageDiv.style.top = "20px"; // adjust as needed
+      imageDiv.style.right = "20px"; // adjust as needed
+      imageDiv.style.width = "200px"; // adjust as needed
+      imageDiv.style.height = "80px"; // adjust as needed
+      imageDiv.style.backgroundImage = "url('logo.png')";
+      imageDiv.style.backgroundSize = "cover";
+      var mapContainer = document.getElementById("viewDiv"); // replace with your map container element
+      mapContainer.appendChild(imageDiv);
+
+      view.ui.add(
+        [new Expand({
+            view: view,
+            content: layerList,
+            group: "top-right",
+          }),
+        ],
+        "top-right"
+      );
+      
+      var homebtn = new Home({
+        view: view,
+      });
+      view.ui.add(homebtn, "top-right");
+    });
+  });
+</script>
