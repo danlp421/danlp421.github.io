@@ -1085,12 +1085,13 @@
 
       function resetInactivityTimeout(){
         clearTimeout(inactivityTimeout)
-        inactivityTimeout = setTimeout(handleInactive, 15000)
+        inactivityTimeout = setTimeout(handleInactive, 20000)
       }
       function handleInactive(){
+        console.log('+++++++++++++++++++RESETING>>>>>>>>>>>>')
         greenboxes.visible = false
         greentheblue.visible = false
-        FleetData.visible = false
+        // FleetData.visible = false
         searchWidget.clear();
         expandWidget.collapse();
         view.goTo({

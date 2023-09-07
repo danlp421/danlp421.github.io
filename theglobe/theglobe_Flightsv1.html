@@ -1,17 +1,22 @@
 <html>
   <head>
-    <meta name="author" content="Daniel Leon">
-    <meta name="viewport"content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://js.arcgis.com/4.25/esri/themes/light/main.css" />
+    <meta name="author" content="Daniel Leon" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://js.arcgis.com/4.25/esri/themes/light/main.css"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
     <script src="https://js.arcgis.com/4.25/"></script>
     <script
-    src="https://code.jquery.com/jquery-3.6.1.min.js"
-    integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ="
-    crossorigin="anonymous"></script>
+      src="https://code.jquery.com/jquery-3.6.1.min.js"
+      integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ="
+      crossorigin="anonymous"
+    ></script>
   </head>
   <body>
     <div id="viewDiv">
-      <p class="buttons-title">Air Travel</p>
+      <p class="buttons-title">UNHCR offices'<br />Environmental<br />Footprint</p>
       <div id="buttonsair">
         <a  class="link-button-air" role="button" href="https://experience.arcgis.com/experience/354ee85ab3534861ab5339ca651b18f2/page/The-Globe/?draft=true" target="_self">
           <span> <img 
@@ -23,72 +28,64 @@
           <span>Back</span>
         </a>
       </div>
-      <div id="panel">
-          <div id="blueStats">
-            <h2 class="paneltitle">Air Travel</h2>
-            <div id="stat">
-              <div class="container">
-                <img
-                  src="flight icon co2.png"
-                  class="info-icon"
-                  max-width: 10px;
-                  height: 10px;
-                  alt="co2"
-                />
-                <h2 id="co2" class="powerinfotext">14,170.00</h2>
-              </div>
-              <p class="memotext">Tons CO<sub>2</sub>&nbsp; emitted</p>
+    </div>
+    <div id="panel">
+        <div id="blueStats">
+          <h2 class="paneltitle">Air Travel</h2>
+          <div id="stat">
+            <div class="container">
+              <img
+                src="flight icon co2.png"
+                class="info-icon"
+                max-width: 10px;
+                height: 10px;
+                alt="co2"
+              />
+              <h2 id="co2" class="powerinfotext">14,170.00</h2>
             </div>
-            <div id="stat">
-              <div class="container powerinfo">
-                <img
-                  src="tickets flight.png"
-                  class="info-icon"
-                  max-width: 1px;
-                  height: 1px;
-                  alt="co2"
-                />
-                <h2 id="waste" class="powerinfotext">17,171.00</h2>
-              </div>
-              <p class="memotext">Number of tickets purchased</p>
-            </div>
+            <p class="memotext">Tons CO<sub>2</sub>&nbsp; emitted</p>
           </div>
-        </div>    
+          <div id="stat">
+            <div class="container powerinfo">
+              <img
+                src="tickets flight.png"
+                class="info-icon"
+                max-width: 1px;
+                height: 1px;
+                alt="co2"
+              />
+              <h2 id="waste" class="powerinfotext">17,171.00</h2>
+            </div>
+            <p class="memotext">Number of tickets purchased</p>
+          </div>
+        </div>
+      </div>
     <div class="overlay">
       <div>
-        <span id="play" class="button esri-icon-play" style="display: block;"/>
+        <span id="play" class="button esri-icon-play" style="display: block" />
       </div>
       <div>
-        <span id="pause" class="button esri-icon-pause" style="display: none;"/>
+        <span id="pause" class="button esri-icon-pause" style="display: none" />
       </div>
+      <div id="label"></div>
     </div>
   </body>
 </html>
 <style>
-html,
-body,
-#viewDiv {
-    padding: 0;
-    margin: 0;
-    height: 100%;
-    flex: 1;
+  html,
+  body {
+    background: rgb(0, 0, 0);
+    display: flex;
+    width: 100%;
+    align-items: center;
+    /* change layout for screen size */
+    display: flex;
+    margin: 0px;
   }
-.overlay {
-  position: absolute;
-  width: 50%;
-  bottom: 50px;
-  left: 0px;
-  background-color: rgba(80, 80, 80, 0);
-  text-align: center;
-  font-family: "Avenir Next","Helvetica Neue",Helvetica,Arial,sans-serif;}
-body {
-  background: rgb(0, 0, 0)
-}
-#panel {
+  #panel {
     box-sizing: border-box;
     background-color: black;
     color: white;
-    /*weight:50%*/
     /* height: 100%; */
     display: flex;
     flex-direction: column;
@@ -115,77 +112,33 @@ body {
     margin-right: 10%;
     margin-top: 35px;
   }
-  /* drow white top border line and bottom border line */
-  #blueStats {
-    flex: 2;
-    border: 1px solid white;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: 20px;
-    text-align: center;
-    box-sizing: border-box;
-    padding: 10px 0px;
-
-    border: none;
-    border-top: 2px solid white;
-    border-bottom: 2px solid white;
-    margin-left: 50px;
-    margin-right: 30px;
-    margin-bottom: 50px;
-    margin-top: 50px;
-  }
-  #blueStats h2 {
-    margin: 12;
-    margin-bottom: 1px;
-  }
-  .info-icon {
-    position: inherit;
-    float: left;
-    top: 100px;
-    margin-bottom: 5px;
-    flex: 1;
-    width: 50px;
-  }
-    /* co2.style */
-    .memotext {
+  /* co2.style */
+  .memotext {
     font-family: Arial, Helvetica, sans-serif;
     font-size: 10px;
     display: flex;
     justify-content: center;
     align-items: center;
     width: 180px;
-    height: 25px;
     /* padding-left: 20px; */
   }
-    /* style for powerinfo text*/
-    .powerinfotext {
-    margin: 0px;
-    font-family: Arial, Helvetica, sans-serif;
-    font-size: 16px;
-    width: 220px;
-    height: 20px;
-  }
-  .info-icon {
-    float: left;
-    position: inherit;
-    top: 100px;
-    margin-bottom: 5%;
+  #viewDiv {
+    padding: 0;
+    margin: 0;
+    height: 100%;
     flex: 1;
-    width: 50px;
   }
-.buttons-title{
+  .buttons-title{
     position: absolute;
     top: 6px;
-    left: 145px;
+    left: 160px;
     font-family: Arial;
     font-size: 25px;
     font-weight: 700;
     line-height: 1.5;
     color: #ffffff;
   }
-   #buttonsair{
+  #buttonsair{
     position: absolute;
     width: 181px;
     bottom: 50px;
@@ -208,10 +161,110 @@ body {
     cursor: pointer;
     text-decoration: none;
   }
+  #buttonsfleet{
+    position: absolute;
+    width: 250px;
+    bottom: 190px;
+    left: 40px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+  .link-button-fleet{
+    border: 1px solid #00c5ff;
+    width: 100%;
+    padding: 8px 20px;
+    display: flex;
+    justify-content: flex-start;
+    gap: 40px;
+    align-items: center;
+    font-size: 14px;
+    font-family: Arial;
+    color: #00c5ff;
+    cursor: pointer;
+    text-decoration: none;
+  }
+  #buttons{
+    position: absolute;
+    width: 250px;
+    bottom: 35px;
+    left: 40px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+  .link-button{
+    border: 1px solid #f8f8f8;
+    width: 100%;
+    padding: 8px 20px;
+    display: flex;
+    justify-content: flex-start;
+    gap: 40px;
+    align-items: center;
+    font-size: 14px;
+    font-family: Arial;
+    color: white;
+    cursor: pointer;
+    text-decoration: none;
+  }
+  /* drow white top border line and bottom border line */
+  #blueStats {
+    flex: 4;
+    border: 1px solid white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 30px;
+    text-align: center;
+    box-sizing: border-box;
+    padding: 10px 0px;
+
+    border: none;
+    /* border-top: 2px solid white; */
+    border-bottom: 2px solid white;
+    margin-left: 10%;
+    margin-right: 10%;
+    margin-bottom: 35px;
+  }
+  #blueStats h2 {
+    margin: 12;
+    margin-bottom: 1px;
+  }
+  #unhcrLogo {
+    flex: 1;
+    margin: 0;
+  }
   .paneltitle {
     font-family: Arial, Helvetica, sans-serif;
     font-size: 16;
-    height: 50px;
+  }
+  .valueofindex {
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .powerinfo {
+    margin-left: 20px;
+    margin-right: 20px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 18;
+  }
+  /* style for powerinfo text*/
+  .powerinfotext {
+    margin: 0px;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 16px;
+    width: 220px;
+  }
+  .info-icon {
+    float: left;
+    margin-bottom: 10%;
+    flex: 1;
+    width: 22%;
   }
   .esri-widget__table {
     color: #ffffff;
@@ -237,31 +290,14 @@ body {
     line-height: 1.3em;
     background-color: #141414;
   }
-  .esri-widget {
-    box-sizing: border-box;
-    color: #141414;
-    font-size: 14px;
-    font-family: "Avenir Next", "Helvetica Neue", Helvetica, Arial, sans-serif;
-    line-height: 1.3em;
-    background-color: #141414;
+  .esri-ui-corner-container {
+    inset: 20px 20px 35px;
   }
   .button {
     cursor: pointer;
     font-size: 30pt !important;
     font-weight: bold !important;
     color: #f5f1f1;
-  }
-  .esri-icon-play:before {
-    content: "";
-    color: white;
-    position: absolute;
-    left:0px;
-  }
-  .esri-icon-pause:before {
-    content: "";
-    color: white;
-    position: absolute;
-    left:0px;
   }
   .overlay {
     position: absolute;
@@ -283,11 +319,23 @@ body {
   }
   .button:hover,
   #label {
-    color: rgb(0, 0, 0);
+    color: rgb(250, 249, 249);
   }
   .button,
   #label {
     margin: 10px;
+  }
+  .esri-icon-play:before {
+    content: "";
+    color: white;
+    position: absolute;
+    left:0px;
+  }
+  .esri-icon-pause:before {
+    content: "";
+    color: white;
+    position: absolute;
+    left:0px;
   }
   .esri-widget {
     font-size: 12.4px;
@@ -309,6 +357,18 @@ body {
   }
   .esri-ui-corner .esri-component.esri-widget--panel {
     width: 180px;
+  }
+  .esri-ui-top-right {
+    top: 100px;
+    right: 20px;
+  }
+  .esri-ui-top-left {
+    top: 20px;
+    left: 20px;
+  }
+  .esri-ui-bottom-right {
+    bottom: 5px;
+    right: 20px;
   }
   .esri-layer-list__item-toggle {
     color: #ffffff;
@@ -343,23 +403,6 @@ body {
   .esri-widget__heading {
     margin: 0 0 0.1rem 0;
   }
-  .esri-ui-corner-container{
-    inset: 20px 20px 35px;
-  }
-  /* Here you configure the margins for the map buttons. you can customize the margin value of top-right, top-left*/
-  .esri-ui-top-right{
-    top:100px;
-    right:10px;
-  }
-  .esri-ui-top-left{
-    top:20px;
-    left:20px;
-  }
-  .esri-ui-bottom-right{
-    bottom:20px;
-    right:20px;
-  }
-
   h2.esri-widget__heading {
     font-weight: 500;
     font-size: 14px;
@@ -402,6 +445,9 @@ body {
   .esri-view-height-less-than-medium .esri-popup__main-container {
     max-height: 300px;
   }
+  .esri-attribution {
+    height: 0;
+  }
   .esri-view-width-xlarge .esri-popup__main-container {
     width: 320px;
   }
@@ -409,7 +455,7 @@ body {
   .esri-ui-corner .esri-expand .esri-widget--panel-height-only,
   .esri-ui-corner .esri-component > .esri-widget--panel,
   .esri-ui-corner .esri-component.esri-widget--panel {
-    width: 230px;
+    width: 300px;
   }
 </style>
 <script>
@@ -432,6 +478,8 @@ body {
     ], function (esriConfig,SceneView, Map, Expand, BasemapGallery, FeatureLayer, LayerList, Home, Legend,UniqueValueRenderer, Search, ListItem,
      Polyline, Graphic) {
       //esriConfig.apiKey ="AAPK853e389eacab4000b8168009a957884eAeNxkMsT5xLndSZFhHgao-ynp074HaJnWU6CfSjbF8QQuZc5bL4FoHut1NkoYGYU";
+      let inactivityTimeout;
+
       var scene = new Map({
         basemap: "hybrid",
         ground: "world-elevation",
@@ -984,6 +1032,60 @@ body {
           }
         },
       });
+
+      function resetInactivityTimeout(){
+        clearTimeout(inactivityTimeout)
+        inactivityTimeout = setTimeout(handleInactive, 20000)
+      }
+      function handleInactive(){
+        // FleetData.visible = false
+        searchWidget.clear();
+        expandWidget.collapse();
+        view.goTo({
+          scale: 50000000,
+        });
+        view.popup.close()
+        // clearInterval(intervalID);
+      }
+
+      document.addEventListener('mousemove', resetInactivityTimeout)
+      document.addEventListener('mousedown', resetInactivityTimeout)
+      document.addEventListener('keydown', resetInactivityTimeout)
+
+      resetInactivityTimeout()
+      searchWidget = new Search({
+        view: view,
+        allPlaceholder: "UNHCR",
+        includeDefaultSources: false,
+        sources: [
+          {
+            layer: FleetData,
+            searchFields: ["Location"],
+            displayField: "Location",
+            exactMatch: false,
+            outFields: ["*"],
+            name: "UNHCR Offices",
+            placeholder: "Example: Caracas",
+            zoomScale: 500000,
+          },
+        ],
+      });
+
+      searchWidget.on("select-result", function (event) {
+        console.log("The selected search result: ", event);
+        // if (event.source.name != "UNHCR Countries")
+          view.goTo({
+            scale: 500000,
+          });
+      });
+
+      searchWidget.on("search-clear", function (event) {
+        view.goTo({
+          scale: 50000000,
+        });
+      });
+
+
       // logo image add
       var imageDiv = document.createElement("div");
       imageDiv.style.position = "absolute";
@@ -1012,4 +1114,5 @@ body {
       view.ui.add(homebtn, "top-right");
     });
   });
+
 </script>

@@ -306,6 +306,8 @@ body {
      Polyline, Graphic) 
      {
       //esriConfig.apiKey ="AAPK853e389eacab4000b8168009a957884eAeNxkMsT5xLndSZFhHgao-ynp074HaJnWU6CfSjbF8QQuZc5bL4FoHut1NkoYGYU";
+      let inactivityTimeout;
+
       var scene = new Map({
         basemap: "hybrid",
         ground: "world-elevation",
@@ -427,6 +429,26 @@ body {
         },
       });
 
+      function resetInactivityTimeout(){
+        clearTimeout(inactivityTimeout)
+        inactivityTimeout = setTimeout(handleInactive, 20000)
+      }
+      function handleInactive(){
+        // FleetData.visible = false
+        searchWidget.clear();
+        expandWidget.collapse();
+        view.goTo({
+          scale: 50000000,
+        });
+        view.popup.close()
+        // clearInterval(intervalID);
+      }
+
+      document.addEventListener('mousemove', resetInactivityTimeout)
+      document.addEventListener('mousedown', resetInactivityTimeout)
+      document.addEventListener('keydown', resetInactivityTimeout)
+
+      resetInactivityTimeout()
       searchWidget = new Search({
         view: view,
         allPlaceholder: "UNHCR",
@@ -440,9 +462,23 @@ body {
             outFields: ["*"],
             name: "UNHCR Offices",
             placeholder: "Example: Caracas",
-            zoomScale: 5000,
+            zoomScale: 500000,
           },
         ],
+      });
+
+      searchWidget.on("select-result", function (event) {
+        console.log("The selected search result: ", event);
+        // if (event.source.name != "UNHCR Countries")
+          view.goTo({
+            scale: 500000,
+          });
+      });
+
+      searchWidget.on("search-clear", function (event) {
+        view.goTo({
+          scale: 50000000,
+        });
       });
 
 
@@ -468,16 +504,13 @@ body {
         camera.position.longitude += deg;
         return camera;
       }
-      
-      view.ui.add(
-        [new Expand({
+
+      var expandWidget = new Expand({
             view: view,
             content: layerList,
             group: "top-right",
-          }),
-        ],
-        "top-right"
-      );
+          })
+      view.ui.add(expandWidget,"top-right");
       
       var homebtn = new Home({
         view: view,
