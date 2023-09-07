@@ -16,50 +16,47 @@
   </head>
   <body>
     <div id="viewDiv">
-      <p class="buttons-title">UNHCR offices'<br />Environmental<br />Footprint</p>
+      <p class="buttons-title">Air Travel</p>
       <div id="buttonsair">
-        <a  class="link-button-air" role="button" href="https://experience.arcgis.com/experience/354ee85ab3534861ab5339ca651b18f2/page/The-Globe/?draft=true" target="_self">
-          <span> <img 
-            src="https://www.arcgis.com/sharing/rest/content/items/354ee85ab3534861ab5339ca651b18f2/resources/images/widget_524/1680033332381.png" 
-            alt="vinculo"
-            width="17px"
-            height="17px">
+        <a
+          class="link-button-air"
+          role="button"
+          href="https://experience.arcgis.com/experience/354ee85ab3534861ab5339ca651b18f2/page/The-Globe/?draft=true"
+          target="_self"
+        >
+          <span>
+            <img
+              src="https://www.arcgis.com/sharing/rest/content/items/354ee85ab3534861ab5339ca651b18f2/resources/images/widget_524/1680033332381.png"
+              alt="vinculo"
+              width="17px"
+              height="17px"
+            />
           </span>
           <span>Back</span>
         </a>
       </div>
     </div>
     <div id="panel">
-        <div id="blueStats">
-          <h2 class="paneltitle">Air Travel</h2>
-          <div id="stat">
-            <div class="container">
-              <img
-                src="flight icon co2.png"
-                class="info-icon"
-                max-width: 10px;
-                height: 10px;
-                alt="co2"
-              />
-              <h2 id="co2" class="powerinfotext">14,170.00</h2>
-            </div>
-            <p class="memotext">Tons CO<sub>2</sub>&nbsp; emitted</p>
+      <div id="blueStats">
+        <h2 class="paneltitle">Air Travel</h2>
+        <div id="stat">
+          <div class="container">
+            <img src="flight icon co2.png" class="info-icon" max-width: 10px;
+            height: 10px; alt="co2" />
+            <h2 id="co2" class="powerinfotext">14,170.00</h2>
           </div>
-          <div id="stat">
-            <div class="container powerinfo">
-              <img
-                src="tickets flight.png"
-                class="info-icon"
-                max-width: 1px;
-                height: 1px;
-                alt="co2"
-              />
-              <h2 id="waste" class="powerinfotext">17,171.00</h2>
-            </div>
-            <p class="memotext">Number of tickets purchased</p>
+          <p class="memotext">Tons CO<sub>2</sub>&nbsp; emitted</p>
+        </div>
+        <div id="stat">
+          <div class="container powerinfo">
+            <img src="tickets flight.png" class="info-icon" max-width: 1px;
+            height: 1px; alt="co2" />
+            <h2 id="waste" class="powerinfotext">17,171.00</h2>
           </div>
+          <p class="memotext">Number of tickets purchased</p>
         </div>
       </div>
+    </div>
     <div class="overlay">
       <div>
         <span id="play" class="button esri-icon-play" style="display: block" />
@@ -128,7 +125,7 @@
     height: 100%;
     flex: 1;
   }
-  .buttons-title{
+  .buttons-title {
     position: absolute;
     top: 6px;
     left: 160px;
@@ -138,7 +135,7 @@
     line-height: 1.5;
     color: #ffffff;
   }
-  #buttonsair{
+  #buttonsair {
     position: absolute;
     width: 181px;
     bottom: 50px;
@@ -147,7 +144,7 @@
     flex-direction: column;
     gap: 15px;
   }
-  .link-button-air{
+  .link-button-air {
     border: 1px solid #00c5ff;
     width: 100%;
     padding: 8px 20px;
@@ -161,7 +158,7 @@
     cursor: pointer;
     text-decoration: none;
   }
-  #buttonsfleet{
+  #buttonsfleet {
     position: absolute;
     width: 250px;
     bottom: 190px;
@@ -170,7 +167,7 @@
     flex-direction: column;
     gap: 15px;
   }
-  .link-button-fleet{
+  .link-button-fleet {
     border: 1px solid #00c5ff;
     width: 100%;
     padding: 8px 20px;
@@ -184,7 +181,7 @@
     cursor: pointer;
     text-decoration: none;
   }
-  #buttons{
+  #buttons {
     position: absolute;
     width: 250px;
     bottom: 35px;
@@ -193,7 +190,7 @@
     flex-direction: column;
     gap: 15px;
   }
-  .link-button{
+  .link-button {
     border: 1px solid #f8f8f8;
     width: 100%;
     padding: 8px 20px;
@@ -221,12 +218,12 @@
     padding: 10px 0px;
 
     border: none;
-    border-top: 2px solid white; 
+    border-top: 2px solid white;
     border-bottom: 2px solid white;
     margin-left: 10%;
     margin-right: 10%;
-    margin-top: 50px;
-    margin-bottom: 60px;
+    margin-bottom: 35px;
+    margin-top: 35px;
   }
   #blueStats h2 {
     margin: 12;
@@ -330,13 +327,13 @@
     content: "";
     color: white;
     position: absolute;
-    left:0px;
+    left: 0px;
   }
   .esri-icon-pause:before {
     content: "";
     color: white;
     position: absolute;
-    left:0px;
+    left: 0px;
   }
   .esri-widget {
     font-size: 12.4px;
@@ -474,13 +471,10 @@
       "esri/renderers/UniqueValueRenderer",
       "esri/widgets/Search",
       "esri/widgets/LayerList/ListItem",
-      "esri/geometry/Polyline", 
-      "esri/Graphic"
-    ], function (esriConfig,SceneView, Map, Expand, BasemapGallery, FeatureLayer, LayerList, Home, Legend,UniqueValueRenderer, Search, ListItem,
-     Polyline, Graphic) {
+      "esri/geometry/Polyline",
+      "esri/Graphic",
+    ], function (esriConfig, SceneView, Map, Expand, BasemapGallery, FeatureLayer, LayerList, Home, Legend, UniqueValueRenderer, Search, ListItem, Polyline, Graphic) {
       //esriConfig.apiKey ="AAPK853e389eacab4000b8168009a957884eAeNxkMsT5xLndSZFhHgao-ynp074HaJnWU6CfSjbF8QQuZc5bL4FoHut1NkoYGYU";
-      let inactivityTimeout;
-
       var scene = new Map({
         basemap: "hybrid",
         ground: "world-elevation",
@@ -498,16 +492,16 @@
         },
       });
       //var basemapGallery = new BasemapGallery({
-        //view: view,
-        //container: document.createElement("div"),
+      //view: view,
+      //container: document.createElement("div"),
       //});
       //var bgExpand = new Expand({
-        //view: view,
-        //content: basemapGallery,
+      //view: view,
+      //content: basemapGallery,
       //});
       //view.ui.add(bgExpand, "top-left");
       //view.watch("camera.position.longitude", (longitude) => {
-        //label.innerHTML = `Longitude: ${longitude.toFixed(1)}&deg;`;
+      //label.innerHTML = `Longitude: ${longitude.toFixed(1)}&deg;`;
       //});
       view.ui.add(play, "top-left");
       view.ui.add(pause, "top-left");
@@ -532,261 +526,276 @@
       };
       rotate();
       let intervalID = undefined;
+      let inactivityTimeout;
 
       //const offices = new FeatureLayer({
-        //url: "https://services.arcgis.com/qovwaCdMoEzUUFzS/ArcGIS/rest/services/UNHCROffices/FeatureServer/0",
-        //title: "UNHCR Offices",
-        //popupTemplate: {
-          //title: "UNHCR Offices",
-          //content: [
-            //{
-              //type: "fields",
-              //fieldInfos: [
-                //{
-                  //fieldName: "Country__UNHCR_",
-                  //label: "Country",
-                //},
-                //{
-                  //fieldName: "Location",
-                  //label: "Location",
-                //},
-                //{
-                  //fieldName: "Office_type",
-                  //label: "Office type",
-                //},
-                //{
-                  //fieldName: "Green",
-                  //label: "Green Boxes",
-                //},
-                //{
-                  //fieldName: "Greening",
-                  //label: "Greening the Blue 2022",
-                //},
-              //],
-            //},
-          //],
-          //overwriteActions: false,
-        //},
+      //url: "https://services.arcgis.com/qovwaCdMoEzUUFzS/ArcGIS/rest/services/UNHCROffices/FeatureServer/0",
+      //title: "UNHCR Offices",
+      //popupTemplate: {
+      //title: "UNHCR Offices",
+      //content: [
+      //{
+      //type: "fields",
+      //fieldInfos: [
+      //{
+      //fieldName: "Country__UNHCR_",
+      //label: "Country",
+      //},
+      //{
+      //fieldName: "Location",
+      //label: "Location",
+      //},
+      //{
+      //fieldName: "Office_type",
+      //label: "Office type",
+      //},
+      //{
+      //fieldName: "Green",
+      //label: "Green Boxes",
+      //},
+      //{
+      //fieldName: "Greening",
+      //label: "Greening the Blue 2022",
+      //},
+      //],
+      //},
+      //],
+      //overwriteActions: false,
+      //},
       //});
       //scene.add(offices);
 
       //const greenboxes = new FeatureLayer({
-        //url: "https://services.arcgis.com/qovwaCdMoEzUUFzS/ArcGIS/rest/services/GreenBoxes/FeatureServer/0",
-        //title: "Green Boxes",
-        //popupTemplate: {
-          //title: "Green Boxes installed",
-          //content: [
-            //{
-              //type: "fields",
-              //fieldInfos: [
-                //{
-                  //fieldName:"INS_Code",
-                  //label:"INS Code"
-                //},
-                //{
-                  //fieldName: "Country__UNHCR_",
-                  //label: "Country",
-                //},
-                //{
-                  //fieldName: "Location",
-                  //label: "Location",
-                //},
-                //{
-                  //fieldName: "Total_KWh_Measured__Oct_Dec2022",
-                  //label: "Total KWh Measured in 2022",
-                //},
-              //],
-            //},
-          //,
-          //overwriteActions: false,
-        //},
+      //url: "https://services.arcgis.com/qovwaCdMoEzUUFzS/ArcGIS/rest/services/GreenBoxes/FeatureServer/0",
+      //title: "Green Boxes",
+      //popupTemplate: {
+      //title: "Green Boxes installed",
+      //content: [
+      //{
+      //type: "fields",
+      //fieldInfos: [
+      //{
+      //fieldName:"INS_Code",
+      //label:"INS Code"
+      //},
+      //{
+      //fieldName: "Country__UNHCR_",
+      //label: "Country",
+      //},
+      //{
+      //fieldName: "Location",
+      //label: "Location",
+      //},
+      //{
+      //fieldName: "Total_KWh_Measured__Oct_Dec2022",
+      //label: "Total KWh Measured in 2022",
+      //},
+      //],
+      //},
+      //,
+      //overwriteActions: false,
+      //},
       //});
       //greenboxes.visible = false;
       //scene.add(greenboxes);
-      
-      const simplerenderer ={
-              type: "simple",
-              symbol: {
-                type: "simple-line",
-                color: "white",
-                width: "1px",
-                style: "dash"
-              }
-            };
+
+      const simplerenderer = {
+        type: "simple",
+        symbol: {
+          type: "simple-line",
+          color: "white",
+          width: "1px",
+          style: "dash",
+        },
+      };
       // add RouteFly feature layer to scene
       const routeflylayer = new FeatureLayer({
         url: "https://services.arcgis.com/qovwaCdMoEzUUFzS/ArcGIS/rest/services/RoutesFly/FeatureServer/0",
         elevationInfo: {
-        mode: "relative-to-ground",
-        offset: 10,
-        renderer: {
-              type: "simple",
-              symbol: {
-                type: "simple-line",
-                color: [255,255,255],
-                width: "1px",
-                style: "dash"
-              }
+          mode: "relative-to-ground",
+          offset: 10,
+          renderer: {
+            type: "simple",
+            symbol: {
+              type: "simple-line",
+              color: [255, 255, 255],
+              width: "1px",
+              style: "dash",
             },
-            popupTemplate: {
-              title: "Route Flights",
-              content: [
-                {
-                  type: "fields",
-                  fieldInfos: [
-                    {
-                      fieldName: "Number_of",
-                      label: "Routes Flights",
-                    }
-                  ],
-                },
-              ],
-              overwriteActions: false,
-            },
-      }
+          },
+          popupTemplate: {
+            title: "Route Flights",
+            content: [
+              {
+                type: "fields",
+                fieldInfos: [
+                  {
+                    fieldName: "Number_of",
+                    label: "Routes Flights",
+                  },
+                ],
+              },
+            ],
+            overwriteActions: false,
+          },
+        },
       });
       // get paths out route lines and customize
-      
+
       const graphics = [];
-      routeflylayer.queryFeatures().then(function(result) {
+      let searchWidget;
+      routeflylayer.queryFeatures().then(function (result) {
         // symbol of the route line. you can customize the color of fly route with rgb value.
         const features = result.features;
         for (let i = 0; i < features.length; i++) {
           const polyline = new Polyline({
-            paths:features[i].geometry.paths[0],
-            spatialReference: { wkid: 4326 }
+            paths: features[i].geometry.paths[0],
+            spatialReference: { wkid: 4326 },
           });
           const graphic = new Graphic({
             geometry: polyline,
             symbol: {
               type: "simple-line",
               color: "white",
-              width: "1px"
+              width: "1px",
             },
-            attributes:features[i].attributes,
+            attributes: features[i].attributes,
           });
           graphics.push(graphic);
         }
         const flineLayer = new FeatureLayer({
           title: "Routes Flights",
-            objectIdField: "OBJECTID",
-            id: "routeLayer",
-            fields: [
+          objectIdField: "OBJECTID",
+          id: "routeLayer",
+          fields: [
+            {
+              name: "OBJECTID",
+              alias: "OBJECTID",
+              type: "oid",
+            },
+            {
+              name: "Number_of",
+              alias: "Routes Flights",
+              type: "string",
+            },
+          ],
+          source: graphics,
+          spatialReference: { wkid: 4326 },
+          renderer: {
+            type: "simple",
+            symbol: {
+              type: "simple-line",
+              color: [255, 255, 255],
+              width: "1px",
+              style: "dash",
+            },
+          },
+          popupTemplate: {
+            title: "Route Flights",
+            content: [
               {
-                name: "OBJECTID",
-                alias: "OBJECTID",
-                type: "oid"
+                type: "fields",
+                fieldInfos: [
+                  {
+                    fieldName: "Number_of",
+                    label: "Routes Flights",
+                  },
+                ],
               },
-              {
-                name: "Number_of",
-                alias: "Routes Flights",
-                type: "string"
-              }
             ],
-            source: graphics,
-            spatialReference: { wkid: 4326 },
-            renderer: {
-              type: "simple",
-              symbol: {
-                type: "simple-line",
-                color: [255,255,255],
-                width: "1px",
-                style: "dash"
-              }
-            },
-            popupTemplate: {
-              title: "Route Flights",
-              content: [
-                {
-                  type: "fields",
-                  fieldInfos: [
-                    {
-                      fieldName: "Number_of",
-                      label: "Routes Flights",
-                    }
-                  ],
-                },
-              ],
-              overwriteActions: false,
-            },
-          });
+            overwriteActions: false,
+          },
+        });
         scene.add(flineLayer);
-        const searchWidget = new Search({
-        view: view,
-        allPlaceholder: "UNHCR",
-        includeDefaultSources: false,
-        sources: [
-          //{
+        searchWidget = new Search({
+          view: view,
+          allPlaceholder: "UNHCR",
+          includeDefaultSources: false,
+          sources: [
+            //{
             //layer: offices,
             //searchFields: ["Location"],
             //displayField: "Location",
             //exactMatch: false,
             //outFields: ["*"],
-           // name: "UNHCR Offices",
+            // name: "UNHCR Offices",
             //placeholder: "example: Caracas",
             //zoomScale: 500000,
-          //},
-          //{layer: Countries,
+            //},
+            //{layer: Countries,
             //searchFields: ["COUNTRYAFF"],
             //displayField: "COUNTRYAFF",
             //exactMatch: true,
             //outFields: ["*"],
             //name: "UNHCR Countries",
             //placeholder: "example: Colombia"
-          //},
-          {
-            layer: flineLayer,
-            searchFields: ["Number_of"],
-            displayField: "Number_of",
-            exactMatch: false,
-            outFields: ["*"],
-            name: "Routes",
-            placeholder: "example: Abidjan, Addis Ababa",
-            zoomScale: 500000,
-          },
-        ],
-      });
-      view.ui.add(searchWidget, "bottom-right", {
-        position: "bottom-right",
-      });
+            //},
+            {
+              layer: flineLayer,
+              searchFields: ["Number_of"],
+              displayField: "Number_of",
+              exactMatch: false,
+              outFields: ["*"],
+              name: "Routes",
+              placeholder: "example: Abidjan, Addis Ababa",
+              zoomScale: 500000,
+            },
+          ],
+        });
+
+        // searchWidget.on("select-result", function (event) {
+        //   console.log("The selected search result: ", event);
+        //   view.goTo({
+        //     scale: 500000,
+        //   });
+        // });
+        searchWidget.on("search-clear", function (event) {
+          view.goTo({
+            scale: 50000000,
+          });
+        });
+
+        view.ui.add(searchWidget, "bottom-right", {
+          position: "bottom-right",
+        });
         //flineLayer.visible =  true;
       });
-      
+
       // set Fly Route Feature layer and add to scene.
-      
+
       //const greentheblue = new FeatureLayer({
-        //url: "https://services.arcgis.com/qovwaCdMoEzUUFzS/ArcGIS/rest/services/Greening_The_Blue_2022/FeatureServer/0",
-        //popupTemplate: {
-          //title: "Greening The Blue 2022",
-          //content: [
-            //{
-              //type: "fields",
-              //fieldInfos: [
-                //{
-                  //fieldName: "Country__UNHCR_",
-                  //label: "Country",
-                //},
-                //{
-                  //fieldName: "Location",
-                  //label: "Location",
-                //},
-                //{
-                  //fieldName: "Total_GHG_Emissions__Co2_",
-                  //label: "Total CO2 (Ton)",
-                //},
-                //{
-                  //fieldName: "Total_Waste__Kg_",
-                  //label: "Total Waste (Kg)",
-                //},
-                //{
-                  //fieldName: "Water_Use__m3_",
-                  //label: "Water use (m³)",
-                //},
-              //],
-            //},
-          //],
-          //overwriteActions: false,
-        //},
+      //url: "https://services.arcgis.com/qovwaCdMoEzUUFzS/ArcGIS/rest/services/Greening_The_Blue_2022/FeatureServer/0",
+      //popupTemplate: {
+      //title: "Greening The Blue 2022",
+      //content: [
+      //{
+      //type: "fields",
+      //fieldInfos: [
+      //{
+      //fieldName: "Country__UNHCR_",
+      //label: "Country",
+      //},
+      //{
+      //fieldName: "Location",
+      //label: "Location",
+      //},
+      //{
+      //fieldName: "Total_GHG_Emissions__Co2_",
+      //label: "Total CO2 (Ton)",
+      //},
+      //{
+      //fieldName: "Total_Waste__Kg_",
+      //label: "Total Waste (Kg)",
+      //},
+      //{
+      //fieldName: "Water_Use__m3_",
+      //label: "Water use (m³)",
+      //},
+      //],
+      //},
+      //],
+      //overwriteActions: false,
+      //},
       //});
       //scene.add(greentheblue);
 
@@ -823,8 +832,8 @@
                   label: "Departure",
                 },
                 //{
-                  //fieldName: "Arrival",
-                  //label: "Arrival",
+                //fieldName: "Arrival",
+                //label: "Arrival",
                 //},
                 {
                   fieldName: "Number_o_1",
@@ -862,8 +871,8 @@
                   label: "Arrival",
                 },
                 //{
-                  //fieldName: "Departure",
-                  //label: "Departure",
+                //fieldName: "Departure",
+                //label: "Departure",
                 //},
                 {
                   fieldName: "Number_o_1",
@@ -891,11 +900,12 @@
         url: "https://services.arcgis.com/qovwaCdMoEzUUFzS/ArcGIS/rest/services/Aeroplane/FeatureServer/0",
         title: "Flights",
         elevationInfo: {
-        mode: "relative-to-ground",
-        featureExpressionInfo: {
-          expression: "Geometry($feature).z * 10 + $feature.HEIGHT100"
+          mode: "relative-to-ground",
+          featureExpressionInfo: {
+            expression: "Geometry($feature).z * 10 + $feature.HEIGHT100",
+          },
+          unit: "meters",
         },
-        unit: "meters"},
         popupTemplate: {
           title: "Flights",
           content: [
@@ -916,11 +926,11 @@
                 },
                 {
                   fieldName: "CO2_emitted__tons_",
-                  label: "CO<sub>2</sub> emitted (Tons)", 
+                  label: "CO<sub>2</sub> emitted (Tons)",
                 },
                 {
                   fieldName: "Net_Spent__USD_",
-                  label: "Net Spent (USD)", 
+                  label: "Net Spent (USD)",
                 },
               ],
             },
@@ -929,48 +939,72 @@
         },
       });
       scene.add(aeroplane);
+      function resetInactivityTimeout() {
+        clearTimeout(inactivityTimeout);
+        inactivityTimeout = setTimeout(handleInactive, 20000);
+      }
+      function handleInactive() {
+        console.log("+++++++++++++++++++RESETING>>>>>>>>>>>>");
+        routeflylayer.visible = true;
+        routesdeparture.visible = true;
+        routesarrival.visible = true;
+        aeroplane.visible = true;
+        searchWidget.clear();
+        expandWidget.collapse();
+        view.goTo({
+          scale: 50000000,
+        });
+        view.popup.close();
+        // clearInterval(intervalID);
+      }
+
+      document.addEventListener("mousemove", resetInactivityTimeout);
+      document.addEventListener("mousedown", resetInactivityTimeout);
+      document.addEventListener("keydown", resetInactivityTimeout);
+
+      resetInactivityTimeout();
       //aeroplane.visible = true;
 
       //const FleetData = new FeatureLayer({
-        //url: "https://services.arcgis.com/qovwaCdMoEzUUFzS/ArcGIS/rest/services/Fleet_Data/FeatureServer/0",
-        //title: "Fleet",
-        //elevationInfo: {
-        //mode: "relative-to-ground",
-        //featureExpressionInfo: {
-          //expression: "Geometry($feature).z * 10 + $feature.HEIGHT100"
-        //},
-        //unit: "meters"},
-        //popupTemplate: {
-          //title: "Fleet",
-          //content: [
-            //{
-              //type: "fields",
-              //fieldInfos: [
-                //{
-                  //fieldName: "Office",
-                  //label: "Office",
-                //},
-                //{
-                  //fieldName: "Number_of_Vehicles",
-                  //label: "Number of Vehicles",
-               //},
-                //{
-                  //fieldName: "CO2_Emitted__Kg_",
-                  //label: "CO<sub>2</sub> emitted (Kg)", 
-                //},
-                //{
-                  //fieldName: "Distance_Travelled__Km_",
-                  //label: "Distance Travelled (Km)", 
-                //},
-                //{
-                  //fieldName: "Number_of_Electric_Hybrid_Vehic",
-                  //label: "Number of Electric/Hybrid Vehicles", 
-                //},
-              //],
-            //},
-          //],
-          //overwriteActions: false,
-        //},
+      //url: "https://services.arcgis.com/qovwaCdMoEzUUFzS/ArcGIS/rest/services/Fleet_Data/FeatureServer/0",
+      //title: "Fleet",
+      //elevationInfo: {
+      //mode: "relative-to-ground",
+      //featureExpressionInfo: {
+      //expression: "Geometry($feature).z * 10 + $feature.HEIGHT100"
+      //},
+      //unit: "meters"},
+      //popupTemplate: {
+      //title: "Fleet",
+      //content: [
+      //{
+      //type: "fields",
+      //fieldInfos: [
+      //{
+      //fieldName: "Office",
+      //label: "Office",
+      //},
+      //{
+      //fieldName: "Number_of_Vehicles",
+      //label: "Number of Vehicles",
+      //},
+      //{
+      //fieldName: "CO2_Emitted__Kg_",
+      //label: "CO<sub>2</sub> emitted (Kg)",
+      //},
+      //{
+      //fieldName: "Distance_Travelled__Km_",
+      //label: "Distance Travelled (Km)",
+      //},
+      //{
+      //fieldName: "Number_of_Electric_Hybrid_Vehic",
+      //label: "Number of Electric/Hybrid Vehicles",
+      //},
+      //],
+      //},
+      //],
+      //overwriteActions: false,
+      //},
       //});
       //scene.add(FleetData);
       //FleetData.visible = false;
@@ -1033,60 +1067,6 @@
           }
         },
       });
-
-      function resetInactivityTimeout(){
-        clearTimeout(inactivityTimeout)
-        inactivityTimeout = setTimeout(handleInactive, 20000)
-      }
-      function handleInactive(){
-        // FleetData.visible = false
-        searchWidget.clear();
-        expandWidget.collapse();
-        view.goTo({
-          scale: 50000000,
-        });
-        view.popup.close()
-        // clearInterval(intervalID);
-      }
-
-      document.addEventListener('mousemove', resetInactivityTimeout)
-      document.addEventListener('mousedown', resetInactivityTimeout)
-      document.addEventListener('keydown', resetInactivityTimeout)
-
-      resetInactivityTimeout()
-      searchWidget = new Search({
-        view: view,
-        allPlaceholder: "UNHCR",
-        includeDefaultSources: false,
-        sources: [
-          {
-            layer: FleetData,
-            searchFields: ["Location"],
-            displayField: "Location",
-            exactMatch: false,
-            outFields: ["*"],
-            name: "UNHCR Offices",
-            placeholder: "Example: Caracas",
-            zoomScale: 500000,
-          },
-        ],
-      });
-
-      searchWidget.on("select-result", function (event) {
-        console.log("The selected search result: ", event);
-        // if (event.source.name != "UNHCR Countries")
-          view.goTo({
-            scale: 500000,
-          });
-      });
-
-      searchWidget.on("search-clear", function (event) {
-        view.goTo({
-          scale: 50000000,
-        });
-      });
-
-
       // logo image add
       var imageDiv = document.createElement("div");
       imageDiv.style.position = "absolute";
@@ -1099,21 +1079,17 @@
       var mapContainer = document.getElementById("viewDiv"); // replace with your map container element
       mapContainer.appendChild(imageDiv);
 
-      view.ui.add(
-        [new Expand({
-            view: view,
-            content: layerList,
-            group: "top-right",
-          }),
-        ],
-        "top-right"
-      );
-      
+      var expandWidget = new Expand({
+        view: view,
+        content: layerList,
+        group: "top-right",
+      });
+      view.ui.add(expandWidget, "top-right");
+
       var homebtn = new Home({
         view: view,
       });
       view.ui.add(homebtn, "top-right");
     });
   });
-
 </script>
