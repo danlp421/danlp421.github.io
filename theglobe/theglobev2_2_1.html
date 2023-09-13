@@ -587,9 +587,9 @@
                 duplicates.push(locationName)
                 return false; // Skip this object, it's not unique
               });
-              console.log('====================================================duplicates: ', duplicates)
-              data_from_excel = uniqueObjects;
-              localStorage.setItem("excel-data", JSON.stringify(uniqueObjects));
+              // console.log('====================================================duplicates: ', duplicates)
+              data_from_excel = trimmedArray;
+              localStorage.setItem("excel-data", JSON.stringify(trimmedArray));
               // store the current time
               localStorage.setItem("lastFetchTime", currentTime);
               window.location.reload();
@@ -628,7 +628,7 @@
       let total_waste = 0;
       let total_water = 0;
       let total_KWh = 0;
-      const secondsPerYear = 31563;
+      const secondsPerYear = 31536000;
       let kWhPerSecond = 0;
       const secondsPerDay = 86400;
       const secondsUpTONow = getDayOfYear() * secondsPerDay;
@@ -648,16 +648,13 @@
         total_water = 0;
         total_KWh = 0;
         kWhPerSecond = 0;
-        console.log(
-          "________________________: ",
-          data_from_excel?.filter((item) => item["Location Name"] === "Nairobi")
-        );
         for (let i = 0; i < data_from_excel?.length; i++) {
           const data = data_from_excel[i];
           const kwh = data["KWH (Greenboxes)"];
           const co2 = data["Total CO2 (tons)"];
           const water = data["Water used (m3)"];
           const waste = data["Waste generated KG"];
+          // console.log(`${i}. KWH: ${data['KWH (Greenboxes)']} type: ${typeof data['KWH (Greenboxes)']} `)
           if (typeof co2 === "number") {
             total_co2 += co2;
           }
@@ -669,9 +666,12 @@
           }
           if (typeof kwh === "number") {
             total_KWh += kwh;
+          }else if(typeof kwh === 'string'){
+            const value = parseInt(kwh)
+            total_KWh += value
           }
         }
-        console.log("+++++++++total waster: ", total_waste);
+        console.log("+++++++++total kwh: ", total_KWh);
         total_co2 = total_co2 / 2;
         co2Element.innerText = Math.trunc(total_co2).toLocaleString("en-US");
         wasteElement.innerText =
@@ -1140,6 +1140,7 @@
           tilt: 0.16,
         });
         view.popup.close();
+        view.interacting = false
         // clearInterval(intervalID);
       }
 
@@ -1188,11 +1189,13 @@
         );
         console.log("=============selected location: ", selectedLocation);
         total_KWh = selectedLocation["KWH (Greenboxes)"];
-        // console.log("Fetched total kwh: ", total_KWh);
         kWhPerSecond = total_KWh / secondsPerYear;
-        // console.log("kwh per second: ", kWhPerSecond);
-        // console.log("seconds up to now: ", secondsUpTONow);
+        // secondsUpToNow = getDayOfYear() * secondsPerDay; 
         counterStartingPoint = kWhPerSecond * secondsUpTONow;
+        /*
+          KWH per second = Nairobi KWH / seconds per year
+          counter start point = khw per second * seconds up to now.
+        */
         // console.log("Counter Starting Point: ", counterStartingPoint);
         console.log("++++++++++++++KWH: ", total_KWh);
         console.log("++++++++++++++KWHPersecond: ", total_KWh / secondsPerYear);
@@ -1223,6 +1226,7 @@
         view.goTo({
           scale: 500000000,
         });
+        abort = false;
         clearInterval(intervalID);
         updateValuesFromExcel();
         if (counterStartingPoint) {
@@ -1231,6 +1235,7 @@
         } else {
           counterElement.innerText = "No KWh found";
         }
+
       });
 
       // searchWidget.on("select-result", function (event) {
@@ -1241,9 +1246,9 @@
 
       //   filterEvent(event.result.feature.attributes);
       // });
-      view.ui.add(searchWidget, "bottom-right", {
-        position: "bottom-right",
-      });
+      // view.ui.add(searchWidget, "bottom-right", {
+      //   position: "bottom-right",
+      // });
       // searchWidget.on("search-clear", function (event) {
       //   getAmountValue();
       // });
