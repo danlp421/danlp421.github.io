@@ -747,6 +747,8 @@
       };
       rotate();
 
+      
+
       const offices = new FeatureLayer({
         url: "https://services.arcgis.com/qovwaCdMoEzUUFzS/ArcGIS/rest/services/Offices_v4_1/FeatureServer/0",
         title: "UNHCR Offices",
@@ -1125,20 +1127,22 @@
         clearTimeout(inactivityTimeout);
         inactivityTimeout = setTimeout(handleInactive, 15000);
       }
-      function handleInactive() {
+      async function handleInactive() {
         greenboxes.visible = false;
         greentheblue.visible = false;
         // FleetData.visible = false
         searchWidget.clear();
         expandWidget.collapse();
-        view.goTo({
+        await view.goTo({
           scale: 500000000,
         });
-        view.goTo({
+        await view.goTo({
           position: [0.0, 14.398459, 25000000.0],
           heading: 0.0,
           tilt: 0.16,
         });
+        abort = false;
+        rotate()
         view.popup.close();
         view.interacting = false
         // clearInterval(intervalID);
@@ -1222,11 +1226,12 @@
       view.ui.add(searchWidget, "bottom-right", {
         position: "bottom-right",
       });
-      searchWidget.on("search-clear", function (event) {
-        view.goTo({
+      searchWidget.on("search-clear", async function (event) {
+        await view.goTo({
           scale: 500000000,
         });
-        abort = false;
+        abort = false
+        rotate()
         clearInterval(intervalID);
         updateValuesFromExcel();
         if (counterStartingPoint) {
@@ -1237,6 +1242,10 @@
         }
 
       });
+
+      searchWidget.on('search-complete', () => {
+        abort = true
+      })
 
       // searchWidget.on("select-result", function (event) {
       //   if (event.source.name != "UNHCR Countries")
