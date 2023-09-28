@@ -1,0 +1,691 @@
+<html>
+  <head>
+    <meta name="author" content="Daniel Leon1">
+    <meta name="viewport"content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://js.arcgis.com/4.25/esri/themes/light/main.css" />
+    <script src="https://js.arcgis.com/4.25/"></script>
+    <script
+    src="https://code.jquery.com/jquery-3.6.1.min.js"
+    integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ="
+    crossorigin="anonymous"></script>
+  </head>
+  <body>
+    <div id="viewDiv">
+      <p class="buttons-title">Fleet</p>
+      <div id="buttonsair">
+        <a  class="link-button-fleet" role="button" href="https://experience.arcgis.com/experience/354ee85ab3534861ab5339ca651b18f2/page/The-Globe/?draft=true" target="_self">
+          <span> <img 
+            src="https://www.arcgis.com/sharing/rest/content/items/354ee85ab3534861ab5339ca651b18f2/resources/images/widget_524/1680033332381.png" 
+            alt="vinculo"
+            width="17px"
+            height="17px">
+          </span>
+          <span>Back</span>
+        </a>
+      </div>
+    </div>
+    <div id="panel">
+      <div id="blueStats">
+        <h2 class="paneltitle">Fleet</h2>
+        <div id="stat">
+          <div class="container">
+            <img
+                src="CO2.png"
+                class="info-icon"
+                max-width: 1px;
+                height: 1px;
+                alt="co2"
+              />
+              <h2 id="co2" class="powerinfotext">8,270</h2>
+          </div>
+          <p class="memotext">Tons CO<sub>2</sub>&nbsp; emitted</p>
+        </div>
+        <div id="stat">
+          <div class="container powerinfo">
+            <img
+              src="car-icon.png"
+              class="info-icon"
+              max-width: 1px;
+              height: 1px;
+              alt="co2"
+            />
+            <h2 id="waste" class="powerinfotext">204</h2>
+          </div>
+          <p class="memotext">Number of electric/hybrid vehicles</p>
+        </div>
+      </div>
+    </div>
+    <div class="overlay">
+      <div>
+        <span id="play" class="button esri-icon-play" style="display: block" />
+      </div>
+      <div>
+        <span id="pause" class="button esri-icon-pause" style="display: none" />
+      </div>
+      <div id="label"></div>
+    </div>
+  </body>
+</html>
+<style>
+  html,
+  body {
+    background: rgb(0, 0, 0);
+    display: flex;
+    width: 100%;
+    align-items: center;
+    /* change layout for screen size */
+    display: flex;
+    margin: 0px;
+  }
+  #panel {
+    box-sizing: border-box;
+    background-color: black;
+    color: white;
+    /* height: 100%; */
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+    /* draw white vertical line of left side; */
+    border-left: 2px solid white;
+    flex: 0;
+    height: 100%;
+  }
+  #totalPowerDiv {
+    flex: 2;
+    /* border: 1px solid; */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0px;
+    text-align: center;
+    flex-direction: column;
+    box-sizing: border-box;
+
+    border: none;
+    border-top: 2px solid white;
+    margin-left: 10%;
+    margin-right: 10%;
+    margin-top: 35px;
+  }
+  /* co2.style */
+  .memotext {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 180px;
+    /* padding-left: 20px; */
+  }
+  #viewDiv {
+    padding: 0;
+    margin: 0;
+    height: 100%;
+    flex: 1;
+  }
+  .buttons-title {
+    position: absolute;
+    top: 6px;
+    left: 160px;
+    font-family: Arial;
+    font-size: 25px;
+    font-weight: 700;
+    line-height: 1.5;
+    color: #ffffff;
+  }
+  #buttonsair {
+    position: absolute;
+    width: 181px;
+    bottom: 50px;
+    left: 40px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+  .link-button-air {
+    border: 1px solid #00c5ff;
+    width: 100%;
+    padding: 8px 20px;
+    display: flex;
+    justify-content: flex-start;
+    gap: 40px;
+    align-items: center;
+    font-size: 16px;
+    font-family: Arial;
+    color: #00c5ff;
+    cursor: pointer;
+    text-decoration: none;
+  }
+  #buttonsfleet {
+    position: absolute;
+    width: 250px;
+    bottom: 190px;
+    left: 40px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+  .link-button-fleet {
+    border: 1px solid #00c5ff;
+    width: 100%;
+    padding: 8px 20px;
+    display: flex;
+    justify-content: flex-start;
+    gap: 40px;
+    align-items: center;
+    font-size: 14px;
+    font-family: Arial;
+    color: #00c5ff;
+    cursor: pointer;
+    text-decoration: none;
+  }
+  #buttons {
+    position: absolute;
+    width: 250px;
+    bottom: 35px;
+    left: 40px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+  .link-button {
+    border: 1px solid #f8f8f8;
+    width: 100%;
+    padding: 8px 20px;
+    display: flex;
+    justify-content: flex-start;
+    gap: 40px;
+    align-items: center;
+    font-size: 14px;
+    font-family: Arial;
+    color: white;
+    cursor: pointer;
+    text-decoration: none;
+  }
+  /* drow white top border line and bottom border line */
+  #blueStats {
+    flex: 4;
+    border: 1px solid white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 30px;
+    text-align: center;
+    box-sizing: border-box;
+    padding: 10px 0px;
+
+    border: none;
+    border-top: 2px solid white;
+    border-bottom: 2px solid white;
+    margin-left: 10%;
+    margin-right: 10%;
+    margin-bottom: 60px;
+    margin-top: 50px;
+  }
+  #blueStats h2 {
+    margin: 12;
+    margin-bottom: 1px;
+  }
+  #unhcrLogo {
+    flex: 1;
+    margin: 0;
+  }
+  .paneltitle {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 16;
+  }
+  .valueofindex {
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .powerinfo {
+    margin-left: 20px;
+    margin-right: 20px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 18;
+  }
+  /* style for powerinfo text*/
+  .powerinfotext {
+    margin: 0px;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 16px;
+    width: 220px;
+  }
+  .info-icon {
+    float: left;
+    margin-bottom: 10%;
+    flex: 1;
+    width: 22%;
+  }
+  .esri-widget__table {
+    color: #ffffff;
+  }
+  .esri-widget--button {
+    color: #ffffff;
+  }
+  .esri-widget__heading {
+    color: #f8f8f8;
+    font-weight: 600;
+    margin: 0 0 0.5rem 0;
+  }
+  .esri-widget--button {
+    font-size: 14px;
+    background-color: #141414;
+    color: #141414;
+  }
+  .esri-widget {
+    box-sizing: border-box;
+    color: #141414;
+    font-size: 14px;
+    font-family: "Avenir Next", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    line-height: 1.3em;
+    background-color: #141414;
+  }
+  .esri-ui-corner-container {
+    inset: 20px 20px 35px;
+  }
+  .button {
+    cursor: pointer;
+    font-size: 30pt !important;
+    font-weight: bold !important;
+    color: #f5f1f1;
+  }
+  .overlay {
+    position: absolute;
+    width: 50%;
+    bottom: 50px;
+    left: 0px;
+    background-color: rgba(80, 80, 80, 0);
+    text-align: center;
+    font-family: "Avenir Next", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  }
+  #viewDiv canvas {
+    filter: saturate(1.2) drop-shadow(0 0 20px rgba(255, 255, 255, 0));
+  }
+  .button {
+    cursor: pointer;
+    font-size: 30pt !important;
+    font-weight: bold !important;
+    color: rgb(5, 4, 4);
+  }
+  .button:hover,
+  #label {
+    color: rgb(250, 249, 249);
+  }
+  .button,
+  #label {
+    margin: 10px;
+  }
+  .esri-icon-play:before {
+    content: "";
+    color: white;
+    position: absolute;
+    left: 0px;
+  }
+  .esri-icon-pause:before {
+    content: "";
+    color: white;
+    position: absolute;
+    left: 0px;
+  }
+  .esri-widget {
+    font-size: 12.4px;
+  }
+  .esri-popup__button {
+    border-radius: 1px;
+    padding: 4px 5px;
+    margin: 1px 0;
+  }
+  .esri-layer-list__item {
+    background-color: #000000;
+    color: white;
+  }
+  .esri-layer-list__item-container {
+    padding: 8px 4px 8px 8px;
+  }
+  .esri-view-height-small .esri-ui-corner .esri-component.esri-widget--panel {
+    max-height: 300px;
+  }
+  .esri-ui-corner .esri-component.esri-widget--panel {
+    width: 180px;
+  }
+  .esri-ui-top-right {
+    top: 100px;
+    right: 20px;
+  }
+  .esri-ui-top-left {
+    top: 20px;
+    left: 20px;
+  }
+  .esri-ui-bottom-right {
+    bottom: 5px;
+    right: 20px;
+  }
+  .esri-layer-list__item-toggle {
+    color: #ffffff;
+  }
+  .esri-layer-list__item-toggle {
+    color: #f8f8f8;
+  }
+  .esri-widget--button {
+    color: #ffffff;
+  }
+  .esri-feature__content-element {
+    padding: 0 1px 2px;
+  }
+  .esri-legend__service {
+    padding: 6px 6px;
+  }
+  h3.esri-widget__heading,
+  h4.esri-widget__heading,
+  h5.esri-widget__heading,
+  h6.esri-widget__heading {
+    font-size: 12px;
+  }
+  .esri-legend__layer {
+    margin-left: 1px;
+  }
+  .esri-legend__layer-cell--symbols {
+    min-width: 8px;
+  }
+  .esri-legend__layer-cell {
+    padding: 0px 0;
+  }
+  .esri-widget__heading {
+    margin: 0 0 0.1rem 0;
+  }
+  h2.esri-widget__heading {
+    font-weight: 500;
+    font-size: 14px;
+  }
+  .esri-legend__layer-table {
+    width: 80%;
+    margin-bottom: 5px;
+  }
+  .esri-popup__main-container {
+    width: 30%;
+    max-height: 40%;
+  }
+  .esri-view-surface--inset-outline:focus::after {
+    outline: none !important;
+  }
+  .esri-layer-list__item-title {
+    line-height: 0.9em;
+  }
+  .esri-widget__table {
+    line-height: 0.8em;
+  }
+  .esri-view-width-large .esri-popup__main-container {
+    width: 300px;
+  }
+  .esri-widget__table tr td {
+    width: 30%;
+  }
+  .esri-widget__table tr th {
+    width: 30%;
+  }
+  .esri-widget__table tr td,
+  .esri-widget__table tr th {
+    padding: 0.2em 0.3em;
+    font-size: 12px;
+    font-weight: 300;
+  }
+  .esri-feature__content-element:last-child {
+    margin-bottom: 0;
+  }
+  .esri-view-height-less-than-medium .esri-popup__main-container {
+    max-height: 300px;
+  }
+  .esri-attribution {
+    height: 0;
+  }
+  .esri-view-width-xlarge .esri-popup__main-container {
+    width: 320px;
+  }
+  .esri-ui-corner .esri-expand .esri-widget--panel,
+  .esri-ui-corner .esri-expand .esri-widget--panel-height-only,
+  .esri-ui-corner .esri-component > .esri-widget--panel,
+  .esri-ui-corner .esri-component.esri-widget--panel {
+    width: 300px;
+  }
+</style>
+<script>
+   $(document).ready(function () {
+    require([
+      "esri/config",
+      "esri/views/SceneView",
+      "esri/Map",
+      "esri/widgets/Expand",
+      "esri/widgets/BasemapGallery",
+      "esri/layers/FeatureLayer",
+      "esri/widgets/LayerList",
+      "esri/widgets/Home",
+      "esri/widgets/Legend",
+      "esri/renderers/UniqueValueRenderer",
+      "esri/widgets/Search",
+      "esri/widgets/LayerList/ListItem",
+      "esri/geometry/Polyline", 
+      "esri/Graphic"
+    ], function (esriConfig,SceneView, Map, Expand, BasemapGallery, FeatureLayer, LayerList, Home, Legend,UniqueValueRenderer, Search, ListItem,
+     Polyline, Graphic) 
+     {
+      //esriConfig.apiKey ="AAPK853e389eacab4000b8168009a957884eAeNxkMsT5xLndSZFhHgao-ynp074HaJnWU6CfSjbF8QQuZc5bL4FoHut1NkoYGYU";
+      let inactivityTimeout;
+
+      var scene = new Map({
+        basemap: "hybrid",
+        ground: "world-elevation",
+      });
+      var view = new SceneView({
+        container: "viewDiv",
+        map: scene,
+        alphaCompositingEnabled: true,
+        qualityProfile: "high",
+        camera: {
+          //Here you can set the size of the globe in the user view. modify the z value of position. if it is higher value, the size of globe will be smaller.
+          position: [0.0, 14.398459, 30000000.0],
+          heading: 0.0,
+          tilt: 0.16,
+        },
+      });
+      view.ui.add(play, "top-left");
+      view.ui.add(pause, "top-left");
+      let abort = false;
+      function rotate() {
+        if (!view.interacting && !abort) {
+          play.style.display = "none";
+          pause.style.display = "block";
+          const camera = view.camera.clone();
+          camera.position.longitude -= 0.2;
+          view.goTo(camera, { animate: false });
+          requestAnimationFrame(rotate);
+        } else {
+          abort = false;
+          play.style.display = "block";
+          pause.style.display = "none";
+        }
+      }
+      play.onclick = rotate;
+      pause.onclick = function () {
+        abort = true;
+      };
+      rotate();
+      let intervalID = undefined;
+      const Countries = new FeatureLayer({
+        url: "https://services.arcgis.com/P3ePLMYs2RVChkJx/ArcGIS/rest/services/World_Countries_(Generalized)/FeatureServer/0",
+        popupTemplate: {
+          title: "UNHCR Countries",
+          content: [
+            {
+              type: "fields",
+              fieldInfos: [
+                {
+                  fieldName: "COUNTRYAFF",
+                  label: "COUNTRY",
+                },
+              ],
+            },
+          ],
+          overwriteActions: false,
+        },
+      });
+  
+      const FleetData = new FeatureLayer({
+        url: "https://services.arcgis.com/qovwaCdMoEzUUFzS/ArcGIS/rest/services/Fleet_2023_1/FeatureServer/0",
+        title: "Fleet",
+        elevationInfo: {
+        mode: "relative-to-ground",
+        featureExpressionInfo: {
+          expression: "Geometry($feature).z * 10 + $feature.HEIGHT100"
+        },
+        unit: "meters"},
+        popupTemplate: {
+          title: "Fleet",
+          content: [
+            {
+              type: "fields",
+              fieldInfos: [
+                {
+                  fieldName: "Location",
+                  label: "Location",
+                },
+                {
+                  fieldName: "F__vehicles",
+                  label: "Number of Vehicles",
+               },
+                {
+                  fieldName: "Fleet_Emissions_t_CO2",
+                  label: "CO<sub>2</sub> emitted (Tons)", 
+                },
+                {
+                  fieldName: "Total_KM_Traveled__Est__",
+                  label: "Distance Travelled (Km)", 
+                },
+                {
+                  fieldName: "F__hybrid_Electric_vehicles",
+                  label: "Number of Electric/Hybrid Vehicles", 
+                },
+              ],
+            },
+          ],
+          overwriteActions: false,
+        },
+      });
+      scene.add(FleetData);
+      function shiftCamera(deg) {
+        var camera = view.camera.clone();
+        camera.position.longitude += deg;
+        return camera;
+      }
+      // Add a legend instance to the panel of a
+      // ListItem in a LayerList instance
+      const layerList = new LayerList({
+        view: view,
+        listItemCreatedFunction: (event) => {
+          const item = event.item;
+          if (item.layer.type != "group") {
+            // don't show legend twice
+            item.panel = {
+              content: "legend",
+              open: true,
+            };
+          }
+        },
+      });
+
+      function resetInactivityTimeout(){
+        clearTimeout(inactivityTimeout)
+        inactivityTimeout = setTimeout(handleInactive, 20000)
+      }
+      function handleInactive(){
+        // FleetData.visible = false
+        searchWidget.clear();
+        expandWidget.collapse();
+        view.goTo({
+          scale: 50000000,
+        });
+        view.popup.close()
+        // clearInterval(intervalID);
+      }
+
+      document.addEventListener('mousemove', resetInactivityTimeout)
+      document.addEventListener('mousedown', resetInactivityTimeout)
+      document.addEventListener('keydown', resetInactivityTimeout)
+
+      resetInactivityTimeout()
+      searchWidget = new Search({
+        view: view,
+        allPlaceholder: "UNHCR",
+        includeDefaultSources: false,
+        sources: [
+          {
+            layer: FleetData,
+            searchFields: ["Location"],
+            displayField: "Location",
+            exactMatch: false,
+            outFields: ["*"],
+            name: "UNHCR Offices",
+            placeholder: "Example: Caracas",
+            zoomScale: 500000,
+          },
+        ],
+      });
+
+      searchWidget.on("select-result", function (event) {
+        console.log("The selected search result: ", event);
+        // if (event.source.name != "UNHCR Countries")
+          view.goTo({
+            scale: 500000,
+          });
+      });
+
+      searchWidget.on("search-clear", function (event) {
+        view.goTo({
+          scale: 50000000,
+        });
+      });
+
+
+      
+      // logo image add
+      var imageDiv = document.createElement("div");
+      imageDiv.style.position = "absolute";
+      imageDiv.style.top = "1px"; // adjust as needed
+      imageDiv.style.right = "282px"; // adjust as needed
+      imageDiv.style.width = "200px"; // adjust as needed
+      imageDiv.style.height = "80px"; // adjust as needed
+      imageDiv.style.margin = "20px";
+      imageDiv.style.backgroundImage = "url('logo.png')";
+      imageDiv.style.backgroundSize = "cover";
+      var mapContainer = document.getElementById("viewDiv"); // replace with your map container element
+      mapContainer.appendChild(imageDiv);
+
+      view.ui.add(searchWidget, "bottom-right", {
+        position: "bottom-right",
+      });
+
+      function shiftCamera(deg) {
+        var camera = view.camera.clone();
+        camera.position.longitude += deg;
+        return camera;
+      }
+
+      var expandWidget = new Expand({
+            view: view,
+            content: layerList,
+            group: "top-right",
+          })
+      view.ui.add(expandWidget,"top-right");
+      
+      var homebtn = new Home({
+        view: view,
+      });
+      view.ui.add(homebtn, "top-right");
+     });
+    });
+</script>
