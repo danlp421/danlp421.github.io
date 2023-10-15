@@ -536,7 +536,7 @@
       });
   
       const FleetData = new FeatureLayer({
-        url: "https://services.arcgis.com/qovwaCdMoEzUUFzS/ArcGIS/rest/services/Fleet_2023_1/FeatureServer/0",
+        url: "https://services3.arcgis.com/80SCmgj6pZGiNLhd/ArcGIS/rest/services/Fleet_v6_2023/FeatureServer/0",
         title: "Fleet",
         elevationInfo: {
         mode: "relative-to-ground",
@@ -555,15 +555,19 @@
                   label: "Location",
                 },
                 {
+                  fieldName: "Country_name",
+                  label: "Country Name",
+               },
+                {
                   fieldName: "F__vehicles",
                   label: "Number of Vehicles",
                },
                 {
-                  fieldName: "Fleet_Emissions_t_CO2",
+                  fieldName: "Fleet_Emissions_t_CO2_1",
                   label: "CO<sub>2</sub> emitted (Tons)", 
                 },
                 {
-                  fieldName: "Total_KM_Traveled__Est__",
+                  fieldName: "Total_KM_Traveled__Est__1",
                   label: "Distance Travelled (Km)", 
                 },
                 {
