@@ -673,11 +673,11 @@
         }
         console.log("+++++++++total kwh: ", total_KWh);
         total_co2 = total_co2 / 2;
-        co2Element.innerText = Math.trunc(total_co2).toLocaleString("en-US");
-        wasteElement.innerText =
-          Math.trunc(total_waste).toLocaleString("en-US");
+        co2Element.innerText = total_co2 >= 1 ? Math.trunc(total_co2).toLocaleString("en-US") : 'N/A';
+        wasteElement.innerText = total_waste >= 1 ? 
+          Math.trunc(total_waste).toLocaleString("en-US") : 'N/A';
         waterElement.innerText =
-          Math.trunc(total_water).toLocaleString("en-US");
+          total_water >= 1 ? Math.trunc(total_water).toLocaleString("en-US") : 'N/A';
         counterElement.innerText =
           Math.trunc(total_KWh).toLocaleString("en-US") + " KWh";
 
@@ -1217,15 +1217,15 @@
           counterElement.innerText = "No KWh found";
         }
         // clearInterval(intervalID);
-        co2Element.innerText = Math.trunc(
+        co2Element.innerText = selectedLocation["Total CO2 (tons)"] >= 1 ? Math.trunc(
           selectedLocation["Total CO2 (tons)"]
-        ).toLocaleString("en-US");
-        waterElement.innerText = Math.trunc(
+        ).toLocaleString("en-US") : 'N/A';
+        waterElement.innerText = selectedLocation["Water used (m3)"] >= 1 ? Math.trunc(
           selectedLocation["Water used (m3)"]
-        ).toLocaleString("en-US");
-        wasteElement.innerText = Math.trunc(
+        ).toLocaleString("en-US") : 'N/A';
+        wasteElement.innerText = selectedLocation["Waste generated KG"] >= 1 ? Math.trunc(
           selectedLocation["Waste generated KG"]
-        ).toLocaleString("en-US");
+        ).toLocaleString("en-US") : 'N/A';
       });
       view.ui.add(searchWidget, "bottom-right", {
         position: "bottom-right",
