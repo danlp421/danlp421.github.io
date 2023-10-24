@@ -634,13 +634,14 @@
         sources: [
           {
             layer: FleetData,
-            searchFields: ["Location"],
+            searchFields: ["Location","Country_Name_revised"],
             displayField: "Location",
             exactMatch: false,
             outFields: ["*"],
             name: "UNHCR Offices",
             placeholder: "Example: Caracas",
             zoomScale: 500000,
+            suggestionTemplate: "{Country_Name_revised}",
           },
         ],
       });
@@ -653,11 +654,16 @@
           });
       });
 
-      searchWidget.on("search-clear", function (event) {
-        view.goTo({
-          scale: 50000000,
+      searchWidget.on("search-clear", async function (event) {
+        await view.goTo({
+          scale: 500000000,
         });
+        abort = false
+        rotate()
       });
+      searchWidget.on('search-complete', () => {
+        abort = true
+      })
 
 
       
