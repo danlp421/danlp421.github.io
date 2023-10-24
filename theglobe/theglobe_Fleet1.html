@@ -536,7 +536,7 @@
       });
   
       const FleetData = new FeatureLayer({
-        url: "https://services3.arcgis.com/80SCmgj6pZGiNLhd/ArcGIS/rest/services/Fleet_v6_2023/FeatureServer/0",
+        url: "https://services3.arcgis.com/80SCmgj6pZGiNLhd/ArcGIS/rest/services/Fleet_v1_24102023/FeatureServer/0",
         title: "Fleet",
         elevationInfo: {
         mode: "relative-to-ground",
@@ -563,15 +563,15 @@
                   label: "Number of Vehicles",
                },
                 {
-                  fieldName: "Fleet_Emissions_t_CO2_1",
+                  fieldName: "CO2_emitted__tons_",
                   label: "CO<sub>2</sub> emitted (Tons)", 
                 },
                 {
-                  fieldName: "Total_KM_Traveled__Est__1",
+                  fieldName: "Km_travelled",
                   label: "Distance Travelled (Km)", 
                 },
                 {
-                  fieldName: "F__hybrid_Electric_vehicles",
+                  fieldName: "F__hybrid_electric_vehicles",
                   label: "Number of Electric/Hybrid Vehicles", 
                 },
               ],
