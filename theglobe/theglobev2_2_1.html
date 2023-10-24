@@ -1165,13 +1165,14 @@
         sources: [
           {
             layer: offices,
-            searchFields: ["Location"],
+            searchFields: ["Location", "Country_Name_revised"],
             displayField: "Location",
             exactMatch: false,
             outFields: ["*"],
             name: "UNHCR Offices",
             placeholder: "Example: Caracas",
             zoomScale: 500000,
+            suggestionTemplate: "{Location} - {Country_Name_revised}",
           },
         ],
       });
